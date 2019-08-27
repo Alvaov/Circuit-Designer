@@ -15,9 +15,15 @@ public class CircuitDesigner {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Operadores hola = new AndOperator(1,0);
-        Nodo nodo = new Nodo(hola);
-        System.out.println(0|0);
+        Operadores hola = new AndOperator(1);
+        Nodo nodo1 = new Nodo(hola);
+        
+        ListLinked lista = new ListLinked();
+        lista.añadirInicio(hola);
+
+        
+        
+        lista.enseñarListaCabezaUltimo();
     }
     
 }

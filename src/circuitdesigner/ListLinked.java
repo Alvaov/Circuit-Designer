@@ -11,36 +11,39 @@ package circuitdesigner;
  */
 public class ListLinked {
    
-    public Nodo cabeza;
-    public int size;
+    private Nodo cabeza;
+    private Nodo ultimo;
+    private int size;
     
-    public ListLinked(){
+    public ListLinked(){ 
         cabeza = null;
+        ultimo = null;
         size = 0;
     }
     
-    public void añadirInicio(Operadores valor){
+    public void añadirInicio(Object valor){
         if(cabeza != null){
-            Nodo nodo = new Nodo(valor);
-            nodo.setSiguiente(cabeza);
-            cabeza = nodo;
-            size++;
+            cabeza = new Nodo(valor,cabeza,null);
+            cabeza.getSiguiente().setAnterior(cabeza);
         }
         else{
             cabeza = new Nodo(valor);
-            size++;
+            ultimo = cabeza;
+
         }
+        size++;
     }
-    public void añadirFinal(Operadores valor){
-        Nodo nodo = new Nodo(valor);
-        Nodo puntero = cabeza;
-        while(puntero.getSiguiente() != null){
-            puntero = puntero.getSiguiente();
+    public void añadirFinal(Object valor){
+        if (cabeza != null){
+            ultimo = new Nodo(valor,null,ultimo);
+            ultimo.getAnterior().setSiguiente(ultimo);
         }
-        puntero.setSiguiente(nodo);
+        else{
+            añadirInicio(valor);
+        }
+        size++;
     }
-    
-    public void añadirEnPosición(Operadores valor, int i){
+    public void añadirEnPosición(Object valor, int i){ 
         Nodo nodo = new Nodo(valor);
         if (cabeza == null){
             nodo = cabeza;
@@ -48,6 +51,9 @@ public class ListLinked {
         }
         else if(i == 0){
             añadirInicio(valor);
+        }
+        else if (i > size){
+            añadirFinal(valor);
         }
         else{
             Nodo puntero = cabeza;
@@ -57,12 +63,75 @@ public class ListLinked {
                 puntero = puntero.getSiguiente();
                 contador++;
             }
-
             nodo.setSiguiente(puntero.getSiguiente());
-
             puntero.setSiguiente(nodo);
-
-            
         }
+        size++;
+    }
+    
+    public void enseñarListaCabezaUltimo(){
+        if (cabeza != null){
+            String elementos = "";
+            Nodo nodo = cabeza;
+            while(cabeza != null){
+                elementos = elementos + "["+cabeza.getValor()+"]"+",";
+                cabeza = cabeza.getSiguiente();
+            }
+            System.out.println(elementos);
+        }
+        else{
+            System.out.println("Lista vacía");
+        }
+    }
+    
+    public void eliminarInicio(){
+        if (cabeza == ultimo){
+            cabeza = ultimo = null;
+        }
+        else{
+            cabeza = cabeza.getSiguiente();
+            cabeza.setAnterior(null);
+        }
+        size--;
+    }
+    public void eliminarFinal(){
+        if (cabeza == ultimo){
+            cabeza = ultimo = null;
+        }
+        else{
+            ultimo = ultimo.getAnterior();
+            ultimo.setSiguiente(null);
+        }
+        size--;
+    }
+    public void eliminarEnPosición(int i){
+        if(i == 0){
+            eliminarInicio();
+        }
+        else if (i > size){
+            eliminarFinal();
+        }
+        else{
+            Nodo puntero = cabeza;
+            int contador = 1;
+            while(contador < i && puntero.getSiguiente() != null){
+
+                puntero = puntero.getSiguiente();
+                contador++;
+            }
+            puntero = puntero.getAnterior();
+            puntero.setSiguiente(puntero.getSiguiente().getSiguiente());
+            puntero.setSiguiente(puntero.getSiguiente());
+        }
+        size--;
+    }
+    public Object getValor(int i){
+        Nodo puntero = cabeza;
+        int contador = 1;
+        while(contador < i){
+            puntero = puntero.getSiguiente();
+            contador++;
+        }
+        return puntero.getValor();
     }
 }

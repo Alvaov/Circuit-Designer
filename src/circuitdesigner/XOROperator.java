@@ -11,14 +11,13 @@ package circuitdesigner;
  */
 public class XOROperator extends Operadores{
 
-    public XOROperator(int entradaA, int entradaB) {
-        super(entradaA, entradaB);
+    public XOROperator(int entradaA) {
+        super(entradaA);
     }
 
     @Override
-    public int Operación() {
-        return entradaA ^ entradaB;
+    public Boolean operación(ListLinked entradas) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

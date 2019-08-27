@@ -11,16 +11,37 @@ package circuitdesigner;
  */
 public abstract class Operadores {
     
-    int entradaA;
-    int entradaB;
-    
-    public Operadores(int entradaA,int entradaB){
-        this.entradaA = entradaA;
-        this.entradaB = entradaB;
-        
+
+    private int cantidadDeEntradas;
+    protected Boolean salida;
+    protected ListLinked entradas;
+
+    public Operadores(int cantidadDeEntradas){
+        this.cantidadDeEntradas = cantidadDeEntradas;
+        crearEntradas(cantidadDeEntradas);
+    }
+    /**
+     * @see Recibe la cantidad de entradas del operador y
+     * crea la cantidad correspondiente con valor nulo, añade las entradas
+     * a una lista enlazada.
+     * @param cantidadDeEntradas 
+     */
+    private void crearEntradas(int cantidadDeEntradas){
+        int contador = 0;
+        while(contador < cantidadDeEntradas){
+            Entradas entrada = new Entradas();
+            entradas.añadirFinal(entrada);
+            contador++;
+        }
     }
     
-    public abstract int Operación();
+    public void setEntrada(int i,Boolean valor){
+        Entradas entrada = (Entradas) entradas.getValor(i);
+        entrada.setValue(valor);
+    }
+
+    
+    public abstract Boolean operación(ListLinked entradas);
     
     
 }

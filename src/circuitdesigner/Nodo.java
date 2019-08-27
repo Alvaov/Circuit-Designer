@@ -12,22 +12,23 @@ package circuitdesigner;
  */
 public class Nodo {
    
-    private Operadores valor;
+    private Object valor;
     private Nodo siguiente;
-    private Nodo anterior1;
-    private Nodo anterior2;
-   
+    private Nodo anterior;
+
     
-    public Nodo(Operadores valor){
+    public Nodo(Object valor, Nodo siguiente, Nodo anterior){
+        this.valor = valor;
+        this.siguiente = siguiente;
+        this.anterior = anterior;
+    }
+    public Nodo(Object valor){
         this.valor = valor;
         this.siguiente = null;
+        this.anterior = null;
     }
     
-    public void Unir(Nodo i){
-        siguiente = i;
-    }
-    
-    public Operadores getValor(){
+    public Object getValor(){ 
         return valor;
     }
     
@@ -36,5 +37,11 @@ public class Nodo {
     }
     public void setSiguiente(Nodo newSiguiente){
         this.siguiente = newSiguiente;
+    }
+    public Nodo getAnterior(){
+        return anterior;
+    }
+    public void setAnterior(Nodo newAnterior){
+        this.anterior = newAnterior;
     }
 }

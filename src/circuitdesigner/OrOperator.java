@@ -11,13 +11,12 @@ package circuitdesigner;
  */
 public class OrOperator extends Operadores{
 
-    public OrOperator(int entradaA, int entradaB) {
-        super(entradaA, entradaB);
+    public OrOperator(int entradaA) {
+        super(entradaA);
     }
 
     @Override
-    public int Operación() {
-       return entradaA | entradaB;
+    public Boolean operación(ListLinked entradas) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

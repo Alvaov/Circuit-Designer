@@ -12,12 +12,13 @@ package circuitdesigner;
  */
 public class AndOperator extends Operadores{
 
-    public AndOperator(int entradaA, int entradaB) {
-        super(entradaA, entradaB);
+    public AndOperator(int i) {
+        super(i);
     }
-    
+
     @Override
-    public int Operación(){
-        return entradaA & entradaB;
+    public Boolean operación(ListLinked entradas) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }
