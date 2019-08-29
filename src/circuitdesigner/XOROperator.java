@@ -11,13 +11,25 @@ package circuitdesigner;
  */
 public class XOROperator extends Operadores{
 
-    public XOROperator(int entradaA) {
-        super(entradaA);
+    public XOROperator(int cantidadDeEntradas) {
+        super(cantidadDeEntradas);
+
     }
 
     @Override
     public Boolean operación(ListLinked entradas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int contador = 0;
+        int contUnos = 0;
+        while (contador < entradas.getSize()){
+            if ( (Boolean) entradas.getValor(contador) == true && contUnos <=1){
+                contador++;
+                contUnos++;
+            } 
+            else{
+                return false;
+            }
+        }
+        return true;
     }
 
 }

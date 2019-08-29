@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Icon?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="502.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="502.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Circuit Designer" textAlignment="CENTER" wrappingWidth="704.13671875" />
       <AnchorPane prefHeight="588.0" prefWidth="900.0">
@@ -64,6 +64,5 @@
             </SplitPane>
          </children>
       </AnchorPane>
-      <Icon content="HELP_OUTLINE" />
   </children>
 </VBox>

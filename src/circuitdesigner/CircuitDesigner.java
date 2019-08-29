@@ -5,25 +5,41 @@
  */
 package circuitdesigner;
 
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+
+import javafx.stage.Stage;
 /**
  *
  * @author allva
  */
-public class CircuitDesigner {
+public class CircuitDesigner extends Application{
 
     /**
+     * @see Es el método que inicializa todo el código del programa.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Operadores hola = new AndOperator(1);
-        Nodo nodo1 = new Nodo(hola);
-        
-        ListLinked lista = new ListLinked();
-        lista.añadirInicio(hola);
-
-        
-        
-        lista.enseñarListaCabezaUltimo();
+        launch (args);
     }
     
+    /**
+     * @see se encarga de iniciar la interfaz gráfica de la aplicación. Es un método
+     * heredado de java Application donde se selecciona el archivo FXML a leer y la clase
+     * controladora.
+     * @param primaryStage
+     * @throws Exception 
+     */
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Circuit Designer");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCIrcuitDesigner.fxml"));
+        
+       Scene myScene = (new Scene(loader.load()));
+       primaryStage.setScene(myScene);
+       
+       primaryStage.show();
+    }
 }

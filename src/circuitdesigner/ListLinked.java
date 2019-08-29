@@ -47,7 +47,6 @@ public class ListLinked {
         Nodo nodo = new Nodo(valor);
         if (cabeza == null){
             nodo = cabeza;
-            size++;
         }
         else if(i == 0){
             añadirInicio(valor);
@@ -133,5 +132,9 @@ public class ListLinked {
             contador++;
         }
         return puntero.getValor();
+    }
+    
+    public int getSize(){
+        return size;
     }
 }

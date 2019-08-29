@@ -11,20 +11,17 @@ package circuitdesigner;
  */
 public class Entradas {
     
-    private Boolean valorB;
-    private Operadores valorO;
-    
+    private Boolean valor;
+
     public Entradas(){
-        valorB = null;
-        valorO = null;
+        valor = null;
     }
     
     public void setValue(Boolean valorB){
-        this.valorB = valorB;
+        this.valor = valorB;
     }
     
-    public void setValue(Operadores valorO){
-        this.valorO = valorO;
+    public Boolean getValue(){
+        return valor;
     }
-    
 }

@@ -11,14 +11,26 @@ package circuitdesigner;
  * @author allva
  */
 public class AndOperator extends Operadores{
+    
+    
 
-    public AndOperator(int i) {
-        super(i);
+    public AndOperator(int cantidadDeEntradas) {
+        super(cantidadDeEntradas);
+        
     }
-
+    
     @Override
     public Boolean operación(ListLinked entradas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int contador = 0;
+        while (contador < entradas.getSize()){
+            if ( (Boolean) entradas.getValor(contador) == true){
+                contador++;
+            } 
+            else{
+                return false;
+            }
+        }
+        return true;
     }
 
 }

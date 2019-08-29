@@ -16,9 +16,17 @@ public abstract class Operadores {
     protected Boolean salida;
     protected ListLinked entradas;
 
+    /**
+     *@see Corresponde al constructor de la clase abstracta Operadores
+     * es el encargado de crear las entradas de cada compuerta según las 
+     * solicitadas por el usuario. Recibe la cantidad de entradas como
+     * parámetro.
+     * @param cantidadDeEntradas
+     */
     public Operadores(int cantidadDeEntradas){
         this.cantidadDeEntradas = cantidadDeEntradas;
         crearEntradas(cantidadDeEntradas);
+        
     }
     /**
      * @see Recibe la cantidad de entradas del operador y
@@ -35,12 +43,31 @@ public abstract class Operadores {
         }
     }
     
-    public void setEntrada(int i,Boolean valor){
-        Entradas entrada = (Entradas) entradas.getValor(i);
+    /**
+     * @see Es un getter de la variable salida de cada compuerta. Creada desde el 
+     * padre de los operadores lógicos. Retorna el valor booleano de la salida
+     * @return salida
+     */
+    public Boolean getSalida(){
+        return salida;
+    }
+    
+    /**
+     *
+     * @param entrada
+     * @param valor
+     */
+    public void setEntrada(Entradas entrada,Boolean valor){
         entrada.setValue(valor);
     }
 
-    
+    /**
+     * @see Método mediante el cual se operan las entradas para obtener una salida
+     * según corresponda al tipo de compuerta. Método abstracto que se define en cada
+     * operador concreto.
+     * @param entradas
+     * @return valor booleano de la operación.
+     */
     public abstract Boolean operación(ListLinked entradas);
     
     
