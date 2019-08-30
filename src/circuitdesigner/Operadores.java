@@ -27,15 +27,8 @@ public abstract class Operadores {
     public Operadores(int cantidadDeEntradas){
         this.cantidadDeEntradas = cantidadDeEntradas;
         this.entradas = new ListLinked();
-        entradas.enseñarListaCabezaUltimo();
         crearEntradas(cantidadDeEntradas);
-        entradas.enseñarListaCabezaUltimo();
-        System.out.println(entradas.cabeza);
-        System.out.println("*****************************************");
-        System.out.println(entradas.ultimo);
-        System.out.println(entradas.getSize());
-        System.out.println(entradas.cabeza);
-        System.out.println(entradas.getValor(1));
+ 
         
 
     }
@@ -50,14 +43,10 @@ public abstract class Operadores {
         int contador = 0;
         
         while(contador < cantidadDeEntradas){
-            //System.out.println(contador);
             Entradas entrada = new Entradas();
-            //System.out.println(entrada);
             entradas.añadirFinal(entrada);
-            //System.out.println("anadió");
             contador++;
         }
-        //entradas.enseñarListaCabezaUltimo();
         
     }
     
@@ -76,10 +65,8 @@ public abstract class Operadores {
      * @param valor
      */
     public void setEntrada(int entrada,Boolean valor){
-        entradas.enseñarListaCabezaUltimo();
+
         Entradas entradaACambiar = (Entradas) entradas.buscarElemento(entrada);
-        
-        System.out.println(entradaACambiar);
         entradaACambiar.setValue(valor);
     }
     

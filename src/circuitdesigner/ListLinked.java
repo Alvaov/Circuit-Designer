@@ -35,15 +35,12 @@ public class ListLinked {
     }
     public void añadirFinal(Object valor){
         if (cabeza != null){
-            System.out.println("cabeza no nula");
-            System.out.println(cabeza);
             ultimo = new Nodo(valor,null,ultimo);
             ultimo.getAnterior().setSiguiente(ultimo);
             size++;
         }
         else{
             añadirInicio(valor);
-            System.out.println("cabeza nula");
         }
     }
     public void añadirEnPosición(Object valor, int i){ 
@@ -76,15 +73,15 @@ public class ListLinked {
         }
         else{
             Nodo puntero = cabeza;
-            int contador = 1;
+            int contador = 0;
             while(contador < i && puntero.getSiguiente() != null){
                 puntero = puntero.getSiguiente();
                 contador++;
             }
-            return puntero;
+            return puntero.getValor();
         }
     }
-    
+    /*
     public void enseñarListaCabezaUltimo(){
         if (cabeza != null){
             String elementos = "";
@@ -99,7 +96,7 @@ public class ListLinked {
             System.out.println("Lista vacía");
         }
     }
-    
+    */
     public void eliminarInicio(){
         if (cabeza == ultimo){
             cabeza = ultimo = null;

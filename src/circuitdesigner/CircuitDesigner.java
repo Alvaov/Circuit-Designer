@@ -36,7 +36,7 @@ public class CircuitDesigner extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Circuit Designer");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCIrcuitDesigner.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCircuitDesigner.fxml"));
         
        Scene myScene = (new Scene(loader.load()));
        primaryStage.setScene(myScene);

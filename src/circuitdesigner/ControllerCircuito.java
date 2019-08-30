@@ -55,7 +55,6 @@ public class ControllerCircuito implements Initializable{
     @FXML
     private ImageView NOTimage;
     @FXML
-
     private Group root;
     
     
@@ -123,9 +122,8 @@ public class ControllerCircuito implements Initializable{
         //Crear ventana que pida entradas
         //Crear objeto con esas entradas
         AndOperator CompuertaAnd = new AndOperator(5);
-        //ystem.out.println(CompuertaAnd.getEntrada(1));
-        //CompuertaAnd.setEntrada(1, true);
-        //System.out.println(CompuertaAnd.getEntrada(2).getValue());
+        CompuertaAnd.setEntrada(1, false);
+        System.out.println(CompuertaAnd.getEntrada(1).getValue());
         Image imageAnd = new Image(new FileInputStream("C:\\Users\\allva\\Desktop\\CircuitDesigner\\src\\Imágenes Compuertas Lógicas\\AND.png"));
         ImageView and = new ImageView(imageAnd);
         and.setCursor(Cursor.MOVE);
