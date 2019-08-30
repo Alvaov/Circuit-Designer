@@ -10,35 +10,35 @@ package circuitdesigner;
  *
  * @author allva
  */
-public class Nodo {
+public class Nodo <T> {
    
-    private Object valor;
-    private Nodo siguiente;
-    private Nodo anterior;
+    private T valor;
+    private Nodo<T> siguiente;
+    private Nodo<T> anterior;
 
     
-    public Nodo(Object valor, Nodo siguiente, Nodo anterior){
+    public Nodo(T valor, Nodo siguiente, Nodo anterior){
         this.valor = valor;
         this.siguiente = siguiente;
         this.anterior = anterior;
     }
-    public Nodo(Object valor){
+    public Nodo(T valor){
         this.valor = valor;
         this.siguiente = null;
         this.anterior = null;
     }
     
-    public Object getValor(){ 
+    public T getValor(){ 
         return valor;
     }
     
-    public Nodo getSiguiente(){
+    public Nodo<T> getSiguiente(){
         return siguiente;
     }
     public void setSiguiente(Nodo newSiguiente){
         this.siguiente = newSiguiente;
     }
-    public Nodo getAnterior(){
+    public Nodo<T> getAnterior(){
         return anterior;
     }
     public void setAnterior(Nodo newAnterior){

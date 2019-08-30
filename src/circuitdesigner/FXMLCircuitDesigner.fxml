@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="502.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="circuitdesigner.ControllerCircuito">
+<VBox prefHeight="502.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="circuitdesigner.ControllerCircuito">
   <children>
       <MenuBar prefHeight="25.0" prefWidth="700.0">
         <menus>

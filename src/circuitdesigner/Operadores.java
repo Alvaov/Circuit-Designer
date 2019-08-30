@@ -14,7 +14,7 @@ public abstract class Operadores {
 
     private int cantidadDeEntradas;
     protected Boolean salida;
-    protected ListLinked entradas;
+    protected ListLinked<Entradas> entradas;
 
 
     /**
@@ -26,7 +26,7 @@ public abstract class Operadores {
      */
     public Operadores(int cantidadDeEntradas){
         this.cantidadDeEntradas = cantidadDeEntradas;
-        this.entradas = new ListLinked();
+        this.entradas = new ListLinked<>();
         crearEntradas(cantidadDeEntradas);
  
         
@@ -73,6 +73,10 @@ public abstract class Operadores {
     public Entradas getEntrada(int entrada){
         Entradas entradaBuscada = (Entradas) entradas.buscarElemento(entrada);
         return entradaBuscada;
+    }
+    
+    public void agregasEntradas(int entrada){
+        crearEntradas(entrada);
     }
 
     /**

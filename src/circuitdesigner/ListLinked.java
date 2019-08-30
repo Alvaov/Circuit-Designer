@@ -9,10 +9,10 @@ package circuitdesigner;
  *
  * @author allva
  */
-public class ListLinked {
+public class ListLinked<T> {
    
-    public Nodo cabeza;
-    public Nodo ultimo;
+    public Nodo<T> cabeza;
+    public Nodo<T> ultimo;
     private int size;
     
     public ListLinked(){ 
@@ -21,7 +21,7 @@ public class ListLinked {
         size = 0;
     }
     
-    public void añadirInicio(Object valor){
+    public void añadirInicio(T valor){
         if(cabeza != null){
             cabeza = new Nodo(valor,cabeza,null);
             cabeza.getSiguiente().setAnterior(cabeza);
@@ -33,7 +33,7 @@ public class ListLinked {
         }
         size++;
     }
-    public void añadirFinal(Object valor){
+    public void añadirFinal(T valor){
         if (cabeza != null){
             ultimo = new Nodo(valor,null,ultimo);
             ultimo.getAnterior().setSiguiente(ultimo);
@@ -43,7 +43,7 @@ public class ListLinked {
             añadirInicio(valor);
         }
     }
-    public void añadirEnPosición(Object valor, int i){ 
+    public void añadirEnPosición(T valor, int i){ 
         Nodo nodo = new Nodo(valor);
         if (cabeza == null){
             nodo = cabeza;
@@ -67,12 +67,12 @@ public class ListLinked {
         }
         size++;
     }
-    public Object buscarElemento(int i){
+    public T buscarElemento(int i){
         if(cabeza == null){
             return null;
         }
         else{
-            Nodo puntero = cabeza;
+            Nodo<T> puntero = cabeza;
             int contador = 0;
             while(contador < i && puntero.getSiguiente() != null){
                 puntero = puntero.getSiguiente();
@@ -125,7 +125,7 @@ public class ListLinked {
             eliminarFinal();
         }
         else{
-            Nodo puntero = cabeza;
+            Nodo<T> puntero = cabeza;
             int contador = 1;
             while(contador < i && puntero.getSiguiente() != null){
 
@@ -138,15 +138,15 @@ public class ListLinked {
         }
         size--;
     }
-    public Object getValor(int i){
-        Nodo puntero = cabeza;
+    public T getValor(int i){
+        Nodo<T> puntero = cabeza;
         //System.out.println(cabeza);
         int contador = 1;
         while(contador < i){
             puntero = puntero.getSiguiente();
             contador++;
         }
-        return puntero;
+        return puntero.getValor();
     }
     
     public int getSize(){
