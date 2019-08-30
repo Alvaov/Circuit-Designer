@@ -16,6 +16,7 @@ public abstract class Operadores {
     protected Boolean salida;
     protected ListLinked entradas;
 
+
     /**
      *@see Corresponde al constructor de la clase abstracta Operadores
      * es el encargado de crear las entradas de cada compuerta según las 
@@ -25,22 +26,39 @@ public abstract class Operadores {
      */
     public Operadores(int cantidadDeEntradas){
         this.cantidadDeEntradas = cantidadDeEntradas;
+        this.entradas = new ListLinked();
+        entradas.enseñarListaCabezaUltimo();
         crearEntradas(cantidadDeEntradas);
+        entradas.enseñarListaCabezaUltimo();
+        System.out.println(entradas.cabeza);
+        System.out.println("*****************************************");
+        System.out.println(entradas.ultimo);
+        System.out.println(entradas.getSize());
+        System.out.println(entradas.cabeza);
+        System.out.println(entradas.getValor(1));
         
+
     }
+    
     /**
      * @see Recibe la cantidad de entradas del operador y
      * crea la cantidad correspondiente con valor nulo, añade las entradas
      * a una lista enlazada.
      * @param cantidadDeEntradas 
      */
-    private void crearEntradas(int cantidadDeEntradas){
+    public void crearEntradas(int cantidadDeEntradas){
         int contador = 0;
+        
         while(contador < cantidadDeEntradas){
+            //System.out.println(contador);
             Entradas entrada = new Entradas();
+            //System.out.println(entrada);
             entradas.añadirFinal(entrada);
+            //System.out.println("anadió");
             contador++;
         }
+        //entradas.enseñarListaCabezaUltimo();
+        
     }
     
     /**
@@ -57,8 +75,17 @@ public abstract class Operadores {
      * @param entrada
      * @param valor
      */
-    public void setEntrada(Entradas entrada,Boolean valor){
-        entrada.setValue(valor);
+    public void setEntrada(int entrada,Boolean valor){
+        entradas.enseñarListaCabezaUltimo();
+        Entradas entradaACambiar = (Entradas) entradas.buscarElemento(entrada);
+        
+        System.out.println(entradaACambiar);
+        entradaACambiar.setValue(valor);
+    }
+    
+    public Entradas getEntrada(int entrada){
+        Entradas entradaBuscada = (Entradas) entradas.buscarElemento(entrada);
+        return entradaBuscada;
     }
 
     /**

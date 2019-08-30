@@ -11,8 +11,8 @@ package circuitdesigner;
  */
 public class ListLinked {
    
-    private Nodo cabeza;
-    private Nodo ultimo;
+    public Nodo cabeza;
+    public Nodo ultimo;
     private int size;
     
     public ListLinked(){ 
@@ -35,13 +35,16 @@ public class ListLinked {
     }
     public void añadirFinal(Object valor){
         if (cabeza != null){
+            System.out.println("cabeza no nula");
+            System.out.println(cabeza);
             ultimo = new Nodo(valor,null,ultimo);
             ultimo.getAnterior().setSiguiente(ultimo);
+            size++;
         }
         else{
             añadirInicio(valor);
+            System.out.println("cabeza nula");
         }
-        size++;
     }
     public void añadirEnPosición(Object valor, int i){ 
         Nodo nodo = new Nodo(valor);
@@ -66,6 +69,20 @@ public class ListLinked {
             puntero.setSiguiente(nodo);
         }
         size++;
+    }
+    public Object buscarElemento(int i){
+        if(cabeza == null){
+            return null;
+        }
+        else{
+            Nodo puntero = cabeza;
+            int contador = 1;
+            while(contador < i && puntero.getSiguiente() != null){
+                puntero = puntero.getSiguiente();
+                contador++;
+            }
+            return puntero;
+        }
     }
     
     public void enseñarListaCabezaUltimo(){
@@ -126,12 +143,13 @@ public class ListLinked {
     }
     public Object getValor(int i){
         Nodo puntero = cabeza;
+        //System.out.println(cabeza);
         int contador = 1;
         while(contador < i){
             puntero = puntero.getSiguiente();
             contador++;
         }
-        return puntero.getValor();
+        return puntero;
     }
     
     public int getSize(){
