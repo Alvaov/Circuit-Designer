@@ -46,11 +46,11 @@ public class PruebaDrag {
         imageView.setOnMousePressed(MousePressed);
         imageView.setOnMouseDragged(MouseDragged);
         
-<<<<<<< Updated upstream
-=======
+        int y = 0;
         for (int i = 0; i < cantidadDeEntradas; i++){
+            
             Entradas nuevaEntrada = new Entradas();
-            DoubleProperty endy = new SimpleDoubleProperty(0);
+            DoubleProperty endy = new SimpleDoubleProperty(y);
             DoubleProperty endx = new SimpleDoubleProperty(0);
             DoubleProperty startx = new SimpleDoubleProperty(orgSceneX);
             DoubleProperty starty = new SimpleDoubleProperty(orgSceneY);
@@ -58,9 +58,8 @@ public class PruebaDrag {
             Anchor startE    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
             Line lineE     = new BoundLine(inicioX,inicioY, endx, endy);
             CircuitDesigner.getController().getRoot().getChildren().addAll(endE,startE,lineE);
+            y += 7;
         }
-           
->>>>>>> Stashed changes
        
         end      = new Anchor(Color.TOMATO,    endX,   endY);
         start    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
@@ -71,8 +70,7 @@ public class PruebaDrag {
    CircuitDesigner.getController().getRoot().getChildren().addAll(imageView,end,start,line);
    System.out.println("entróaqui");
     }
-<<<<<<< Updated upstream
-=======
+
     
   class Imagen extends ImageView{
       Operadores compuerta;
@@ -94,7 +92,6 @@ public class PruebaDrag {
       }
   }
 
->>>>>>> Stashed changes
 
   class BoundLine extends Line {
     BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
