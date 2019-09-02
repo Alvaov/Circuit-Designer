@@ -70,6 +70,8 @@ public class ControllerCircuito implements Initializable{
         ORimage.setOnMouseClicked(crearOr);
         XORimage.setOnMouseClicked(crearXor);
         NANDimage.setOnMouseClicked(crearNegaciones);
+
+        
     }
     
     EventHandler<MouseEvent> crearAnd = 
@@ -78,21 +80,22 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage segundaVentana = new Stage();
-                segundaVentana.setTitle("Crear entradas");
-                segundaVentana.setScene(scene);
+                //FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
+                //Scene scene = new Scene(loader.load());
+                //Stage segundaVentana = new Stage();
+                //segundaVentana.setTitle("Crear entradas");
+                //segundaVentana.setScene(scene);
                 
-                segundaVentana.show();
-                CrearAnd();
+                //segundaVentana.show();
+                
+                CrearAnd("AND.png",5);
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
             }
         }
     };
     
-     EventHandler<MouseEvent> MousePressed = 
+    EventHandler<MouseEvent> MousePressed = 
         new EventHandler<MouseEvent>() {
  
         @Override
@@ -116,6 +119,9 @@ public class ControllerCircuito implements Initializable{
              
             ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
             ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
+            
+            
+            
         }
     };
     
@@ -192,11 +198,11 @@ public class ControllerCircuito implements Initializable{
         
         
         
-    public void CrearAnd() throws FileNotFoundException{
-        //AndOperator CompuertaAnd = new AndOperator(5);
+    public void CrearAnd(String ruta, int cantidadDeEntradas) throws FileNotFoundException{
+        //AndOperator CompuertaAnd = new AndOperator(cantidadDeEntradas);
         //CompuertaAnd.setEntrada(1, false);
         //System.out.println(CompuertaAnd.getEntrada(1).getValue());
-        Image imageAnd = new Image(new FileInputStream("C:\\Users\\allva\\Desktop\\CircuitDesigner\\src\\Imágenes Compuertas Lógicas\\AND.png"));
+        Image imageAnd = new Image("AND.png");
         ImageView and = new ImageView(imageAnd);
         and.setCursor(Cursor.MOVE);
         and.setX(-250);
@@ -208,7 +214,8 @@ public class ControllerCircuito implements Initializable{
         and.setOnMouseDragged(MouseDragged);
 
 
-        root.getChildren().add(and);
+        root.getChildren().add(and); 
+        
     }
     
     public void CrearOr() throws FileNotFoundException{
@@ -228,6 +235,10 @@ public class ControllerCircuito implements Initializable{
         root.getChildren().add(and);
     }
     
+    public Group getRoot(){
+        return root;
+    }
+    
     public void CrearXor() throws FileNotFoundException{
         //XOROperator CompuertaXor = new XOROperator(5);
 
@@ -245,7 +256,7 @@ public class ControllerCircuito implements Initializable{
 
         root.getChildren().add(and);
     }
-    
+
     
     
 }

@@ -14,7 +14,7 @@ public class Entradas {
     private Boolean valor;
 
     public Entradas(){
-        valor = true;
+       
     }
     
     public void setValue(Boolean valorB){

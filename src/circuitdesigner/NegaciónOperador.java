@@ -27,7 +27,9 @@ public class NegaciónOperador extends Operadores{
                 operador = new XOROperator(cantidadDeEntradas);
                 break;
             case 4:
-                operacionNot((Entradas) entradas.getValor(0));
+                Entradas entrada = new Entradas();
+                entradas.añadirFinal(entrada);
+                //operacionNot();
                 
         }
         
@@ -43,8 +45,9 @@ public class NegaciónOperador extends Operadores{
                 return false;
             }
     }
-    public Boolean operacionNot(Entradas entrada){
-        if (entrada.getValue()== false){
+    public Boolean operacionNot(){
+        
+        if (entradas.getValor(0).getValue()== false){
             return true;
         }else{
             return false;
