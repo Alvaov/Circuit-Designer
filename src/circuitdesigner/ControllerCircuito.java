@@ -199,40 +199,12 @@ public class ControllerCircuito implements Initializable{
         
         
     public void CrearAnd(String ruta, int cantidadDeEntradas) throws FileNotFoundException{
-        //AndOperator CompuertaAnd = new AndOperator(cantidadDeEntradas);
-        //CompuertaAnd.setEntrada(1, false);
-        //System.out.println(CompuertaAnd.getEntrada(1).getValue());
-        Image imageAnd = new Image("AND.png");
-        ImageView and = new ImageView(imageAnd);
-        and.setCursor(Cursor.MOVE);
-        and.setX(-250);
-        and.setY(-40);
-        and.setFitWidth(65.0);
-        and.setFitHeight(40.0);
 
-        and.setOnMousePressed(MousePressed);
-        and.setOnMouseDragged(MouseDragged);
-
-
-        root.getChildren().add(and); 
-        
+        PruebaDrag algo = new PruebaDrag("AND.png",1);
     }
     
     public void CrearOr() throws FileNotFoundException{
-        //OrOperator CompuertaOr = new OrOperator(5);
-
-        Image imageAnd = new Image(new FileInputStream("C:\\Users\\allva\\Desktop\\CircuitDesigner\\src\\Imágenes Compuertas Lógicas\\OR.png"));
-        ImageView and = new ImageView(imageAnd);
-        and.setCursor(Cursor.MOVE);
-        and.setX(-250);
-        and.setY(-40);
-        and.setFitWidth(65.0);
-        and.setFitHeight(40.0);
-
-        and.setOnMousePressed(MousePressed);
-        and.setOnMouseDragged(MouseDragged);
-
-        root.getChildren().add(and);
+        
     }
     
     public Group getRoot(){
@@ -240,21 +212,7 @@ public class ControllerCircuito implements Initializable{
     }
     
     public void CrearXor() throws FileNotFoundException{
-        //XOROperator CompuertaXor = new XOROperator(5);
 
-        Image imageAnd = new Image(new FileInputStream("C:\\Users\\allva\\Desktop\\CircuitDesigner\\src\\Imágenes Compuertas Lógicas\\XOR.png"));
-        ImageView and = new ImageView(imageAnd);
-        and.setCursor(Cursor.MOVE);
-        and.setX(-250);
-        and.setY(-40);
-        and.setFitWidth(65.0);
-        and.setFitHeight(40.0);
-
-        and.setOnMousePressed(MousePressed);
-        and.setOnMouseDragged(MouseDragged);
-
-
-        root.getChildren().add(and);
     }
 
     

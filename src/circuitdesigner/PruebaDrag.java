@@ -28,35 +28,34 @@ public class PruebaDrag {
     
     Delta dragDelta = new Delta();
     
-    DoubleProperty inicioY = new SimpleDoubleProperty (orgSceneY+55);
-    DoubleProperty inicioX = new SimpleDoubleProperty (orgSceneX+145);
-    DoubleProperty endX   = new SimpleDoubleProperty(300);
-    DoubleProperty endY   = new SimpleDoubleProperty(200);
+    DoubleProperty inicioY = new SimpleDoubleProperty (orgSceneY+23);
+    DoubleProperty inicioX = new SimpleDoubleProperty (orgSceneX+45);
+    DoubleProperty endX   = new SimpleDoubleProperty(orgSceneX+75);
+    DoubleProperty endY   = new SimpleDoubleProperty(orgSceneY+23);
     
     public PruebaDrag(String ruta,int cantidadDeEntradas){
+
+        this.cantidadDeEntradas = cantidadDeEntradas;
+        this.ruta = ruta;
+        image = new Image(ruta);
+        imageView = new ImageView(image);
+        imageView.setFitWidth(65.0);
+        imageView.setFitHeight(40.0);
+        imageView.setX(orgSceneX);
+        imageView.setY(orgSceneY);
+        imageView.setOnMousePressed(MousePressed);
+        imageView.setOnMouseDragged(MouseDragged);
         
-    this.cantidadDeEntradas = cantidadDeEntradas;
-    this.ruta = ruta;
-    image = new Image(ruta);
-    imageView = new ImageView(image);
+       
+        end      = new Anchor(Color.TOMATO,    endX,   endY);
+        start    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
+        line     = new BoundLine(inicioX,inicioY, endX, endY);
+    
 
-    end      = new Anchor(Color.TOMATO,    endX,   endY);
-    start    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
-    line     = new BoundLine(inicioX,inicioY, endX, endY);
-    
-   // getRoot().getChildren().addAll(imageView,end,start,line);
-    
+   System.out.println("entróaquisi");
+   CircuitDesigner.getController().getRoot().getChildren().addAll(imageView,end,start,line);
+   System.out.println("entróaqui");
     }
-
-   public void algo() {
-      
-    imageView.setY(orgSceneY);
-    imageView.setX(orgSceneX);
-    imageView.setOnMousePressed(MousePressed);
-    imageView.setOnMouseDragged(MouseDragged);  
-
-    
-  }
 
   class BoundLine extends Line {
     BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
@@ -70,7 +69,7 @@ public class PruebaDrag {
 
   class Anchor extends Circle { 
     Anchor(Color color, DoubleProperty x, DoubleProperty y) {
-      super(x.get(), y.get(), 2);
+      super(x.get(), y.get(), 3);
 
       x.bind(centerXProperty());
       y.bind(centerYProperty());
@@ -122,10 +121,10 @@ public class PruebaDrag {
             newY = t.getY() + dragDelta.y;
             
             imageView.setX(newX);
-            start.setCenterX(newX+145);
+            start.setCenterX(newX+45);
 
             imageView.setY(newY);
-            start.setCenterY(newY+55);
+            start.setCenterY(newY+23);
         }
     };
   
