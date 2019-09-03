@@ -10,10 +10,8 @@ package circuitdesigner;
  * @author allva
  */
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,7 +28,6 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -94,36 +91,7 @@ public class ControllerCircuito implements Initializable{
             }
         }
     };
-    
-    EventHandler<MouseEvent> MousePressed = 
-        new EventHandler<MouseEvent>() {
- 
-        @Override
-        public void handle(MouseEvent t) {
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-            orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
-            orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
-        }
-    };
-     
-    EventHandler<MouseEvent> MouseDragged = 
-        new EventHandler<MouseEvent>() {
- 
-        @Override
-        public void handle(MouseEvent t) {
-            double offsetX = t.getSceneX() - orgSceneX;
-            double offsetY = t.getSceneY() - orgSceneY;
-            double newTranslateX = orgTranslateX + offsetX;
-            double newTranslateY = orgTranslateY + offsetY;
-             
-            ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
-            ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
-            
-            
-            
-        }
-    };
+
     
     EventHandler<MouseEvent> MouseRelease = 
         new EventHandler<MouseEvent>() {
@@ -199,7 +167,6 @@ public class ControllerCircuito implements Initializable{
         
         
     public void CrearAnd(String ruta, int cantidadDeEntradas) throws FileNotFoundException{
-
         PruebaDrag algo = new PruebaDrag("AND.png",4);
     }
     

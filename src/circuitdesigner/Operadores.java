@@ -27,7 +27,7 @@ public abstract class Operadores {
     public Operadores(int cantidadDeEntradas){
         this.cantidadDeEntradas = cantidadDeEntradas;
         this.entradas = new ListLinked<>();
-        crearEntradas(cantidadDeEntradas);
+       // crearEntradas(cantidadDeEntradas);
  
         
 
@@ -39,7 +39,7 @@ public abstract class Operadores {
      * a una lista enlazada.
      * @param cantidadDeEntradas 
      */
-    public void crearEntradas(int cantidadDeEntradas){
+    /*public void crearEntradas(int cantidadDeEntradas){
         int contador = 0;
         
         while(contador < cantidadDeEntradas){
@@ -48,7 +48,7 @@ public abstract class Operadores {
             contador++;
         }
         
-    }
+    }*/
     
     /**
      * @see Es un getter de la variable salida de cada compuerta. Creada desde el 
@@ -75,7 +75,7 @@ public abstract class Operadores {
         return entradaBuscada;
     }
     
-    public void agregasEntradas(int entrada){
+  /*  public void agregasEntradas(int entrada){
         crearEntradas(entrada);
     }
 

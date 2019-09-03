@@ -9,6 +9,7 @@ package circuitdesigner;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,8 +21,6 @@ public class PruebaDrag {
     double orgSceneX, orgSceneY, newX, newY;
     int cantidadDeEntradas;
     String ruta;
-    Image image;
-    ImageView imageView;
     Anchor start;
     Anchor end;
     Line line;
@@ -37,47 +36,21 @@ public class PruebaDrag {
 
         this.cantidadDeEntradas = cantidadDeEntradas;
         this.ruta = ruta;
-        image = new Image(ruta);
-        imageView = new ImageView(image);
-        imageView.setFitWidth(65.0);
-        imageView.setFitHeight(40.0);
-        imageView.setX(orgSceneX);
-        imageView.setY(orgSceneY);
-        imageView.setOnMousePressed(MousePressed);
-        imageView.setOnMouseDragged(MouseDragged);
-        
-        int y = 0;
-        for (int i = 0; i < cantidadDeEntradas; i++){
-            
-            Entradas nuevaEntrada = new Entradas();
-            DoubleProperty endy = new SimpleDoubleProperty(y);
-            DoubleProperty endx = new SimpleDoubleProperty(0);
-            DoubleProperty startx = new SimpleDoubleProperty(orgSceneX);
-            DoubleProperty starty = new SimpleDoubleProperty(orgSceneY);
-            Anchor endE      = new Anchor(Color.TOMATO,    endx,   endy);
-            Anchor startE    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
-            Line lineE     = new BoundLine(inicioX,inicioY, endx, endy);
-            CircuitDesigner.getController().getRoot().getChildren().addAll(endE,startE,lineE);
-            y += 7;
-        }
-       
-        end      = new Anchor(Color.TOMATO,    endX,   endY);
-        start    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
-        line     = new BoundLine(inicioX,inicioY, endX, endY);
-    
 
-   System.out.println("entróaquisi");
-   CircuitDesigner.getController().getRoot().getChildren().addAll(imageView,end,start,line);
-   System.out.println("entróaqui");
+        ImageView imagen = new Imagen(ruta,new AndOperator(cantidadDeEntradas));
+
     }
 
     
   class Imagen extends ImageView{
       Operadores compuerta;
       ImageView imagenVista;
+      Entrada entrada;
+      ListLinked<Entrada> entradas;
       public Imagen(String ruta, Operadores compuerta){
-          
+          this.entradas = new ListLinked<>();
           this.compuerta = compuerta;
+          
           Image imagen = new Image(ruta);
           imagenVista = new ImageView(imagen);
           imagenVista.setFitWidth(65.0);
@@ -86,13 +59,93 @@ public class PruebaDrag {
           imagenVista.setY(orgSceneY);
           imagenVista.setOnMousePressed(MousePressed);
           imagenVista.setOnMouseDragged(MouseDragged);
+          
+          end      = new Anchor(Color.TOMATO,    endX,   endY);
+          start    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
+          line     = new BoundLine(inicioX,inicioY, endX, endY);
+          int y = 0;
+          
+          for (int i = 0; i < cantidadDeEntradas; i++){
+              entrada = new Entrada(imagenVista);
+              entrada.endE.setCenterY(y);
+              entradas.añadirFinal(entrada);
+              y += 7;
+          }
+          System.out.println("gola");
+        
 
-          CircuitDesigner.getController().getRoot().getChildren().add(imagenVista);
+          CircuitDesigner.getController().getRoot().getChildren().addAll(imagenVista,end,start,line);
           
       }
+      EventHandler<MouseEvent> MousePressed = 
+        new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent t) {
+            dragDelta.x = imagenVista.getX() - t.getX();
+            dragDelta.y = imagenVista.getY() - t.getY();
+        }
+        };
+     
+    EventHandler<MouseEvent> MouseDragged = 
+        new EventHandler<MouseEvent>() {
+ 
+        @Override
+        public void handle(MouseEvent t) {
+
+            newX = t.getX() + dragDelta.x;
+            newY = t.getY() + dragDelta.y;
+            
+            imagenVista.setX(newX);
+            start.setCenterX(newX+45);
+            
+            //entrada.startE.setCenterX(newX+23);
+
+            imagenVista.setY(newY);
+            start.setCenterY(newY+23);
+            
+            for (int i = 0; i <= cantidadDeEntradas; i++){
+                entradas.getValor(i).startE.setCenterY(newY+22);
+                entradas.getValor(i).startE.setCenterX(newX+23);
+            }
+        }
+    };
   }
 
-
+  class Entrada{
+      
+      //Entradas entrada;
+      Anchor endE,startE;
+      ImageView imagenVista;
+      Line lineE;
+      Boolean valor;
+      
+      public Entrada(ImageView imagenVista){
+          this.imagenVista = imagenVista;
+          //entrada = new Entradas();
+          DoubleProperty endy = new SimpleDoubleProperty(0);
+          DoubleProperty endx = new SimpleDoubleProperty(0);
+          DoubleProperty startx = new SimpleDoubleProperty(orgSceneX+23);
+          DoubleProperty starty = new SimpleDoubleProperty(orgSceneY+22);
+          endE      = new Anchor(Color.TOMATO,    endx,   endy);
+          startE    = new Anchor(Color.PALEGREEN, startx, starty);
+          lineE     = new BoundLine(startx, starty, endx, endy);
+          endE.setOnMouseClicked(MouseClicked);
+          CircuitDesigner.getController().getRoot().getChildren().addAll(startE,endE,lineE);   
+      }
+      EventHandler<MouseEvent> MouseClicked = 
+        new EventHandler<MouseEvent>() {
+ 
+        @Override
+        public void handle(MouseEvent t) {
+            valor = false;
+            }
+        };
+    
+      public Boolean getEntrada(){
+          return valor;
+      }
+  }
+  
   class BoundLine extends Line {
     BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
       startXProperty().bind(startX);
@@ -134,35 +187,7 @@ public class PruebaDrag {
       });
     } 
   }
-    // records relative x and y co-ordinates.
-    public class Delta { double x, y; }
-   
- 
-  EventHandler<MouseEvent> MousePressed = 
-        new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent t) {
-            dragDelta.x = imageView.getX() - t.getX();
-            dragDelta.y = imageView.getY() - t.getY();
-        }
-        };
-     
-    EventHandler<MouseEvent> MouseDragged = 
-        new EventHandler<MouseEvent>() {
- 
-        @Override
-        public void handle(MouseEvent t) {
-
-            newX = t.getX() + dragDelta.x;
-            newY = t.getY() + dragDelta.y;
-            
-            imageView.setX(newX);
-            start.setCenterX(newX+45);
-
-            imageView.setY(newY);
-            start.setCenterY(newY+23);
-        }
-    };
-  
+    
+  class Delta { double x, y; }
 }
     
