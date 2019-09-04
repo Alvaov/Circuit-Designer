@@ -6,6 +6,9 @@
 package circuitdesigner;
 
 
+import listlinked.ListLinked;
+import operadores.Operadores;
+import operadores.AndOperator;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -24,16 +27,18 @@ public class PruebaDrag {
     Anchor start;
     Anchor end;
     Line line;
-    
+    ListLinked<Double> coordenadasX, coordenadasY;
     Delta dragDelta = new Delta();
-    
+    ListLinked<Double> coordX = CircuitDesigner.getController().coordenadasX;
+    ListLinked<Double> coordY = CircuitDesigner.getController().coordenadasY;
     DoubleProperty inicioY = new SimpleDoubleProperty (orgSceneY+23);
     DoubleProperty inicioX = new SimpleDoubleProperty (orgSceneX+45);
     DoubleProperty endX   = new SimpleDoubleProperty(orgSceneX+75);
     DoubleProperty endY   = new SimpleDoubleProperty(orgSceneY+23);
     
     public PruebaDrag(String ruta,int cantidadDeEntradas){
-
+        coordenadasX = new ListLinked<>();
+        coordenadasY = new ListLinked<>();
         this.cantidadDeEntradas = cantidadDeEntradas;
         this.ruta = ruta;
 
@@ -69,10 +74,10 @@ public class PruebaDrag {
               entrada = new Entrada(imagenVista);
               entrada.endE.setCenterY(y);
               entradas.añadirFinal(entrada);
+              
               y += 7;
           }
-          System.out.println("gola");
-        
+          System.out.println(coordX.getSize());
 
           CircuitDesigner.getController().getRoot().getChildren().addAll(imagenVista,end,start,line);
           
@@ -97,8 +102,6 @@ public class PruebaDrag {
             
             imagenVista.setX(newX);
             start.setCenterX(newX+45);
-            
-            //entrada.startE.setCenterX(newX+23);
 
             imagenVista.setY(newY);
             start.setCenterY(newY+23);
@@ -127,19 +130,12 @@ public class PruebaDrag {
           DoubleProperty startx = new SimpleDoubleProperty(orgSceneX+23);
           DoubleProperty starty = new SimpleDoubleProperty(orgSceneY+22);
           endE      = new Anchor(Color.TOMATO,    endx,   endy);
+          
           startE    = new Anchor(Color.PALEGREEN, startx, starty);
           lineE     = new BoundLine(startx, starty, endx, endy);
-          endE.setOnMouseClicked(MouseClicked);
+          
           CircuitDesigner.getController().getRoot().getChildren().addAll(startE,endE,lineE);   
       }
-      EventHandler<MouseEvent> MouseClicked = 
-        new EventHandler<MouseEvent>() {
- 
-        @Override
-        public void handle(MouseEvent t) {
-            valor = false;
-            }
-        };
     
       public Boolean getEntrada(){
           return valor;
@@ -157,11 +153,17 @@ public class PruebaDrag {
   }
 
   class Anchor extends Circle { 
+    private double posy;
+    private double posx;
     Anchor(Color color, DoubleProperty x, DoubleProperty y) {
       super(x.get(), y.get(), 3);
-
+      posy = y.get();
+      posx = x.get();
       x.bind(centerXProperty());
       y.bind(centerYProperty());
+     
+      coordX.añadirFinal(posx);
+      coordY.añadirFinal(posy);
       
       enableDrag();
     }
@@ -178,13 +180,29 @@ public class PruebaDrag {
       });
       setOnMouseDragged(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
-            newX = t.getX() + dragDelta.x;         
+            newX = t.getX() + dragDelta.x;    
+            posx = newX;
+            //System.out.println(posx);
             setCenterX(newX);
             
             newY = t.getY() + dragDelta.y;
+            posy = newY;
             setCenterY(newY);        
+            
+            for (int i=0; i < coordX.getSize(); i++){
+                
+                //System.out.println(coordenadasX.buscarElemento(5));
+                if ( coordX.buscarElemento(i)+2 > posx && coordX.buscarElemento(i)-2< posx){
+                    
+                    if ( coordY.buscarElemento(i)+2 > posy && coordY.buscarElemento(i)-2< posy){
+                    System.out.println("yes");
+                    System.out.println("***");
+                    }
+                }
+            }
         }
       });
+      //System.out.println(posx);
     } 
   }
     

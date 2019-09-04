@@ -1,4 +1,4 @@
-package circuitdesigner;
+package listlinked;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

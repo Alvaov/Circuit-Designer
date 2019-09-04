@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package circuitdesigner;
+package operadores;
+
+import listlinked.ListLinked;
 
 /**
  *
  * @author allva
  */
-public class OrOperator extends Operadores{
+public class XOROperator extends Operadores{
 
-    public OrOperator(int cantidadDeEntradas) {
+    public XOROperator(int cantidadDeEntradas) {
         super(cantidadDeEntradas);
 
     }
@@ -19,15 +21,17 @@ public class OrOperator extends Operadores{
     @Override
     public Boolean operación(ListLinked entradas) {
         int contador = 0;
+        int contUnos = 0;
         while (contador < entradas.getSize()){
-            if ( (Boolean) entradas.getValor(contador) == false){
+            if ( (Boolean) entradas.getValor(contador) == true && contUnos <=1){
                 contador++;
+                contUnos++;
             } 
             else{
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
-    
+
 }

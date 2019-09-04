@@ -10,6 +10,8 @@ package circuitdesigner;
  * @author allva
  */
 
+import listlinked.ListLinked;
+import operadores.Operadores;
 import javafx.fxml.Initializable;
 
 import java.io.FileNotFoundException;
@@ -37,6 +39,7 @@ public class ControllerCircuito implements Initializable{
     
     double orgSceneX, orgSceneY, orgTranslateY, orgTranslateX;
     ListLinked<Operadores> circuito;
+    ListLinked<Double> coordenadasX,coordenadasY;
     
     @FXML
     private Button EncapsularButton;
@@ -67,7 +70,8 @@ public class ControllerCircuito implements Initializable{
         ORimage.setOnMouseClicked(crearOr);
         XORimage.setOnMouseClicked(crearXor);
         NANDimage.setOnMouseClicked(crearNegaciones);
-
+        coordenadasX = new ListLinked<>();
+        coordenadasY = new ListLinked<>();
         
     }
     
@@ -85,7 +89,7 @@ public class ControllerCircuito implements Initializable{
                 
                 //segundaVentana.show();
                 
-                CrearAnd("AND.png",5);
+                CrearAnd("AND.png",2);
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
             }
@@ -167,7 +171,7 @@ public class ControllerCircuito implements Initializable{
         
         
     public void CrearAnd(String ruta, int cantidadDeEntradas) throws FileNotFoundException{
-        PruebaDrag algo = new PruebaDrag("AND.png",4);
+        PruebaDrag algo = new PruebaDrag("AND.png",cantidadDeEntradas);
     }
     
     public void CrearOr() throws FileNotFoundException{
