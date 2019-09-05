@@ -16,6 +16,7 @@ import javafx.stage.Stage;
  * @author allva
  */
 public class CircuitDesigner extends Application{
+    
 
     /**
      * @see Es el método que inicializa todo el código del programa.
@@ -35,7 +36,8 @@ public class CircuitDesigner extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Circuit Designer");
-        controlador = new ControllerCircuito();
+       
+        getControlador();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCircuitDesigner.fxml"));
         loader.setController(controlador);
         
@@ -47,7 +49,17 @@ public class CircuitDesigner extends Application{
     
     static ControllerCircuito controlador;
     
-    public static ControllerCircuito getController(){
+    /**
+     * @see Función que crea el controlador a usarse a lo largo del programa. Utiliza un patrón
+     * singleton que garantiza la creación de un único controlador. Si no existe uno lo crea, y 
+     * si existe retorna este previamente creado.
+     * @return controlador
+     */
+    public static ControllerCircuito getControlador(){
+        
+        if (controlador == null){
+            controlador = new ControllerCircuito();
+        }
         return controlador;
     }
 }

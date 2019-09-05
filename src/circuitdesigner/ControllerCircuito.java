@@ -171,7 +171,7 @@ public class ControllerCircuito implements Initializable{
         
         
     public void CrearAnd(String ruta, int cantidadDeEntradas) throws FileNotFoundException{
-        PruebaDrag algo = new PruebaDrag("AND.png",cantidadDeEntradas);
+        Facade algo = new Facade("AND.png",cantidadDeEntradas);
     }
     
     public void CrearOr() throws FileNotFoundException{
