@@ -21,11 +21,28 @@ import javafx.scene.shape.*;
 
 public class Facade {
     
-    
+    private static ListLinked<Entrada> entradas;
+    static int e = 0;
+    static int s = 0;
     public Facade(String ruta,int cantidadDeEntradas){
-
+        entradas = new ListLinked<>();
+        
         ImageView imagen = new Imagen(ruta,new AndOperator(cantidadDeEntradas),cantidadDeEntradas);
+        System.out.println(s);
+        System.out.println(entradas.getSize());
     }
+    
+    public static ListLinked getListaEntradas(){
+        return entradas;
+    }
+    public static int getCantidadDeEntradas(){
+        return e;
+    }
+    public static int getCantidadDeSalidas(){
+        return s;
+    }
+    
+    
 }
     
     

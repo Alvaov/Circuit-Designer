@@ -24,7 +24,9 @@ class Imagen extends ImageView{
     private Operadores compuerta;
     private ImageView imagenVista;
     private Entrada entrada;
-    private ListLinked<Entrada> entradas;;
+    ListLinked<Entrada> entradas = Facade.getListaEntradas();
+    //int e = Facade.getCantidadDeEntradas();
+    //int s = Facade.getCantidadDeSalidas();
       
     private double orgSceneX, orgSceneY, newX, newY;
     private int cantidadDeEntradas;
@@ -40,7 +42,6 @@ class Imagen extends ImageView{
     private DoubleProperty starty = new SimpleDoubleProperty(orgSceneY+22);
       
       public Imagen(String ruta, Operadores compuerta, int cantidadDeEntradas){
-          this.entradas = new ListLinked<>();
           this.compuerta = compuerta;
           this.cantidadDeEntradas = cantidadDeEntradas;
           
@@ -52,23 +53,24 @@ class Imagen extends ImageView{
           imagenVista.setY(orgSceneY);
           imagenVista.setOnMousePressed(MousePressed);
           imagenVista.setOnMouseDragged(MouseDragged);
-
+     
+          end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">");
+          Facade.s++;
+          start    = new Anchor(Color.PALEGREEN, inicioX, inicioY,"");
+          line     = new BoundLine(inicioX,inicioY, endX, endY);
           
-          end      = new Anchor(Color.TOMATO,    endX,   endY);
-          start    = new Anchor(Color.PALEGREEN, inicioX, inicioY);
-          //line     = new BoundLine(startx,starty, endX, endY);
+          startE   = new Anchor(Color.PALEGREEN, startx, starty,"");
           
-          startE   = new Anchor(Color.PALEGREEN, startx, starty);
-          line     = new BoundLine(startx,starty, endX, endY);
+          
           int y = 0;
-
           for (int i = 0; i < cantidadDeEntradas; i++){
-              entrada = new Entrada(imagenVista,startx,starty);
+              entrada = new Entrada(imagenVista,startx,starty,Facade.e);
               entrada.endE.setCenterY(y);
-              entradas.añadirFinal(entrada);            
+              entradas.añadirFinal(entrada);      
+              Facade.e++;
               y += 7;
           }
-
+          
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(imagenVista,end,start,line);
           
       }
@@ -102,10 +104,6 @@ class Imagen extends ImageView{
             }
         }
     };
-    
-    public double getNewX(){
-        return newX;
-    }
     
     public static Delta getDelta(){
         return dragDelta;

@@ -23,13 +23,14 @@ class Entrada{
       Line lineE;
       Valores valor;
       DoubleProperty starty, startx;
+
       
-      public Entrada(ImageView imagenVista, DoubleProperty startx, DoubleProperty starty){
+      public Entrada(ImageView imagenVista, DoubleProperty startx, DoubleProperty starty,int i){
           this.imagenVista = imagenVista;
-          valor = Valores.Default;
+          valor = null;
           DoubleProperty endy = new SimpleDoubleProperty(0);
           DoubleProperty endx = new SimpleDoubleProperty(0);
-          endE      = new Anchor(Color.TOMATO,    endx,   endy);
+          endE      = new Anchor(Color.TOMATO,    endx,   endy,"i<"+ i +">");
           lineE     = new BoundLine(startx, starty, endx, endy);
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(endE,lineE);   
       }
