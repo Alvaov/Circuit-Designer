@@ -39,7 +39,7 @@ public class ControllerCircuito implements Initializable{
     
     double orgSceneX, orgSceneY, orgTranslateY, orgTranslateX;
     ListLinked<Operadores> circuito;
-    ListLinked<Double> coordenadasX,coordenadasY;
+    static ListLinked<Entrada> entradas;
     
     @FXML
     private Button EncapsularButton;
@@ -70,8 +70,8 @@ public class ControllerCircuito implements Initializable{
         ORimage.setOnMouseClicked(crearOr);
         XORimage.setOnMouseClicked(crearXor);
         NANDimage.setOnMouseClicked(crearNegaciones);
-        coordenadasX = new ListLinked<>();
-        coordenadasY = new ListLinked<>();
+        entradas = new ListLinked<>();
+
         
     }
     

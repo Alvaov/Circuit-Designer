@@ -140,7 +140,7 @@ public class ListLinked<T> {
     }
     public T getValor(int i){
         Nodo<T> puntero = cabeza;
-        int contador = 1;
+        int contador = 0;
         while(contador < i){
             puntero = puntero.getSiguiente();
             contador++;

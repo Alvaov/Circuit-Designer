@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import listlinked.ListLinked;
 import operadores.Operadores;
+import static circuitdesigner.ControllerCircuito.entradas;
 
 /**
  *
@@ -23,8 +24,8 @@ import operadores.Operadores;
 class Imagen extends ImageView{
     private Operadores compuerta;
     private ImageView imagenVista;
-    private Entrada entrada;
-    ListLinked<Entrada> entradas = Facade.getListaEntradas();
+
+  //  ListLinked<Entrada> entradas = Facade.getListaEntradas();
     //int e = Facade.getCantidadDeEntradas();
     //int s = Facade.getCantidadDeSalidas();
       
@@ -56,21 +57,22 @@ class Imagen extends ImageView{
      
           end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">");
           Facade.s++;
+          end.setOnMousePressed(MousePressedE);
+          end.setOnMouseDragged(MouseDraggedE);
           start    = new Anchor(Color.PALEGREEN, inicioX, inicioY,"");
           line     = new BoundLine(inicioX,inicioY, endX, endY);
-          
           startE   = new Anchor(Color.PALEGREEN, startx, starty,"");
           
           
           int y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
-              entrada = new Entrada(imagenVista,startx,starty,Facade.e);
+              Entrada entrada = new Entrada(imagenVista,startx,starty,Facade.e);
               entrada.endE.setCenterY(y);
               entradas.añadirFinal(entrada);      
               Facade.e++;
               y += 7;
           }
-          
+          System.out.println(entradas.getSize());
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(imagenVista,end,start,line);
           
       }
@@ -108,5 +110,24 @@ class Imagen extends ImageView{
     public static Delta getDelta(){
         return dragDelta;
     }
-    
+    EventHandler<MouseEvent> MousePressedE = new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent t) {
+
+          dragDelta.x = end.getCenterX() - t.getX();
+          dragDelta.y = end.getCenterY() - t.getY();
+
+        }
+      };
+        EventHandler<MouseEvent> MouseDraggedE = new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent t) {
+            newX = t.getX() + dragDelta.x;
+            end.etiqueta.setLayoutX(newX);
+            end.setCenterX(newX);
+            
+            newY = t.getY() + dragDelta.y;
+            end.etiqueta.setLayoutY(newY);
+            end.setCenterY(newY);
+
+            }
+        };
   }
