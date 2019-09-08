@@ -18,9 +18,9 @@ import listlinked.ListLinked;
  * @author allva
  */
 class Anchor extends Circle { 
-    Delta dragDelta = Imagen.getDelta();
-    Double newX, newY;
-    Label etiqueta;
+    private Delta dragDelta = Imagen.getDelta();
+    private Double newX, newY;
+    private Label etiqueta;
     // ListLinked<Entrada> entradas = Facade.entradas;
     
     Anchor(Color color, DoubleProperty x, DoubleProperty y, String etiqueta) {
@@ -31,6 +31,10 @@ class Anchor extends Circle {
       this.etiqueta.setLayoutX(x.get());
       this.etiqueta.setLayoutY(y.get());
       CircuitDesigner.getControlador().getRoot().getChildren().addAll(this.etiqueta);   
+    }
+    
+    public Label getEtiqueta(){
+        return etiqueta;
     }
 
 }

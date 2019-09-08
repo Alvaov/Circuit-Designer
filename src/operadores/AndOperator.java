@@ -26,7 +26,7 @@ public class AndOperator extends Operadores{
     public Valores operación(ListLinked<Entrada> entradas) {
         int contador = 0;
         while (contador < entradas.getSize()){
-            if (entradas.getValor(contador).valor == Valores.True){
+            if (entradas.getValor(contador).getValor() == Valores.True){
                 contador++;
             } 
             else{

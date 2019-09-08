@@ -24,7 +24,7 @@ public class XOROperator extends Operadores{
         int contador = 0;
         int contUnos = 0;
         while (contador < entradas.getSize()){
-            if (entradas.getValor(contador).valor == Valores.True && contUnos <=1){
+            if (entradas.getValor(contador).getValor() == Valores.True && contUnos <=1){
                 contador++;
                 contUnos++;
             } 

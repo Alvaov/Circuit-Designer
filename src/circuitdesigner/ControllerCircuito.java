@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 
 public class ControllerCircuito implements Initializable{
     
-    private static ListLinked<Imagen> circuito = new ListLinked();
+    //private static ListLinked<Imagen> circuito = new ListLinked();
     
     @FXML
     private Button EncapsularButton;
@@ -182,8 +182,8 @@ public class ControllerCircuito implements Initializable{
         return root;
     }
     
-    public static ListLinked getCircuito(){
-        return circuito;
-    }  
+    //public static ListLinked getCircuito(){
+     //   return circuito;
+   // }  
     
 }

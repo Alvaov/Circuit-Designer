@@ -25,7 +25,7 @@ public class Entrada{
       private ImageView imagenVista;
       private Line lineE;
       private Valores valor;
-      private DoubleProperty starty, startx;
+      //private DoubleProperty starty, startx;
       private Delta dragDelta = Imagen.getDelta();
       private Double newX,newY;
       
@@ -43,40 +43,39 @@ public class Entrada{
 
       }
 
-      public Valores getEntrada(){
+      public Valores getValor(){
           return valor;
       }
-      public void colisión(){
-          ListLinked<Imagen> circuito = ControllerCircuito.getCircuito();
+      
+      public void setValor(Valores valorNuevo){
+          valor = valorNuevo;
+      }
+      
+      public Anchor colisiónE(){
+          ListLinked<Imagen> circuito = Facade.getCircuito();
           
           for (int c = 0; c < circuito.getSize(); c++){
               Imagen imagen = circuito.getValor(c);
-
               Anchor fin = imagen.getEnd();
-              //Entrada entrada = imagen.getEntrada(i);
               for(int i = 0; i < imagen.getEntradas().getSize(); i++){
-                  
                   Entrada entrada = imagen.getEntrada(i);
-                  if (entrada.endE == this.endE){
-                      
+                  if (entrada.endE == this.endE){                     
                       continue;
                         }
                   if (fin.getCenterX() == this.endE.getCenterX() && fin.getCenterY() == this.endE.getCenterY()){
-                            
-                            
-                      System.out.println("entrada-salida");
-                      //ControllerCircuito.circuito.getValor(c).end.setCenterX(this.endE.getCenterX());
-                      //ControllerCircuito.circuito.getValor(c).end.setCenterY(this.endE.getCenterY());
+                      fin.setCenterY(this.endE.getCenterY());
                       valor = imagen.getSalida();
+                      return fin;
                       }
                     else{
                       if(entrada.endE.getCenterX() == this.endE.getCenterX() && entrada.endE.getCenterY() == this.endE.getCenterY()){
-
                          System.out.println("choqué");
+                         return entrada.endE;
                          }
                        }
                   }
             }
+          return null;
       }
 
       
@@ -91,15 +90,21 @@ public class Entrada{
       EventHandler<MouseEvent> MouseDragged = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
             newX = t.getX() + dragDelta.x;
-            endE.etiqueta.setLayoutX(newX);
+            endE.getEtiqueta().setLayoutX(newX);
             endE.setCenterX(newX);
             
             newY = t.getY() + dragDelta.y;
-            endE.etiqueta.setLayoutY(newY);
+            endE.getEtiqueta().setLayoutY(newY);
             endE.setCenterY(newY);
-            colisión();
+            colisiónE();
+
+            if (colisiónE() != null){
+                colisiónE().setCenterX(newX);
+                colisiónE().setCenterY(newY);
+            }
             }
         };
+
       
       public Anchor getEndE(){
           return endE;

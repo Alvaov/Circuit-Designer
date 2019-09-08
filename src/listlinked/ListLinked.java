@@ -5,11 +5,13 @@
  */
 package listlinked;
 
+import java.util.Observable;
+
 /**
  *
  * @author allva
  */
-public class ListLinked<T> {
+public class ListLinked<T> extends Observable{
    
     public Nodo<T> cabeza;
     public Nodo<T> ultimo;

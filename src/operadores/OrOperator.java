@@ -23,7 +23,7 @@ public class OrOperator extends Operadores{
     public Valores operación(ListLinked<Entrada> entradas) {
         int contador = 0;
         while (contador < entradas.getSize()){
-            if (entradas.getValor(contador).valor == Valores.False){
+            if (entradas.getValor(contador).getValor() == Valores.False){
                 contador++;
             } 
             else{

@@ -48,7 +48,7 @@ public class NegaciónOperador extends Operadores{
     }
     public Valores operacionNot(ListLinked<Entrada> entradas){
         
-        if (entradas.getValor(0).valor == Valores.False){
+        if (entradas.getValor(0).getValor() == Valores.False){
             return Valores.True;
         }else{
             return Valores.False;

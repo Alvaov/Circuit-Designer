@@ -5,6 +5,8 @@
  */
 package circuitdesigner;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
@@ -15,12 +17,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import listlinked.ListLinked;
 import operadores.*;
-
+import java.util.Observer;
+import java.util.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
+import javafx.scene.Cursor;
 /**
  *
  * @author allva
  */
-class Imagen extends ImageView{
+class Imagen extends Observable{
     private Operadores compuerta;
     private ImageView imagenVista;
 
@@ -51,7 +58,9 @@ class Imagen extends ImageView{
           imagenVista.setY(orgSceneY);
           imagenVista.setOnMousePressed(MousePressed);
           imagenVista.setOnMouseDragged(MouseDragged);
-     
+          
+          Observador observador = new Observador();
+
           end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">");
           Facade.s++;
           end.setOnMousePressed(MousePressedE);
@@ -69,6 +78,8 @@ class Imagen extends ImageView{
               Facade.e++;
               y += 7;
           }
+          entradas.addObserver(observador);
+         
           crearCompuerta(ruta);
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(imagenVista,end,start,line);
           
@@ -82,7 +93,7 @@ class Imagen extends ImageView{
         }
         };
      
-    EventHandler<MouseEvent> MouseDragged = 
+      EventHandler<MouseEvent> MouseDragged = 
         new EventHandler<MouseEvent>() {
  
         @Override
@@ -99,34 +110,86 @@ class Imagen extends ImageView{
             
             startE.setCenterY(newY+22);
             startE.setCenterX(newX+23);
+           /* double newYAnchor = newY+7;
+            for(int i = 0; i < entradas.getSize(); i++){
+                Entrada entrada = entradas.getValor(i);
+                Anchor anchor = entrada.getEndE();
+                if (entrada.getValor() == null){
+                    anchor.setCenterX(newX);
+                    anchor.setCenterY(newYAnchor);
+                    anchor.getEtiqueta().setLayoutX(newX);
+                    anchor.getEtiqueta().setLayoutY(newYAnchor);
+                    
+                }
+                
+            }*/
         }
     };
     
-    public static Delta getDelta(){
+      public static Delta getDelta(){
         return dragDelta;
     }
-    EventHandler<MouseEvent> MousePressedE = new EventHandler<MouseEvent>() {
+      EventHandler<MouseEvent> MousePressedE = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
+            end.setCursor(Cursor.MOVE);
 
-          dragDelta.x = end.getCenterX() - t.getX();
-          dragDelta.y = end.getCenterY() - t.getY();
+            dragDelta.x = end.getCenterX() - t.getX();
+            dragDelta.y = end.getCenterY() - t.getY();
 
         }
       };
-        EventHandler<MouseEvent> MouseDraggedE = new EventHandler<MouseEvent>() {
+      EventHandler<MouseEvent> MouseDraggedE = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
+            
             newX = t.getX() + dragDelta.x;
-            end.etiqueta.setLayoutX(newX);
+            end.getEtiqueta().setLayoutX(newX);
             end.setCenterX(newX);
             
             newY = t.getY() + dragDelta.y;
-            end.etiqueta.setLayoutY(newY);
+            end.getEtiqueta().setLayoutY(newY);
             end.setCenterY(newY);
-
+            colisiónS();
             }
         };
+
         
-        
+    
+    public void colisiónS(){
+        ListLinked<Imagen> circuito = Facade.getCircuito();
+          
+          for (int c = 0; c < circuito.getSize(); c++){
+              Imagen imagen = circuito.getValor(c);
+
+              Anchor fin = imagen.getEnd();
+              for(int i = 0; i < imagen.getEntradas().getSize(); i++){
+                  
+                  Entrada entrada = imagen.getEntrada(i);
+                  if (fin == this.end){ 
+                      continue;
+                        }
+                  if (fin.getCenterX() == this.end.getCenterX() && fin.getCenterY() == this.end.getCenterY()){
+                      //Setear coordenadas al mas cercano
+                      System.out.println("Error: no se pueden conectar dos salidas");
+                      }
+                    else{
+                      if(entrada.getEndE().getCenterX() == this.end.getCenterX() && entrada.getEndE().getCenterY() == this.end.getCenterY()){
+                         //Setear coordenadas al mas cercano
+                         entrada.setValor(this.salida);
+                         System.out.println("choqué");
+                         entradas.hasChanged();
+                         entradas.notifyObservers(entrada.getValor());
+                         System.out.println(entrada.getValor());
+                         OperarSalida();
+                         System.out.println(salida);
+                         entradas.hasChanged();
+                         entradas.notifyObservers(entrada.getValor());
+                         //System.out.println(entrada.getValor());
+                    }
+                 }
+              }
+         }
+    } 
+    
     private void crearCompuerta(String ruta){
         switch (ruta) {
             case "AND.png":
@@ -175,5 +238,12 @@ class Imagen extends ImageView{
     
     public Valores getSalida(){
         return salida;
+    }
+    
+    public void OperarSalida(){
+        //if toda entrada != null && toda entrada != Default
+        salida = compuerta.operación(entradas);
+        //notificar observador de la salida
+        //notificar compuertas para setear esa salida a las entradas que estén en la misma posición
     }
   }
