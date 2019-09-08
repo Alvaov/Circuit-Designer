@@ -37,9 +37,7 @@ import javafx.stage.Stage;
 
 public class ControllerCircuito implements Initializable{
     
-    double orgSceneX, orgSceneY, orgTranslateY, orgTranslateX;
-    ListLinked<Operadores> circuito;
-    static ListLinked<Entrada> entradas;
+    static ListLinked<Imagen> circuito = new ListLinked();
     
     @FXML
     private Button EncapsularButton;
@@ -70,8 +68,6 @@ public class ControllerCircuito implements Initializable{
         ORimage.setOnMouseClicked(crearOr);
         XORimage.setOnMouseClicked(crearXor);
         NANDimage.setOnMouseClicked(crearNegaciones);
-        entradas = new ListLinked<>();
-
         
     }
     

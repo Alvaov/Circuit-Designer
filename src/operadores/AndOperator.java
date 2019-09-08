@@ -1,5 +1,6 @@
 package operadores;
 
+import circuitdesigner.Entrada;
 import listlinked.ListLinked;
 
 /*
@@ -16,23 +17,23 @@ public class AndOperator extends Operadores{
     
     
 
-    public AndOperator(int cantidadDeEntradas) {
-        super(cantidadDeEntradas);
+    public AndOperator(ListLinked<Entrada> entradas) {
+        super(entradas);
         
     }
     
     @Override
-    public Boolean operación(ListLinked entradas) {
+    public Valores operación(ListLinked<Entrada> entradas) {
         int contador = 0;
         while (contador < entradas.getSize()){
-            if ( (Boolean) entradas.getValor(contador) == true){
+            if (entradas.getValor(contador).valor == Valores.True){
                 contador++;
             } 
             else{
-                return false;
+                return Valores.False;
             }
         }
-        return true;
+        return Valores.True;
     }
 
 }

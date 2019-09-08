@@ -5,6 +5,7 @@
  */
 package operadores;
 
+import circuitdesigner.Entrada;
 import listlinked.ListLinked;
 
 /**
@@ -13,25 +14,25 @@ import listlinked.ListLinked;
  */
 public class XOROperator extends Operadores{
 
-    public XOROperator(int cantidadDeEntradas) {
-        super(cantidadDeEntradas);
+    public XOROperator(ListLinked<Entrada> entradas) {
+        super(entradas);
 
     }
 
     @Override
-    public Boolean operación(ListLinked entradas) {
+    public Valores operación(ListLinked<Entrada> entradas) {
         int contador = 0;
         int contUnos = 0;
         while (contador < entradas.getSize()){
-            if ( (Boolean) entradas.getValor(contador) == true && contUnos <=1){
+            if (entradas.getValor(contador).valor == Valores.True && contUnos <=1){
                 contador++;
                 contUnos++;
             } 
             else{
-                return false;
+                return Valores.False;
             }
         }
-        return true;
+        return Valores.True;
     }
 
 }

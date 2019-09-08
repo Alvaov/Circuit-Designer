@@ -14,8 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import listlinked.ListLinked;
-import operadores.Operadores;
-import static circuitdesigner.ControllerCircuito.entradas;
+import operadores.*;
 
 /**
  *
@@ -25,15 +24,14 @@ class Imagen extends ImageView{
     private Operadores compuerta;
     private ImageView imagenVista;
 
-  //  ListLinked<Entrada> entradas = Facade.getListaEntradas();
-    //int e = Facade.getCantidadDeEntradas();
-    //int s = Facade.getCantidadDeSalidas();
       
     private double orgSceneX, orgSceneY, newX, newY;
-    private int cantidadDeEntradas;
-    private Anchor start,end, startE;
+    Valores salida;
+    private Anchor start, startE;
+    Anchor end;
     private Line line;
     private static Delta dragDelta = new Delta();
+    public ListLinked<Entrada> entradas = new ListLinked<>();
 
     private DoubleProperty inicioY = new SimpleDoubleProperty (orgSceneY+23);
     private DoubleProperty inicioX = new SimpleDoubleProperty (orgSceneX+45);
@@ -42,10 +40,8 @@ class Imagen extends ImageView{
     private DoubleProperty startx = new SimpleDoubleProperty(orgSceneX+23);
     private DoubleProperty starty = new SimpleDoubleProperty(orgSceneY+22);
       
-      public Imagen(String ruta, Operadores compuerta, int cantidadDeEntradas){
-          this.compuerta = compuerta;
-          this.cantidadDeEntradas = cantidadDeEntradas;
-          
+      public Imagen(String ruta, int cantidadDeEntradas){
+          salida = Valores.Default;
           Image imagen = new Image(ruta);
           imagenVista = new ImageView(imagen);
           imagenVista.setFitWidth(65.0);
@@ -68,11 +64,11 @@ class Imagen extends ImageView{
           for (int i = 0; i < cantidadDeEntradas; i++){
               Entrada entrada = new Entrada(imagenVista,startx,starty,Facade.e);
               entrada.endE.setCenterY(y);
-              entradas.añadirFinal(entrada);      
+              entradas.añadirFinal(entrada);   
               Facade.e++;
               y += 7;
           }
-          System.out.println(entradas.getSize());
+          crearCompuerta(ruta);
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(imagenVista,end,start,line);
           
       }
@@ -100,10 +96,8 @@ class Imagen extends ImageView{
             imagenVista.setY(newY);
             start.setCenterY(newY+23);
             
-            for (int i = 0; i <= cantidadDeEntradas; i++){
-                startE.setCenterY(newY+22);
-                startE.setCenterX(newX+23);
-            }
+            startE.setCenterY(newY+22);
+            startE.setCenterX(newX+23);
         }
     };
     
@@ -130,4 +124,38 @@ class Imagen extends ImageView{
 
             }
         };
+        
+        
+    private void crearCompuerta(String ruta){
+        switch (ruta) {
+            case "AND.png":
+                AndOperator and = new AndOperator(entradas);
+                compuerta = and;
+                break;
+            case "OR.png":
+                OrOperator or = new OrOperator(entradas);
+                compuerta = or;
+                break;
+            case "XOR.png":
+                XOROperator xor = new XOROperator(entradas);
+                compuerta = xor;
+                break;
+            case "XNOR.png":
+                NegaciónOperador xnor = new NegaciónOperador(entradas,3);
+                compuerta = xnor;
+                break;
+            case "NAND.png":
+                NegaciónOperador nand = new NegaciónOperador(entradas,1);
+                compuerta = nand;
+                break;
+            case "NOR.png":
+                NegaciónOperador nor = new NegaciónOperador(entradas,2);
+                compuerta = nor;
+                break;
+            case "NOT.png":
+                NegaciónOperador not = new NegaciónOperador(entradas,4);
+                compuerta = not;
+                break;
+        }
+    }
   }

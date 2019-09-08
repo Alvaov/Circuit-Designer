@@ -25,8 +25,13 @@ public class Facade {
     static int e = 0;
     static int s = 0;
     public Facade(String ruta,int cantidadDeEntradas){
-        ImageView imagen = new Imagen(ruta,new AndOperator(cantidadDeEntradas),cantidadDeEntradas);
-
+        Imagen imagen = new Imagen(ruta,cantidadDeEntradas);
+        
+        ControllerCircuito.circuito.añadirFinal(imagen);
+       // System.out.println(ControllerCircuito.circuito.getSize());
+        for (int i = 0; i < ControllerCircuito.circuito.getSize(); i++){
+            System.out.println(ControllerCircuito.circuito.getValor(i).entradas.getSize());
+        }
     }
 
     public static int getCantidadDeEntradas(){
@@ -35,7 +40,6 @@ public class Facade {
     public static int getCantidadDeSalidas(){
         return s;
     }
-    
     
 }
     

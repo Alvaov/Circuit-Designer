@@ -5,7 +5,6 @@
  */
 package circuitdesigner;
 
-import static circuitdesigner.ControllerCircuito.entradas;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
@@ -20,12 +19,12 @@ import listlinked.ListLinked;
  *
  * @author allva
  */
-class Entrada{
+public class Entrada{
       
       Anchor endE;
       ImageView imagenVista;
       Line lineE;
-      Valores valor;
+      public Valores valor;
       DoubleProperty starty, startx;
       Delta dragDelta = Imagen.getDelta();
       Double newX,newY;
@@ -42,20 +41,35 @@ class Entrada{
           endE.setOnMousePressed(MousePressed);
           endE.setOnMouseDragged(MouseDragged);
 
+
       }
 
       public Valores getEntrada(){
           return valor;
       }
       public void colisión(){
-                //System.out.println(entradas.getValor(0));
-                for(int i = 0; i < entradas.getSize(); i++){
-                    if (entradas.getValor(i).endE == this.endE){
-                        continue;
-                    }
-                    else{
-                        if(entradas.getValor(i).endE.getCenterX() == this.endE.getCenterX() && entradas.getValor(i).endE.getCenterY() == this.endE.getCenterY()){
-                            System.out.println("choqué");
+                for (int c = 0; c < ControllerCircuito.circuito.getSize(); c++){
+                    
+                    for(int i = 0; i < ControllerCircuito.circuito.getValor(c).entradas.getSize(); i++){
+                        
+                        if (ControllerCircuito.circuito.getValor(c).entradas.getValor(i).endE == this.endE){
+                            continue;
+                        }
+                        if (ControllerCircuito.circuito.getValor(c).end.getCenterX() == this.endE.getCenterX() &&
+                            ControllerCircuito.circuito.getValor(c).end.getCenterY() == this.endE.getCenterY()){
+                            
+                            
+                            System.out.println("entrada-salida");
+                            //ControllerCircuito.circuito.getValor(c).end.setCenterX(this.endE.getCenterX());
+                            //ControllerCircuito.circuito.getValor(c).end.setCenterY(this.endE.getCenterY());
+                            valor = ControllerCircuito.circuito.getValor(c).salida;
+                        }
+                        else{
+                            if(ControllerCircuito.circuito.getValor(c).entradas.getValor(i).endE.getCenterX() == this.endE.getCenterX()
+                            && ControllerCircuito.circuito.getValor(c).entradas.getValor(i).endE.getCenterY() == this.endE.getCenterY()){
+
+                                System.out.println("choqué");
+                            }
                         }
                     }
                 }

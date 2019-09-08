@@ -6,6 +6,7 @@
 package operadores;
 
 import listlinked.ListLinked;
+import circuitdesigner.Entrada;
 
 /**
  *
@@ -15,8 +16,7 @@ public abstract class Operadores {
     
 
     private int cantidadDeEntradas;
-    protected Boolean salida;
-    protected ListLinked<Entradas> entradas;
+    protected ListLinked<Entrada> entradas;
 
 
     /**
@@ -26,59 +26,12 @@ public abstract class Operadores {
      * parámetro.
      * @param cantidadDeEntradas
      */
-    public Operadores(int cantidadDeEntradas){
-        this.cantidadDeEntradas = cantidadDeEntradas;
-        this.entradas = new ListLinked<>();
+    public Operadores(ListLinked<Entrada> entradas){
+        this.entradas = entradas;
        // crearEntradas(cantidadDeEntradas);
  
         
 
-    }
-    
-    /**
-     * @see Recibe la cantidad de entradas del operador y
-     * crea la cantidad correspondiente con valor nulo, añade las entradas
-     * a una lista enlazada.
-     * @param cantidadDeEntradas 
-     */
-    /*public void crearEntradas(int cantidadDeEntradas){
-        int contador = 0;
-        
-        while(contador < cantidadDeEntradas){
-            Entradas entrada = new Entradas();
-            entradas.añadirFinal(entrada);
-            contador++;
-        }
-        
-    }*/
-    
-    /**
-     * @see Es un getter de la variable salida de cada compuerta. Creada desde el 
-     * padre de los operadores lógicos. Retorna el valor booleano de la salida
-     * @return salida
-     */
-    public Boolean getSalida(){
-        return salida;
-    }
-    
-    /**
-     *
-     * @param entrada
-     * @param valor
-     */
-    public void setEntrada(int entrada,Boolean valor){
-
-        Entradas entradaACambiar = (Entradas) entradas.buscarElemento(entrada);
-        entradaACambiar.setValue(valor);
-    }
-    
-    public Entradas getEntrada(int entrada){
-        Entradas entradaBuscada = (Entradas) entradas.buscarElemento(entrada);
-        return entradaBuscada;
-    }
-    
-  /*  public void agregasEntradas(int entrada){
-        crearEntradas(entrada);
     }
 
     /**
@@ -86,9 +39,9 @@ public abstract class Operadores {
      * según corresponda al tipo de compuerta. Método abstracto que se define en cada
      * operador concreto.
      * @param entradas
-     * @return valor booleano de la operación.
+     * @return valor de la operación.
      */
-    public abstract Boolean operación(ListLinked entradas);
+    public abstract Valores operación(ListLinked<Entrada> entradas);
     
     
 }

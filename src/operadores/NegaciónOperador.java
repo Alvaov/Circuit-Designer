@@ -5,6 +5,7 @@
  */
 package operadores;
 
+import circuitdesigner.Entrada;
 import listlinked.ListLinked;
 
 /**
@@ -15,44 +16,42 @@ public class NegaciónOperador extends Operadores{
     
     Operadores operador;
 
-    public NegaciónOperador(int cantidadDeEntradas,int tipo) {
-        super(cantidadDeEntradas);
+    public NegaciónOperador(ListLinked<Entrada> entradas,int tipo) {
+        super(entradas);
         
         switch (tipo){
             case 1:
-                operador = new AndOperator(cantidadDeEntradas);
+                operador = new AndOperator(entradas);
                 break;
             case 2:
-                operador = new OrOperator(cantidadDeEntradas);
+                operador = new OrOperator(entradas);
                 break;
             case 3:
-                operador = new XOROperator(cantidadDeEntradas);
+                operador = new XOROperator(entradas);
                 break;
             case 4:
-                Entradas entrada = new Entradas();
-                entradas.añadirFinal(entrada);
-                //operacionNot();
+                operacionNot(entradas);
                 
         }
         
     }
 
     @Override
-    public Boolean operación(ListLinked entradas) {
-        salida = operador.operación(entradas);
-         if (salida == false){
-                return true;
+    public Valores operación(ListLinked<Entrada> entradas) {
+        Valores salida = operador.operación(entradas);
+         if (salida == Valores.False){
+                return Valores.True;
             }
             else{
-                return false;
+                return Valores.False;
             }
     }
-    public Boolean operacionNot(){
+    public Valores operacionNot(ListLinked<Entrada> entradas){
         
-        if (entradas.getValor(0).getValue()== false){
-            return true;
+        if (entradas.getValor(0).valor == Valores.False){
+            return Valores.True;
         }else{
-            return false;
+            return Valores.False;
         }
     }
 }
