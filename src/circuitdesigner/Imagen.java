@@ -244,7 +244,7 @@ class Imagen extends Observable{
         //if toda entrada != null && toda entrada != Default
         salida = compuerta.operación(entradas);
         end.setValor(salida);
-        //notificar observador de la salida
+
         //notificar compuertas para setear esa salida a las entradas que estén en la misma posición
         ListLinked<Imagen> circuito = Facade.getCircuito();
         circuito.hasChanged();

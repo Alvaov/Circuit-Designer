@@ -37,7 +37,6 @@ public class Observador implements Observer{
                   Entrada entrada = imagen.getEntrada(i);
 
                       if(entrada.getEndE().getCenterX() == salida.getCenterX() && entrada.getEndE().getCenterY() == salida.getCenterY()){
-                         //Setear coordenadas al mas cercano
                          entrada.setValor(salida.getValor());
 
                          imagen.getEntradas().hasChanged();
@@ -58,7 +57,7 @@ public class Observador implements Observer{
                 return;
             }
         }
-        
+        //OperarSalida();
     }
     
     
