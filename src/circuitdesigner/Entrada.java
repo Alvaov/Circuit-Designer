@@ -34,7 +34,7 @@ public class Entrada{
           valor = null;
           DoubleProperty endy = new SimpleDoubleProperty(0);
           DoubleProperty endx = new SimpleDoubleProperty(0);
-          endE      = new Anchor(Color.TOMATO,    endx,   endy,"i<"+ i +">");
+          endE      = new Anchor(Color.TOMATO,    endx,   endy,"i<"+ i +">",valor);
           lineE     = new BoundLine(startx, starty, endx, endy);
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(endE,lineE);   
           endE.setOnMousePressed(MousePressed);
@@ -44,11 +44,11 @@ public class Entrada{
       }
 
       public Valores getValor(){
-          return valor;
+          return endE.getValor();
       }
       
       public void setValor(Valores valorNuevo){
-          valor = valorNuevo;
+          endE.setValor(valorNuevo);
       }
       
       public Anchor colisiónE(){

@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import listlinked.ListLinked;
+import operadores.Valores;
 
 /**
  *
@@ -21,11 +22,13 @@ class Anchor extends Circle {
     private Delta dragDelta = Imagen.getDelta();
     private Double newX, newY;
     private Label etiqueta;
+    private Valores valor;
     // ListLinked<Entrada> entradas = Facade.entradas;
     
-    Anchor(Color color, DoubleProperty x, DoubleProperty y, String etiqueta) {
+    Anchor(Color color, DoubleProperty x, DoubleProperty y, String etiqueta, Valores valor) {
       super(x.get(), y.get(), 3);
       this.etiqueta = new Label(etiqueta);
+      this.valor = valor;
       x.bind(centerXProperty());
       y.bind(centerYProperty());
       this.etiqueta.setLayoutX(x.get());
@@ -35,6 +38,12 @@ class Anchor extends Circle {
     
     public Label getEtiqueta(){
         return etiqueta;
+    }
+    public Valores getValor(){
+        return valor;
+    }
+    public void setValor(Valores valor){
+        this.valor = valor;
     }
 
 }

@@ -33,7 +33,6 @@ public class Facade extends Observable{
         Imagen imagen = new Imagen(ruta,cantidadDeEntradas);
         circuito.añadirFinal(imagen);
         circuito.addObserver(observerCircuito);
-        //ControllerCircuito.getCircuito().añadirFinal(imagen);
     }
 
     public int getCantidadDeEntradas(){

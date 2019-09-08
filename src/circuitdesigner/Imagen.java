@@ -61,13 +61,13 @@ class Imagen extends Observable{
           
           Observador observador = new Observador();
 
-          end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">");
+          end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">",salida);
           Facade.s++;
           end.setOnMousePressed(MousePressedE);
           end.setOnMouseDragged(MouseDraggedE);
-          start    = new Anchor(Color.PALEGREEN, inicioX, inicioY,"");
+          start    = new Anchor(Color.PALEGREEN, inicioX, inicioY,"",null);
           line     = new BoundLine(inicioX,inicioY, endX, endY);
-          startE   = new Anchor(Color.PALEGREEN, startx, starty,"");
+          startE   = new Anchor(Color.PALEGREEN, startx, starty,"",null);
           
           
           y = 0;
@@ -243,7 +243,11 @@ class Imagen extends Observable{
     public void OperarSalida(){
         //if toda entrada != null && toda entrada != Default
         salida = compuerta.operación(entradas);
+        end.setValor(salida);
         //notificar observador de la salida
         //notificar compuertas para setear esa salida a las entradas que estén en la misma posición
+        ListLinked<Imagen> circuito = Facade.getCircuito();
+        circuito.hasChanged();
+        circuito.notifyObservers(end);
     }
   }
