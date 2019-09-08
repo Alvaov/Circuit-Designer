@@ -21,14 +21,13 @@ import listlinked.ListLinked;
  */
 public class Entrada{
       
-      Anchor endE;
-      ImageView imagenVista;
-      Line lineE;
-      public Valores valor;
-      DoubleProperty starty, startx;
-      Delta dragDelta = Imagen.getDelta();
-      Double newX,newY;
-      //ListLinked<Entrada> entradas = Facade.entradas;
+      private Anchor endE;
+      private ImageView imagenVista;
+      private Line lineE;
+      private Valores valor;
+      private DoubleProperty starty, startx;
+      private Delta dragDelta = Imagen.getDelta();
+      private Double newX,newY;
       
       public Entrada(ImageView imagenVista, DoubleProperty startx, DoubleProperty starty,int i){
           this.imagenVista = imagenVista;
@@ -48,31 +47,36 @@ public class Entrada{
           return valor;
       }
       public void colisión(){
-                for (int c = 0; c < ControllerCircuito.circuito.getSize(); c++){
-                    
-                    for(int i = 0; i < ControllerCircuito.circuito.getValor(c).entradas.getSize(); i++){
-                        
-                        if (ControllerCircuito.circuito.getValor(c).entradas.getValor(i).endE == this.endE){
-                            continue;
-                        }
-                        if (ControllerCircuito.circuito.getValor(c).end.getCenterX() == this.endE.getCenterX() &&
-                            ControllerCircuito.circuito.getValor(c).end.getCenterY() == this.endE.getCenterY()){
-                            
-                            
-                            System.out.println("entrada-salida");
-                            //ControllerCircuito.circuito.getValor(c).end.setCenterX(this.endE.getCenterX());
-                            //ControllerCircuito.circuito.getValor(c).end.setCenterY(this.endE.getCenterY());
-                            valor = ControllerCircuito.circuito.getValor(c).salida;
-                        }
-                        else{
-                            if(ControllerCircuito.circuito.getValor(c).entradas.getValor(i).endE.getCenterX() == this.endE.getCenterX()
-                            && ControllerCircuito.circuito.getValor(c).entradas.getValor(i).endE.getCenterY() == this.endE.getCenterY()){
+          ListLinked<Imagen> circuito = ControllerCircuito.getCircuito();
+          
+          for (int c = 0; c < circuito.getSize(); c++){
+              Imagen imagen = circuito.getValor(c);
 
-                                System.out.println("choqué");
-                            }
+              Anchor fin = imagen.getEnd();
+              //Entrada entrada = imagen.getEntrada(i);
+              for(int i = 0; i < imagen.getEntradas().getSize(); i++){
+                  
+                  Entrada entrada = imagen.getEntrada(i);
+                  if (entrada.endE == this.endE){
+                      
+                      continue;
                         }
-                    }
-                }
+                  if (fin.getCenterX() == this.endE.getCenterX() && fin.getCenterY() == this.endE.getCenterY()){
+                            
+                            
+                      System.out.println("entrada-salida");
+                      //ControllerCircuito.circuito.getValor(c).end.setCenterX(this.endE.getCenterX());
+                      //ControllerCircuito.circuito.getValor(c).end.setCenterY(this.endE.getCenterY());
+                      valor = imagen.getSalida();
+                      }
+                    else{
+                      if(entrada.endE.getCenterX() == this.endE.getCenterX() && entrada.endE.getCenterY() == this.endE.getCenterY()){
+
+                         System.out.println("choqué");
+                         }
+                       }
+                  }
+            }
       }
 
       
@@ -84,7 +88,7 @@ public class Entrada{
 
         }
       };
-        EventHandler<MouseEvent> MouseDragged = new EventHandler<MouseEvent>() {
+      EventHandler<MouseEvent> MouseDragged = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
             newX = t.getX() + dragDelta.x;
             endE.etiqueta.setLayoutX(newX);
@@ -96,5 +100,9 @@ public class Entrada{
             colisión();
             }
         };
+      
+      public Anchor getEndE(){
+          return endE;
+      }
     
 }

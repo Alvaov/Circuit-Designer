@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 
 public class ControllerCircuito implements Initializable{
     
-    static ListLinked<Imagen> circuito = new ListLinked();
+    private static ListLinked<Imagen> circuito = new ListLinked();
     
     @FXML
     private Button EncapsularButton;
@@ -174,14 +174,16 @@ public class ControllerCircuito implements Initializable{
         
     }
     
+    public void CrearXor() throws FileNotFoundException{
+
+    }
+    
     public Group getRoot(){
         return root;
     }
     
-    public void CrearXor() throws FileNotFoundException{
-
-    }
-
-    
+    public static ListLinked getCircuito(){
+        return circuito;
+    }  
     
 }

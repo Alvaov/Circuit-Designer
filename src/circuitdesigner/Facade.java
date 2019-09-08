@@ -27,11 +27,7 @@ public class Facade {
     public Facade(String ruta,int cantidadDeEntradas){
         Imagen imagen = new Imagen(ruta,cantidadDeEntradas);
         
-        ControllerCircuito.circuito.añadirFinal(imagen);
-       // System.out.println(ControllerCircuito.circuito.getSize());
-        for (int i = 0; i < ControllerCircuito.circuito.getSize(); i++){
-            System.out.println(ControllerCircuito.circuito.getValor(i).entradas.getSize());
-        }
+        ControllerCircuito.getCircuito().añadirFinal(imagen);
     }
 
     public static int getCantidadDeEntradas(){

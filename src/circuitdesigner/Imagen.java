@@ -26,12 +26,12 @@ class Imagen extends ImageView{
 
       
     private double orgSceneX, orgSceneY, newX, newY;
-    Valores salida;
+    private Valores salida;
     private Anchor start, startE;
-    Anchor end;
+    private Anchor end;
     private Line line;
     private static Delta dragDelta = new Delta();
-    public ListLinked<Entrada> entradas = new ListLinked<>();
+    private ListLinked<Entrada> entradas = new ListLinked<>();
 
     private DoubleProperty inicioY = new SimpleDoubleProperty (orgSceneY+23);
     private DoubleProperty inicioX = new SimpleDoubleProperty (orgSceneX+45);
@@ -39,8 +39,9 @@ class Imagen extends ImageView{
     private DoubleProperty endY   = new SimpleDoubleProperty(orgSceneY+23);
     private DoubleProperty startx = new SimpleDoubleProperty(orgSceneX+23);
     private DoubleProperty starty = new SimpleDoubleProperty(orgSceneY+22);
-      
-      public Imagen(String ruta, int cantidadDeEntradas){
+    private int y;  
+    
+    public Imagen(String ruta, int cantidadDeEntradas){
           salida = Valores.Default;
           Image imagen = new Image(ruta);
           imagenVista = new ImageView(imagen);
@@ -60,10 +61,10 @@ class Imagen extends ImageView{
           startE   = new Anchor(Color.PALEGREEN, startx, starty,"");
           
           
-          int y = 0;
+          y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
               Entrada entrada = new Entrada(imagenVista,startx,starty,Facade.e);
-              entrada.endE.setCenterY(y);
+              entrada.getEndE().setCenterY(y);
               entradas.añadirFinal(entrada);   
               Facade.e++;
               y += 7;
@@ -157,5 +158,22 @@ class Imagen extends ImageView{
                 compuerta = not;
                 break;
         }
+    }
+    
+    public Entrada getEntrada(int i){
+        Entrada entrada = entradas.buscarElemento(i);
+        return entrada;
+    }
+    
+    public Anchor getEnd(){
+        return end;
+    }
+    
+    public ListLinked getEntradas(){
+        return entradas;
+    }
+    
+    public Valores getSalida(){
+        return salida;
     }
   }

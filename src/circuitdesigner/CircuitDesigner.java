@@ -47,7 +47,7 @@ public class CircuitDesigner extends Application{
        primaryStage.show();
     }
     
-    static ControllerCircuito controlador;
+    private static ControllerCircuito controlador;
     
     /**
      * @see Función que crea el controlador a usarse a lo largo del programa. Utiliza un patrón
