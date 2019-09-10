@@ -13,6 +13,7 @@ import javafx.scene.shape.Line;
  * @author allva
  */
 class BoundLine extends Line {
+    
     BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
       startXProperty().bind(startX);
       startYProperty().bind(startY);
@@ -20,4 +21,5 @@ class BoundLine extends Line {
       endYProperty().bind(endY);
 
     }
+    
   }

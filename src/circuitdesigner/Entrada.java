@@ -17,6 +17,7 @@ import javafx.scene.shape.Line;
 import operadores.Valores;
 import listlinked.ListLinked;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseDragEvent;
 
 /**
  *
@@ -38,11 +39,13 @@ public class Entrada{
           DoubleProperty endx = new SimpleDoubleProperty(0);
           endE      = new Anchor(Color.TOMATO,    endx,   endy,"i<"+ i +">",valor);
           lineE     = new BoundLine(startx, starty, endx, endy);
-          CircuitDesigner.getControlador().getRoot().getChildren().addAll(endE,lineE);   
+          lineE.setStroke(colorLinea());
+          System.out.println(lineE.getFill());
+          CircuitDesigner.getControlador().getRoot().getChildren().addAll(endE,lineE);  
+          endE.setOnDragDetected(MouseDetected);
           endE.setOnMousePressed(MousePressed);
           endE.setOnMouseDragged(MouseDragged);
           endE.setOnMouseDragReleased(DragRelease);
-          endE.setOnMouseDragExited(DragRelease);
           //endE.setOnDragDetected(MousePressed);
           endE.setOnMouseClicked(cambiarValor);
       }
@@ -91,11 +94,16 @@ public class Entrada{
           return null;
       }
 
-      
+      EventHandler<MouseEvent> MouseDetected = new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent t) {
+            endE.startFullDrag();
+            System.out.println("hey");
+        }
+      };
       EventHandler<MouseEvent> MousePressed = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
             //Dragboard db = endE.startDragAndDrop(TransferMode.COPY);
-
+            //endE.startFullDrag();
             dragDelta.x = endE.getCenterX() - t.getX();
             dragDelta.y = endE.getCenterY() - t.getY();
 
@@ -114,12 +122,14 @@ public class Entrada{
             }
         };
       
-      EventHandler<MouseEvent> DragRelease = new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent t) {
+      EventHandler<MouseDragEvent> DragRelease = new EventHandler<MouseDragEvent>() {
 
-          System.out.println("hola");
-
-        }
+          @Override
+          public void handle(MouseDragEvent event) {
+            if(event.getGestureSource() != event.getTarget()){
+                System.out.println("algo");
+            };
+          }
       };
       EventHandler<MouseEvent> cambiarValor = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
@@ -146,5 +156,10 @@ public class Entrada{
       public Anchor getEndE(){
           return endE;
       }
-    
+    public Color colorLinea(){
+        double red = Math.random();
+        double green = Math.random();
+        double blue = Math.random();
+        return Color.color(red, green, blue);
+    }
 }
