@@ -5,15 +5,18 @@
  */
 package circuitdesigner;
 
+import java.util.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import operadores.Valores;
 import listlinked.ListLinked;
+import javafx.scene.input.Dragboard;
 
 /**
  *
@@ -25,10 +28,8 @@ public class Entrada{
       private ImageView imagenVista;
       private Line lineE;
       private Valores valor;
-      //private DoubleProperty starty, startx;
       private Delta dragDelta = Imagen.getDelta();
       private Double newX,newY;
-      
       public Entrada(ImageView imagenVista, DoubleProperty startx, DoubleProperty starty,int i){
           this.imagenVista = imagenVista;
           valor = null;
@@ -39,8 +40,9 @@ public class Entrada{
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(endE,lineE);   
           endE.setOnMousePressed(MousePressed);
           endE.setOnMouseDragged(MouseDragged);
-
-
+          endE.setOnMouseDragReleased(DragRelease);
+          endE.setOnMouseDragExited(DragRelease);
+          //endE.setOnDragDetected(MousePressed);
       }
 
       public Valores getValor(){
@@ -62,18 +64,27 @@ public class Entrada{
                   if (entrada.endE == this.endE){                     
                       continue;
                         }
-                  if (fin.getCenterX() == this.endE.getCenterX() && fin.getCenterY() == this.endE.getCenterY()){
-                      fin.setCenterY(this.endE.getCenterY());
-                      valor = imagen.getSalida();
-                      return fin;
-                      }
-                    else{
-                      if(entrada.endE.getCenterX() == this.endE.getCenterX() && entrada.endE.getCenterY() == this.endE.getCenterY()){
-                         System.out.println("choqué");
-                         return entrada.endE;
-                         }
-                       }
+                  if (fin.getCenterX()+4 >= this.endE.getCenterX()&& fin.getCenterX()-4 <= this.endE.getCenterX()){
+                      if(fin.getCenterY()+4 >= this.endE.getCenterY() && fin.getCenterY()-4 <= this.endE.getCenterY()){
+                          
+                          this.endE.setCenterX(fin.getCenterX());
+                          this.endE.setCenterY(fin.getCenterY());
+                          //valor = imagen.getSalida();
+                          return fin;
+                          }
                   }
+                    else{
+                      if(entrada.endE.getCenterX()+4 >= this.endE.getCenterX() && entrada.endE.getCenterX()-4 <= this.endE.getCenterX()){
+                          if(entrada.endE.getCenterY()+4 >= this.endE.getCenterY() && entrada.endE.getCenterY()-4 <= this.endE.getCenterY()){
+                              this.endE.setCenterX(entrada.endE.getCenterX());
+                              this.endE.setCenterY(entrada.endE.getCenterY());
+                          }
+                              
+                         //System.out.println("choqué");
+                         return entrada.endE;
+                      }
+                   }
+                }
             }
           return null;
       }
@@ -81,9 +92,10 @@ public class Entrada{
       
       EventHandler<MouseEvent> MousePressed = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
+            //Dragboard db = endE.startDragAndDrop(TransferMode.COPY);
 
-          dragDelta.x = endE.getCenterX() - t.getX();
-          dragDelta.y = endE.getCenterY() - t.getY();
+            dragDelta.x = endE.getCenterX() - t.getX();
+            dragDelta.y = endE.getCenterY() - t.getY();
 
         }
       };
@@ -97,13 +109,16 @@ public class Entrada{
             endE.getEtiqueta().setLayoutY(newY);
             endE.setCenterY(newY);
             colisiónE();
-
-            if (colisiónE() != null){
-                colisiónE().setCenterX(newX);
-                colisiónE().setCenterY(newY);
-            }
             }
         };
+      
+      EventHandler<MouseEvent> DragRelease = new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent t) {
+
+          System.out.println("hola");
+
+        }
+      };
 
       
       public Anchor getEndE(){

@@ -21,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
-public class Facade extends Observable{
+public class Facade{
     
 
     public static int e = 0;

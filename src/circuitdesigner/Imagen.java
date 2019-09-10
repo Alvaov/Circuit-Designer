@@ -27,7 +27,7 @@ import javafx.scene.Cursor;
  *
  * @author allva
  */
-class Imagen extends Observable{
+class Imagen{
     private Operadores compuerta;
     private ImageView imagenVista;
 
@@ -58,8 +58,6 @@ class Imagen extends Observable{
           imagenVista.setY(orgSceneY);
           imagenVista.setOnMousePressed(MousePressed);
           imagenVista.setOnMouseDragged(MouseDragged);
-          
-          Observador observador = new Observador();
 
           end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">",salida);
           Facade.s++;
@@ -78,7 +76,6 @@ class Imagen extends Observable{
               Facade.e++;
               y += 7;
           }
-          entradas.addObserver(observador);
          
           crearCompuerta(ruta);
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(imagenVista,end,start,line);
@@ -176,12 +173,12 @@ class Imagen extends Observable{
                          //Setear coordenadas al mas cercano
                          entrada.setValor(this.salida);
                          System.out.println("choqué");
-                         entradas.hasChanged();
                          entradas.notifyObservers(entrada.getValor());
-                         System.out.println(entrada.getValor());
+                         System.out.println(entradas.hasChanged());
+                         //System.out.println(entrada.getValor());
                          OperarSalida();
-                         System.out.println(salida);
-                         entradas.hasChanged();
+                         //System.out.println(salida);
+                         System.out.println(entradas.hasChanged());
                          entradas.notifyObservers(entrada.getValor());
                          //System.out.println(entrada.getValor());
                     }
@@ -244,10 +241,5 @@ class Imagen extends Observable{
         //if toda entrada != null && toda entrada != Default
         salida = compuerta.operación(entradas);
         end.setValor(salida);
-
-        //notificar compuertas para setear esa salida a las entradas que estén en la misma posición
-        ListLinked<Imagen> circuito = Facade.getCircuito();
-        circuito.hasChanged();
-        circuito.notifyObservers(end);
     }
   }

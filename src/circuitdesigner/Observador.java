@@ -42,9 +42,10 @@ public class Observador implements Observer{
                          imagen.getEntradas().hasChanged();
                          imagen.getEntradas().notifyObservers(entrada);
                          System.out.println(entrada.getValor());
-                         //OperarSalida();
+                         
                  }
               }
+              
          }
     }
     
