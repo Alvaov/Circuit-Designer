@@ -30,6 +30,7 @@ public class Entrada{
       private Valores valor;
       private Delta dragDelta = Imagen.getDelta();
       private Double newX,newY;
+      private Imagen compuertaConectada;
       public Entrada(ImageView imagenVista, DoubleProperty startx, DoubleProperty starty,int i){
           this.imagenVista = imagenVista;
           valor = null;
@@ -43,6 +44,7 @@ public class Entrada{
           endE.setOnMouseDragReleased(DragRelease);
           endE.setOnMouseDragExited(DragRelease);
           //endE.setOnDragDetected(MousePressed);
+          endE.setOnMouseClicked(DragRelease);
       }
 
       public Valores getValor(){

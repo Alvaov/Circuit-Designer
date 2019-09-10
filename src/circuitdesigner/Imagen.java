@@ -164,23 +164,20 @@ class Imagen{
                   if (fin == this.end){ 
                       continue;
                         }
-                  if (fin.getCenterX() == this.end.getCenterX() && fin.getCenterY() == this.end.getCenterY()){
-                      //Setear coordenadas al mas cercano
+                  if (fin.getCenterX()+4 >= this.end.getCenterX()&& fin.getCenterX()-4 <= this.end.getCenterX()){
+                      if(fin.getCenterY()+4 >= this.end.getCenterY() && fin.getCenterY()-4 <= this.end.getCenterY()){
+
                       System.out.println("Error: no se pueden conectar dos salidas");
                       }
+                  }
                     else{
-                      if(entrada.getEndE().getCenterX() == this.end.getCenterX() && entrada.getEndE().getCenterY() == this.end.getCenterY()){
-                         //Setear coordenadas al mas cercano
-                         entrada.setValor(this.salida);
-                         System.out.println("choqué");
-                         entradas.notifyObservers(entrada.getValor());
-                         System.out.println(entradas.hasChanged());
-                         //System.out.println(entrada.getValor());
-                         OperarSalida();
-                         //System.out.println(salida);
-                         System.out.println(entradas.hasChanged());
-                         entradas.notifyObservers(entrada.getValor());
-                         //System.out.println(entrada.getValor());
+                      if (entrada.getEndE().getCenterX()+4 >= this.end.getCenterX()&& entrada.getEndE().getCenterX()-4 <= this.end.getCenterX()){
+                      if(entrada.getEndE().getCenterY()+4 >= this.end.getCenterY() && entrada.getEndE().getCenterY()-4 <= this.end.getCenterY()){
+
+                         this.end.setCenterX(entrada.getEndE().getCenterX());
+                         this.end.setCenterY(entrada.getEndE().getCenterY());
+
+                      }
                     }
                  }
               }
