@@ -44,7 +44,7 @@ public class Entrada{
           endE.setOnMouseDragReleased(DragRelease);
           endE.setOnMouseDragExited(DragRelease);
           //endE.setOnDragDetected(MousePressed);
-          endE.setOnMouseClicked(DragRelease);
+          endE.setOnMouseClicked(cambiarValor);
       }
 
       public Valores getValor(){
@@ -121,7 +121,27 @@ public class Entrada{
 
         }
       };
+      EventHandler<MouseEvent> cambiarValor = new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent t) {
 
+          if (t.getClickCount() == 2){
+              if (endE.getValor() == null){
+                  //tirar ventana con opciones
+                  //setear valor
+              }else{
+                  //Ya tiene un valor asignado por una salida;
+              }
+          }
+          if(t.isSecondaryButtonDown()){
+              //if(endE.getValor() != null){
+                  endE.setCenterY(endE.getCenterY()+15);
+                  endE.setValor(null);
+                  compuertaConectada = null;
+              //}
+          }
+
+        }
+      };
       
       public Anchor getEndE(){
           return endE;
