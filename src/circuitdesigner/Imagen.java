@@ -27,7 +27,7 @@ import javafx.scene.Cursor;
  *
  * @author allva
  */
-class Imagen{
+public class Imagen{
     private Operadores compuerta;
     private ImageView imagenVista;
 
@@ -176,6 +176,7 @@ class Imagen{
 
                          this.end.setCenterX(entrada.getEndE().getCenterX());
                          this.end.setCenterY(entrada.getEndE().getCenterY());
+                         
 
                       }
                     }
@@ -238,5 +239,19 @@ class Imagen{
         //if toda entrada != null && toda entrada != Default
         salida = compuerta.operación(entradas);
         end.setValor(salida);
+        
+        Facade.getCircuito().informar(end);
     }
+    
+    public void revisarEntradas(){
+        for(int i= 0; i<entradas.getSize(); i++){
+            if(entradas.getValor(i).getValor() != null && entradas.getValor(i).getValor() != Valores.Default){
+                continue;
+            }else{
+                return;
+            }
+        }
+        OperarSalida();
+    }
+    
   }

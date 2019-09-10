@@ -126,10 +126,15 @@ public class Entrada{
 
           @Override
           public void handle(MouseDragEvent event) {
-            if(event.getGestureSource() != event.getTarget()){
+              System.out.println(event.getGestureSource());
+              System.out.println(event.getSource());
+              System.out.println(event.getTarget());
+            if(event.getSource() != event.getTarget()){
                 System.out.println("algo");
-            };
-          }
+                }else{
+                System.out.println("otro algo");
+            }
+            }
       };
       EventHandler<MouseEvent> cambiarValor = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
@@ -145,8 +150,8 @@ public class Entrada{
           if(t.isSecondaryButtonDown()){
               //if(endE.getValor() != null){
                   endE.setCenterY(endE.getCenterY()+15);
-                  endE.setValor(null);
-                  compuertaConectada = null;
+                  //endE.setValor(null);
+                  //compuertaConectada = null;
               //}
           }
 
