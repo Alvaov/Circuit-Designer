@@ -34,6 +34,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -59,7 +60,7 @@ public class ControllerCircuito implements Initializable{
     @FXML
     private ImageView NOTimage;
     @FXML
-    private Group root;
+    private AnchorPane AnchorCircuito;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -68,6 +69,18 @@ public class ControllerCircuito implements Initializable{
         ORimage.setOnMouseClicked(crearOr);
         XORimage.setOnMouseClicked(crearXor);
         NANDimage.setOnMouseClicked(crearNegaciones);
+        AnchorCircuito.setOnMouseDragOver(event ->{
+            if (event.getGestureSource() instanceof CirculoEntrada){
+                ((CirculoEntrada) event.getGestureSource()).setCenterX(event.getX());
+                ((CirculoEntrada) event.getGestureSource()).setCenterY(event.getY());
+            } 
+            if (event.getGestureSource() instanceof CirculoSalida){
+                ((CirculoSalida) event.getGestureSource()).setCenterX(event.getX());
+                ((CirculoSalida) event.getGestureSource()).setCenterY(event.getY());
+            }else{
+                //System.out.println("varas");
+            }
+        });
         
     }
     
@@ -77,7 +90,7 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                crearVentana();
+                //crearVentana();
                 
                 CrearAnd("AND.png",2);
             } catch (Exception e) {
@@ -171,9 +184,9 @@ public class ControllerCircuito implements Initializable{
     public void CrearXor() throws FileNotFoundException{
 
     }
-    
-    public Group getRoot(){
-        return root;
+
+    public AnchorPane getAnchor(){
+        return AnchorCircuito;
     }
     public void crearVentana() throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));

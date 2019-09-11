@@ -38,7 +38,7 @@
          <children>
             <SplitPane dividerPositions="0.813655761024182" prefHeight="477.0" prefWidth="705.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="393.0">
+                <AnchorPane fx:id="AnchorCircuito" minHeight="0.0" minWidth="0.0" prefHeight="675.0" prefWidth="593.0">
                      <children>
                         <Button fx:id="EncapsularButton" layoutX="493.0" layoutY="447.0" mnemonicParsing="false" text="Encapsular" />
                         <Group fx:id="root" layoutX="276.0" layoutY="99.0" />

@@ -26,7 +26,7 @@ public class Observador implements Observer{
 
         
     }
-    public void conexión(Anchor salida){
+    public void conexión(Circulo salida){
         ListLinked<Imagen> circuito = Facade.getCircuito();
           
           for (int c = 0; c < circuito.getSize(); c++){

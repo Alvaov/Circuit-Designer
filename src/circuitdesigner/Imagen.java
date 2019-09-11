@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.input.MouseDragEvent;
 /**
  *
@@ -31,12 +32,12 @@ import javafx.scene.input.MouseDragEvent;
 class Imagen{
     private Operadores compuerta;
     private ImageView imagenVista;
-
+    private Group compuertaCompleta;
       
     private double orgSceneX, orgSceneY, newX, newY;
     private Valores salida;
-    private Anchor start, startE;
-    private Anchor end;
+    private Circulo start, startE;
+    private CirculoSalida end;
     private Line line;
     private static Delta dragDelta = new Delta();
     private ListLinked<Entrada> entradas = new ListLinked<>();
@@ -60,29 +61,34 @@ class Imagen{
           imagenVista.setOnMousePressed(MousePressed);
           imagenVista.setOnMouseDragged(MouseDragged);
 
-          end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">",salida);
+          end      = new CirculoSalida(endX,   endY,"o<"+Facade.s+">",salida);
           Facade.s++;
           end.setOnDragDetected(MouseDetected);
-          end.setOnMousePressed(MousePressedE);
-          end.setOnMouseDragged(MouseDraggedE);
-          end.setOnMouseDragReleased(DragRelease);
-          start    = new Anchor(Color.PALEGREEN, inicioX, inicioY,"",null);
+          end.setOnMouseDragReleased(event->{
+              if (event.getGestureSource() instanceof CirculoEntrada){
+                  System.out.println("hola");//Conecta entrada con una salida
+              }
+          });
+          start    = new Circulo( inicioX, inicioY,"",null);
           line     = new BoundLine(inicioX,inicioY, endX, endY);
-          startE   = new Anchor(Color.PALEGREEN, startx, starty,"",null);
+          startE   = new Circulo( startx, starty,"",null);
           
           
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
               Entrada entrada = new Entrada(imagenVista,startx,starty,Facade.e);
               entrada.getEndE().setCenterY(y);
-              entradas.añadirFinal(entrada);   
+              entradas.añadirFinal(entrada); 
+              compuertaCompleta.getChildren().addAll(entrada.getEndE(),entrada.getLinea());
+              System.out.println("entró");
               Facade.e++;
               y += 7;
           }
          
           crearCompuerta(ruta);
-          CircuitDesigner.getControlador().getRoot().getChildren().addAll(imagenVista,end,start,line);
-          
+          //compuertaCompleta.getChildren().addAll(imagenVista,end,start,line);
+          //CircuitDesigner.getControlador().getAnchor().getChildren().addAll(imagenVista,end,start,line);
+          //CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
       }
       EventHandler<MouseEvent>MouseDetected = new EventHandler<MouseEvent>(){
         @Override
@@ -117,19 +123,7 @@ class Imagen{
             
             startE.setCenterY(newY+22);
             startE.setCenterX(newX+23);
-           /* double newYAnchor = newY+7;
-            for(int i = 0; i < entradas.getSize(); i++){
-                Entrada entrada = entradas.getValor(i);
-                Anchor anchor = entrada.getEndE();
-                if (entrada.getValor() == null){
-                    anchor.setCenterX(newX);
-                    anchor.setCenterY(newYAnchor);
-                    anchor.getEtiqueta().setLayoutX(newX);
-                    anchor.getEtiqueta().setLayoutY(newYAnchor);
-                    
-                }
-                
-            }*/
+           
         }
     };
     
@@ -174,7 +168,7 @@ class Imagen{
           for (int c = 0; c < circuito.getSize(); c++){
               Imagen imagen = circuito.getValor(c);
 
-              Anchor fin = imagen.getEnd();
+              CirculoSalida fin = imagen.getEnd();
               for(int i = 0; i < imagen.getEntradas().getSize(); i++){
                   
                   Entrada entrada = imagen.getEntrada(i);
@@ -239,7 +233,7 @@ class Imagen{
         return entrada;
     }
     
-    public Anchor getEnd(){
+    public CirculoSalida getEnd(){
         return end;
     }
     

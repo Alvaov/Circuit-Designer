@@ -25,7 +25,7 @@ import javafx.scene.input.MouseDragEvent;
  */
 public class Entrada{
       
-      private Anchor endE;
+      private CirculoEntrada endE;
       private ImageView imagenVista;
       private Line lineE;
       private Valores valor;
@@ -37,16 +37,17 @@ public class Entrada{
           valor = null;
           DoubleProperty endy = new SimpleDoubleProperty(0);
           DoubleProperty endx = new SimpleDoubleProperty(0);
-          endE      = new Anchor(Color.TOMATO,    endx,   endy,"i<"+ i +">",valor);
+          endE      = new CirculoEntrada(endx,   endy,"i<"+ i +">",valor);
           lineE     = new BoundLine(startx, starty, endx, endy);
           lineE.setStroke(colorLinea());
-          System.out.println(lineE.getFill());
-          CircuitDesigner.getControlador().getRoot().getChildren().addAll(endE,lineE);  
+          //CircuitDesigner.getControlador().getAnchor().getChildren().addAll(endE,lineE);  
           endE.setOnDragDetected(MouseDetected);
-          endE.setOnMousePressed(MousePressed);
-          endE.setOnMouseDragged(MouseDragged);
-          endE.setOnMouseDragReleased(DragRelease);
-          endE.setOnMouseClicked(cambiarValor);
+          endE.setOnMouseDragReleased(event->{
+              if (event.getGestureSource() instanceof CirculoSalida){
+                  System.out.println("Conectar");
+              }
+          });
+          //endE.setOnMouseClicked(cambiarValor);
       }
 
       public Valores getValor(){
@@ -62,7 +63,7 @@ public class Entrada{
           
           for (int c = 0; c < circuito.getSize(); c++){
               Imagen imagen = circuito.getValor(c);
-              Anchor fin = imagen.getEnd();
+              CirculoSalida fin = imagen.getEnd();
               for(int i = 0; i < imagen.getEntradas().getSize(); i++){
                   Entrada entrada = imagen.getEntrada(i);
                   if (entrada.endE == this.endE){                     
@@ -93,38 +94,7 @@ public class Entrada{
             System.out.println("hey");
         }
       };
-      EventHandler<MouseEvent> MousePressed = new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent t) {
-            dragDelta.x = endE.getCenterX() - t.getX();
-            dragDelta.y = endE.getCenterY() - t.getY();
 
-        }
-      };
-      EventHandler<MouseEvent> MouseDragged = new EventHandler<MouseEvent>() {
-        @Override public void handle(MouseEvent t) {
-            newX = t.getX() + dragDelta.x;
-            endE.getEtiqueta().setLayoutX(newX);
-            endE.setCenterX(newX);
-            
-            newY = t.getY() + dragDelta.y;
-            endE.getEtiqueta().setLayoutY(newY);
-            endE.setCenterY(newY);
-            colisiónE();
-            }
-        };
-      
-      EventHandler<MouseDragEvent> DragRelease = new EventHandler<MouseDragEvent>() {
-
-          @Override
-          public void handle(MouseDragEvent event) {
-              System.out.println(event.getGestureSource());
-              System.out.println(event.getSource());
-              System.out.println(event.getTarget());
-            if(event.getGestureSource() == event.getSource()){
-                System.out.println("algo");
-            };
-          }
-      };
       EventHandler<MouseEvent> cambiarValor = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
 
@@ -147,8 +117,11 @@ public class Entrada{
         }
       };
       
-      public Anchor getEndE(){
+      public CirculoEntrada getEndE(){
           return endE;
+      }
+      public Line getLinea(){
+          return lineE;
       }
     public Color colorLinea(){
         double red = Math.random();

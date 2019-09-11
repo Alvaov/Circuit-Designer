@@ -18,14 +18,14 @@ import operadores.Valores;
  *
  * @author allva
  */
-class Anchor extends Circle { 
+class Circulo extends Circle { 
     private Delta dragDelta = Imagen.getDelta();
     private Double newX, newY;
     private Label etiqueta;
     private Valores valor;
     // ListLinked<Entrada> entradas = Facade.entradas;
     
-    Anchor(Color color, DoubleProperty x, DoubleProperty y, String etiqueta, Valores valor) {
+    Circulo(DoubleProperty x, DoubleProperty y, String etiqueta, Valores valor) {
       super(x.get(), y.get(), 3);
       this.etiqueta = new Label(etiqueta);
       this.valor = valor;
@@ -33,7 +33,7 @@ class Anchor extends Circle {
       y.bind(centerYProperty());
       this.etiqueta.setLayoutX(x.get());
       this.etiqueta.setLayoutY(y.get());
-      CircuitDesigner.getControlador().getRoot().getChildren().addAll(this.etiqueta);   
+      //CircuitDesigner.getControlador().getRoot().getChildren().addAll(this.etiqueta);   
     }
     
     public Label getEtiqueta(){
