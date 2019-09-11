@@ -6,10 +6,6 @@
 package listlinked;
 
 import java.util.Observable;
-import circuitdesigner.Anchor;
-import circuitdesigner.Entrada;
-import circuitdesigner.Facade;
-import circuitdesigner.Imagen;
 
 /**
  *
@@ -157,30 +153,4 @@ public class ListLinked<T> extends Observable{
     public int getSize(){
         return size;
     }
-    
-    public void informar(Anchor salidaAInformar){
-        ListLinked<Imagen> circuito = Facade.getCircuito();
-          
-          for (int c = 0; c < circuito.getSize(); c++){
-              Imagen imagen = circuito.getValor(c);
-
-              //Anchor fin = imagen.getEnd();
-              for(int i = 0; i < imagen.getEntradas().getSize(); i++){
-                  
-                  Entrada entrada = imagen.getEntrada(i);
-
-                      if (entrada.getEndE().getCenterX() == salidaAInformar.getCenterX()
-                          && entrada.getEndE().getCenterY() == salidaAInformar.getCenterY()){
-
-                         entrada.getEndE().setValor(salidaAInformar.getValor());
-                         
-
-                      
-                    }
-                 }
-              imagen.revisarEntradas();
-              }
-         }
-    }
-   
-
+}

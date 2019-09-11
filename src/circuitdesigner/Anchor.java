@@ -18,7 +18,7 @@ import operadores.Valores;
  *
  * @author allva
  */
-public class Anchor extends Circle { 
+class Anchor extends Circle { 
     private Delta dragDelta = Imagen.getDelta();
     private Double newX, newY;
     private Label etiqueta;

@@ -5,13 +5,10 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.Pane?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="282.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Spinner fx:id="crearEntradas" editable="true" layoutX="11.0" layoutY="5.0" prefHeight="33.0" prefWidth="260.0">
-         <cursor>
-            <Cursor fx:constant="TEXT" />
-         </cursor>
+
       </Spinner>
       <Button cancelButton="true" layoutX="120.0" layoutY="42.0" mnemonicParsing="false" text="Cancelar" />
       <Button layoutX="203.0" layoutY="42.0" mnemonicParsing="false" text="Aceptar" />

@@ -68,8 +68,8 @@ public class Entrada{
                   if (entrada.endE == this.endE){                     
                       continue;
                         }
-                  if (fin.getCenterX()+4 >= this.endE.getCenterX()&& fin.getCenterX()-4 <= this.endE.getCenterX()){
-                      if(fin.getCenterY()+4 >= this.endE.getCenterY() && fin.getCenterY()-4 <= this.endE.getCenterY()){
+                  if (fin.getCenterX()+2 >= this.endE.getCenterX()&& fin.getCenterX()-2 <= this.endE.getCenterX()){
+                      if(fin.getCenterY()+2 >= this.endE.getCenterY() && fin.getCenterY()-2 <= this.endE.getCenterY()){
                           
                           this.endE.setCenterX(fin.getCenterX());
                           this.endE.setCenterY(fin.getCenterY());
@@ -122,10 +122,8 @@ public class Entrada{
               System.out.println(event.getTarget());
             if(event.getGestureSource() == event.getSource()){
                 System.out.println("algo");
-                }else{
-                System.out.println("otro algo");
-            }
-            }
+            };
+          }
       };
       EventHandler<MouseEvent> cambiarValor = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
@@ -141,8 +139,8 @@ public class Entrada{
           if(t.isSecondaryButtonDown()){
               //if(endE.getValor() != null){
                   endE.setCenterY(endE.getCenterY()+15);
-                  //endE.setValor(null);
-                  //compuertaConectada = null;
+                  endE.setValor(null);
+                  compuertaConectada = null;
               //}
           }
 

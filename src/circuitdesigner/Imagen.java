@@ -28,7 +28,7 @@ import javafx.scene.input.MouseDragEvent;
  *
  * @author allva
  */
-public class Imagen{
+class Imagen{
     private Operadores compuerta;
     private ImageView imagenVista;
 
@@ -193,7 +193,6 @@ public class Imagen{
 
                          this.end.setCenterX(entrada.getEndE().getCenterX());
                          this.end.setCenterY(entrada.getEndE().getCenterY());
-                         
 
                       }
                     }
@@ -255,19 +254,5 @@ public class Imagen{
     public void OperarSalida(){
         salida = compuerta.operación(entradas);
         end.setValor(salida);
-        
-        Facade.getCircuito().informar(end);
     }
-    
-    public void revisarEntradas(){
-        for(int i= 0; i<entradas.getSize(); i++){
-            if(entradas.getValor(i).getValor() != null && entradas.getValor(i).getValor() != Valores.Default){
-                continue;
-            }else{
-                return;
-            }
-        }
-        OperarSalida();
-    }
-    
   }

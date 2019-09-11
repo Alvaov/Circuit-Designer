@@ -15,6 +15,7 @@ import operadores.Operadores;
 import javafx.fxml.Initializable;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -58,8 +60,7 @@ public class ControllerCircuito implements Initializable{
     private ImageView NOTimage;
     @FXML
     private Group root;
-    
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         
@@ -76,13 +77,7 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                //FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
-                //Scene scene = new Scene(loader.load());
-                //Stage segundaVentana = new Stage();
-                //segundaVentana.setTitle("Crear entradas");
-                //segundaVentana.setScene(scene);
-                
-                //segundaVentana.show();
+                crearVentana();
                 
                 CrearAnd("AND.png",2);
             } catch (Exception e) {
@@ -180,6 +175,15 @@ public class ControllerCircuito implements Initializable{
     public Group getRoot(){
         return root;
     }
-    
+    public void crearVentana() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
+        Scene scene = new Scene(loader.load());
+        Stage segundaVentana = new Stage();
+        segundaVentana.setTitle("Crear entradas");
+        segundaVentana.setScene(scene);
+                
+        segundaVentana.show();
+                
+    }
     
 }
