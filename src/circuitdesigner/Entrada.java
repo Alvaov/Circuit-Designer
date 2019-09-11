@@ -46,7 +46,6 @@ public class Entrada{
           endE.setOnMousePressed(MousePressed);
           endE.setOnMouseDragged(MouseDragged);
           endE.setOnMouseDragReleased(DragRelease);
-          //endE.setOnDragDetected(MousePressed);
           endE.setOnMouseClicked(cambiarValor);
       }
 
@@ -58,7 +57,7 @@ public class Entrada{
           endE.setValor(valorNuevo);
       }
       
-      public Anchor colisiónE(){
+      public void colisiónE(){
           ListLinked<Imagen> circuito = Facade.getCircuito();
           
           for (int c = 0; c < circuito.getSize(); c++){
@@ -74,8 +73,6 @@ public class Entrada{
                           
                           this.endE.setCenterX(fin.getCenterX());
                           this.endE.setCenterY(fin.getCenterY());
-                          //valor = imagen.getSalida();
-                          return fin;
                           }
                   }
                     else{
@@ -84,14 +81,10 @@ public class Entrada{
                               this.endE.setCenterX(entrada.endE.getCenterX());
                               this.endE.setCenterY(entrada.endE.getCenterY());
                           }
-                              
-                         //System.out.println("choqué");
-                         return entrada.endE;
                       }
                    }
                 }
             }
-          return null;
       }
 
       EventHandler<MouseEvent> MouseDetected = new EventHandler<MouseEvent>() {
@@ -102,8 +95,6 @@ public class Entrada{
       };
       EventHandler<MouseEvent> MousePressed = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
-            //Dragboard db = endE.startDragAndDrop(TransferMode.COPY);
-            //endE.startFullDrag();
             dragDelta.x = endE.getCenterX() - t.getX();
             dragDelta.y = endE.getCenterY() - t.getY();
 
@@ -129,7 +120,7 @@ public class Entrada{
               System.out.println(event.getGestureSource());
               System.out.println(event.getSource());
               System.out.println(event.getTarget());
-            if(event.getSource() != event.getTarget()){
+            if(event.getGestureSource() == event.getSource()){
                 System.out.println("algo");
                 }else{
                 System.out.println("otro algo");

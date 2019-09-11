@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Cursor;
+import javafx.scene.input.MouseDragEvent;
 /**
  *
  * @author allva
@@ -39,7 +40,7 @@ public class Imagen{
     private Line line;
     private static Delta dragDelta = new Delta();
     private ListLinked<Entrada> entradas = new ListLinked<>();
-
+    private boolean isConected;
     private DoubleProperty inicioY = new SimpleDoubleProperty (orgSceneY+23);
     private DoubleProperty inicioX = new SimpleDoubleProperty (orgSceneX+45);
     private DoubleProperty endX   = new SimpleDoubleProperty(orgSceneX+75);
@@ -61,8 +62,10 @@ public class Imagen{
 
           end      = new Anchor(Color.TOMATO,    endX,   endY,"o<"+Facade.s+">",salida);
           Facade.s++;
+          end.setOnDragDetected(MouseDetected);
           end.setOnMousePressed(MousePressedE);
           end.setOnMouseDragged(MouseDraggedE);
+          end.setOnMouseDragReleased(DragRelease);
           start    = new Anchor(Color.PALEGREEN, inicioX, inicioY,"",null);
           line     = new BoundLine(inicioX,inicioY, endX, endY);
           startE   = new Anchor(Color.PALEGREEN, startx, starty,"",null);
@@ -81,6 +84,13 @@ public class Imagen{
           CircuitDesigner.getControlador().getRoot().getChildren().addAll(imagenVista,end,start,line);
           
       }
+      EventHandler<MouseEvent>MouseDetected = new EventHandler<MouseEvent>(){
+        @Override
+        public void handle(MouseEvent event) {
+            end.startFullDrag();
+        }
+          
+      };
       EventHandler<MouseEvent> MousePressed = 
         new EventHandler<MouseEvent>() {
         @Override
@@ -148,6 +158,13 @@ public class Imagen{
             colisiónS();
             }
         };
+      EventHandler<MouseDragEvent> DragRelease = new EventHandler<MouseDragEvent>(){
+        @Override
+        public void handle(MouseDragEvent event) {
+            System.out.println("Ya no");
+        }
+          
+      };
 
         
     
@@ -236,7 +253,6 @@ public class Imagen{
     }
     
     public void OperarSalida(){
-        //if toda entrada != null && toda entrada != Default
         salida = compuerta.operación(entradas);
         end.setValor(salida);
         
