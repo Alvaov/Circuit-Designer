@@ -29,7 +29,6 @@ public class Entrada{
       private ImageView imagenVista;
       private Line lineE;
       private Valores valor;
-      private Delta dragDelta = Imagen.getDelta();
       private Double newX,newY;
       private Imagen compuertaConectada;
       public Entrada(ImageView imagenVista, DoubleProperty startx, DoubleProperty starty,int i){

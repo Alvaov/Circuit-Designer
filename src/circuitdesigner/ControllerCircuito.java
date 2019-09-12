@@ -78,7 +78,8 @@ public class ControllerCircuito implements Initializable{
                 ((CirculoSalida) event.getGestureSource()).setCenterX(event.getX());
                 ((CirculoSalida) event.getGestureSource()).setCenterY(event.getY());
             }else{
-                //System.out.println("varas");
+                ((Group) event.getGestureSource()).setLayoutX(event.getX());
+                ((Group) event.getGestureSource()).setLayoutY(event.getY());
             }
         });
         

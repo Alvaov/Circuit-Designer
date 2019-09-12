@@ -18,8 +18,7 @@ import operadores.Valores;
  *
  * @author allva
  */
-class Circulo extends Circle { 
-    private Delta dragDelta = Imagen.getDelta();
+class Circulo extends Circle {
     private Double newX, newY;
     private Label etiqueta;
     private Valores valor;
