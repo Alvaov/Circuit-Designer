@@ -82,14 +82,17 @@ class Imagen{
           
           crearCompuerta(ruta);
           compuertaCompleta.getChildren().addAll(imagenVista,end,start,line,end.getEtiqueta());
+          
           CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
+              System.out.println(imagenVista.getLayoutBounds());
               compuertaCompleta.startFullDrag();
           });
       }
       EventHandler<MouseEvent>MouseDetected = new EventHandler<MouseEvent>(){
         @Override
         public void handle(MouseEvent event) {
+            
             end.startFullDrag();
         }
           
@@ -187,7 +190,9 @@ class Imagen{
     public Valores getSalida(){
         return salida;
     }
-    
+    public ImageView getImagen(){
+        return imagenVista;
+    }
     public void OperarSalida(){
         salida = compuerta.operación(entradas);
         end.setValor(salida);

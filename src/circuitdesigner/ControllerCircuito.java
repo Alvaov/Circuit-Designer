@@ -37,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.geometry.Point2D;
 
 public class ControllerCircuito implements Initializable{
     
@@ -71,15 +72,19 @@ public class ControllerCircuito implements Initializable{
         NANDimage.setOnMouseClicked(crearNegaciones);
         AnchorCircuito.setOnMouseDragOver(event ->{
             if (event.getGestureSource() instanceof CirculoEntrada){
-                System.out.println(event.getX()-((CirculoEntrada)event.getGestureSource()).getParent().getBoundsInParent().getMinX());
-                System.out.println(event.getY()-((CirculoEntrada)event.getGestureSource()).getParent().getBoundsInParent().getMinY());
-                ((CirculoEntrada) event.getGestureSource()).setCenterX(event.getX()-((CirculoEntrada)event.getGestureSource()).getParent().getBoundsInParent().getMinX());
-                ((CirculoEntrada) event.getGestureSource()).setCenterY(event.getY()-((CirculoEntrada)event.getGestureSource()).getParent().getBoundsInParent().getMinY());
+                Point2D punto = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
+                ((CirculoEntrada) event.getGestureSource()).setLayoutX(punto.getX());
+                ((CirculoEntrada) event.getGestureSource()).setLayoutY(punto.getY());
             } 
             else if (event.getGestureSource() instanceof CirculoSalida){
-                ((CirculoSalida) event.getGestureSource()).setCenterX(event.getX());
-                ((CirculoSalida) event.getGestureSource()).setCenterY(event.getY());
+                Point2D punto = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
+                ((CirculoSalida) event.getGestureSource()).setLayoutX(punto.getX());
+                ((CirculoSalida) event.getGestureSource()).setLayoutY(punto.getY());
+                ((CirculoSalida) event.getGestureSource()).setCenterY(punto.getY());
+                ((CirculoSalida) event.getGestureSource()).setCenterX(punto.getX());
             }else if(event.getGestureSource() instanceof Group){
+                
+                Point2D punto = ((Group) event.getGestureSource()).parentToLocal(event.getX(), event.getY());
                 ((Group) event.getGestureSource()).setLayoutX(event.getX());
                 ((Group) event.getGestureSource()).setLayoutY(event.getY());
             }
@@ -180,17 +185,22 @@ public class ControllerCircuito implements Initializable{
     
     public void crearVentana() throws IOException{
         
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
+        Parent root1 = (Parent) loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        
+        stage.show();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCircuitDesigner.fxml"));
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCircuitDesigner.fxml"));
         ControllerCantEntradas controllerEntradas = new ControllerCantEntradas();
-        loader.setController(controllerEntradas);
         System.out.println("algo");
         Scene myScene = (new Scene(loader.load()));
         System.out.println("algo2");
         Stage secondStage = new Stage();
         secondStage.setScene(myScene);
        
-       secondStage.show();
+       secondStage.show();*/
                 
     }
     
