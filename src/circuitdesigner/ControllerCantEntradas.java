@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,13 +48,42 @@ public class ControllerCantEntradas implements Initializable {
     @FXML
     private Button cancelarEntradas;
     
-    
+    String ruta;
+    Stage stage;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
         initSpinner();
+        
+        
+        aceptarEntradas.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                int valor = (Integer) crearEntradas.getValue();
+                try {
+                    CircuitDesigner.getControlador().CrearAnd(ruta, valor);
+                    stage.close();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(ControllerCantEntradas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        });
+        cancelarEntradas.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                    stage.close();
+            }
+        });
     }
     public void initSpinner(){
         crearEntradas.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,1000000000));
     }
     
+    public void rutaImagen(String ruta){
+        this.ruta = ruta;
+    }
+    public void enviarStage(Stage stage){
+        this.stage = stage;
+    }
 }

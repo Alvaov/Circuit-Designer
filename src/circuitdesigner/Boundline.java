@@ -15,11 +15,19 @@ import javafx.scene.shape.Line;
 class BoundLine extends Line {
     
     BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
+      startYProperty().set(startY.getValue());
+      startXProperty().set(startX.getValue());
+      endYProperty().set(endY.getValue());
+      endXProperty().set(endX.getValue());
+      //startYProperty().setValue(startY.getValue());
+      //startXProperty().setValue(startX.getValue());
+      //endYProperty().setValue(endY.getValue());
+      //endXProperty().setValue(endX.getValue());
       startXProperty().bind(startX);
       startYProperty().bind(startY);
       endXProperty().bind(endX);
       endYProperty().bind(endY);
-
+      
     }
     
   }

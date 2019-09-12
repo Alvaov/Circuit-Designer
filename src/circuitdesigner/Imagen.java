@@ -57,19 +57,24 @@ class Imagen{
           imagenVista.setFitHeight(40.0);
           imagenVista.setX(orgSceneX);
           imagenVista.setY(orgSceneY);
-
           end      = new CirculoSalida(endX,   endY,"o<"+Facade.s+">",salida);
           Facade.s++;
           end.setOnDragDetected(MouseDetected);
           end.setOnMouseDragReleased(event->{
               if (event.getGestureSource() instanceof CirculoEntrada){
                   System.out.println("hola");//Conecta entrada con una salida
+                  ((CirculoEntrada) event.getGestureSource()).setValor(salida);
+                  
               }
           });
           start    = new Circulo( inicioX, inicioY,"",null);
           line     = new BoundLine(inicioX,inicioY, endX, endY);
           startE   = new Circulo( startx, starty,"",null);
-          
+          //System.out.println(line.getStartX());
+          //System.out.println(line.getStartY());
+          //System.out.println(start.getLayoutX());
+          //System.out.println(start.getLayoutY());
+
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
               Entrada entrada = new Entrada(imagenVista,startx,starty,Facade.e);
@@ -81,11 +86,13 @@ class Imagen{
           }
           
           crearCompuerta(ruta);
-          compuertaCompleta.getChildren().addAll(imagenVista,end,start,line,end.getEtiqueta());
+          compuertaCompleta.getChildren().addAll(end,start,startE,line,end.getEtiqueta(),imagenVista);
           
           CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
               System.out.println(imagenVista.getLayoutBounds());
+              start.startFullDrag();
+              startE.startFullDrag();
               compuertaCompleta.startFullDrag();
           });
       }
@@ -94,16 +101,6 @@ class Imagen{
         public void handle(MouseEvent event) {
             
             end.startFullDrag();
-        }
-          
-      };
-    
-
-
-      EventHandler<MouseDragEvent> DragRelease = new EventHandler<MouseDragEvent>(){
-        @Override
-        public void handle(MouseDragEvent event) {
-            System.out.println("Ya no");
         }
           
       };
@@ -193,8 +190,19 @@ class Imagen{
     public ImageView getImagen(){
         return imagenVista;
     }
-    public void OperarSalida(){
+    public void operarSalida(){
         salida = compuerta.operación(entradas);
         end.setValor(salida);
+    }
+    
+    public void revisarEntradas(){
+      for (int i = 0; i < entradas.getSize(); i++){
+          if(entradas.getValor(i).getValor() != null && entradas.getValor(i).getValor() != Valores.Default){
+              continue;
+          }else{
+              return;
+          }
+      }
+      operarSalida();
     }
   }

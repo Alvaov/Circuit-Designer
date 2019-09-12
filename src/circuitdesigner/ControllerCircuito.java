@@ -76,16 +76,19 @@ public class ControllerCircuito implements Initializable{
                 ((CirculoEntrada) event.getGestureSource()).setLayoutX(punto.getX());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutY(punto.getY());
             } 
+            
+            
             else if (event.getGestureSource() instanceof CirculoSalida){
                 Point2D punto = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
                 ((CirculoSalida) event.getGestureSource()).setLayoutX(punto.getX());
                 ((CirculoSalida) event.getGestureSource()).setLayoutY(punto.getY());
-                ((CirculoSalida) event.getGestureSource()).setCenterY(punto.getY());
-                ((CirculoSalida) event.getGestureSource()).setCenterX(punto.getX());
+                
+                
             }else if(event.getGestureSource() instanceof Group){
                 
                 Point2D punto = ((Group) event.getGestureSource()).parentToLocal(event.getX(), event.getY());
                 ((Group) event.getGestureSource()).setLayoutX(event.getX());
+                ((Group) event.getGestureSource()).setLayoutY(event.getY());
                 ((Group) event.getGestureSource()).setLayoutY(event.getY());
             }
         });
@@ -98,9 +101,9 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                //crearVentana();
+                crearVentana("AND.png");
                 
-                CrearAnd("AND.png",2);
+                //CrearAnd("AND.png",2);
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
             }
@@ -113,13 +116,7 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage segundaVentana = new Stage();
-                segundaVentana.setTitle("Crear entradas");
-                segundaVentana.setScene(scene);
-                
-                //segundaVentana.show();
+
                 CrearOr();
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
@@ -183,25 +180,17 @@ public class ControllerCircuito implements Initializable{
         return AnchorCircuito;
     }
     
-    public void crearVentana() throws IOException{
+    public void crearVentana(String ruta) throws IOException{
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
         Parent root1 = (Parent) loader.load();
+        ControllerCantEntradas controladorEntradas = (ControllerCantEntradas)loader.getController();
+        controladorEntradas.rutaImagen(ruta);
         Stage stage = new Stage();
+        controladorEntradas.enviarStage(stage);
         stage.setScene(new Scene(root1));
         
         stage.show();
-
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCircuitDesigner.fxml"));
-        ControllerCantEntradas controllerEntradas = new ControllerCantEntradas();
-        System.out.println("algo");
-        Scene myScene = (new Scene(loader.load()));
-        System.out.println("algo2");
-        Stage secondStage = new Stage();
-        secondStage.setScene(myScene);
-       
-       secondStage.show();*/
-                
     }
     
 }

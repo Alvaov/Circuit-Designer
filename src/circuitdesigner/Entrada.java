@@ -23,7 +23,7 @@ import javafx.scene.input.MouseDragEvent;
  *
  * @author allva
  */
-public class Entrada{
+public class Entrada extends Observable{
       
       private CirculoEntrada endE;
       private ImageView imagenVista;
@@ -44,9 +44,10 @@ public class Entrada{
           endE.setOnMouseDragReleased(event->{
               if (event.getGestureSource() instanceof CirculoSalida){
                   System.out.println("Conectar");
+                  endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
               }
           });
-          //endE.setOnMouseClicked(cambiarValor);
+          endE.setOnMouseClicked(cambiarValor);
       }
 
       public Valores getValor(){
@@ -54,6 +55,7 @@ public class Entrada{
       }
       
       public void setValor(Valores valorNuevo){
+          //revisarEntradas();
           endE.setValor(valorNuevo);
       }
       
@@ -99,14 +101,17 @@ public class Entrada{
 
           if (t.getClickCount() == 2){
               if (endE.getValor() == null){
+                  System.out.println("valor a añadir");
                   //tirar ventana con opciones
                   //setear valor
               }else{
+                  System.out.println("no se puede añadir un valor");
                   //Ya tiene un valor asignado por una salida;
               }
           }
           if(t.isSecondaryButtonDown()){
               //if(endE.getValor() != null){
+              System.out.println("eliminar");
                   endE.setCenterY(endE.getCenterY()+15);
                   endE.setValor(null);
                   compuertaConectada = null;
