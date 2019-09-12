@@ -70,21 +70,20 @@ class Imagen{
           line     = new BoundLine(inicioX,inicioY, endX, endY);
           startE   = new Circulo( startx, starty,"",null);
           
-          
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
               Entrada entrada = new Entrada(imagenVista,startx,starty,Facade.e);
               entrada.getEndE().setCenterY(y);
               entradas.añadirFinal(entrada); 
-              compuertaCompleta.getChildren().addAll(entrada.getEndE(),entrada.getLinea());
+              compuertaCompleta.getChildren().addAll(entrada.getEndE(),entrada.getLinea(),entrada.getEndE().getEtiqueta());
               Facade.e++;
               y += 7;
           }
           
           crearCompuerta(ruta);
-          compuertaCompleta.getChildren().addAll(imagenVista,end,start,line);
+          compuertaCompleta.getChildren().addAll(imagenVista,end,start,line,end.getEtiqueta());
           CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
-          compuertaCompleta.setOnDragDetected(event->{
+          imagenVista.setOnDragDetected(event->{
               compuertaCompleta.startFullDrag();
           });
       }
