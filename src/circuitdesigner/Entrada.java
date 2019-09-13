@@ -47,12 +47,11 @@ public class Entrada extends Observable{
           endE.setOnDragDetected(MouseDetected);
           
           endE.setOnMouseDragReleased(event->{
-              System.out.println("release entrada");
               if (event.getGestureSource() instanceof CirculoSalida){
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
               }
-              ((CirculoEntrada)event.getGestureSource()).setMouseTransparent(false);
+              ((CirculoSalida)event.getGestureSource()).setMouseTransparent(false);
           });
           endE.setOnMouseClicked(cambiarValor);
       }
@@ -100,7 +99,6 @@ public class Entrada extends Observable{
         @Override public void handle(MouseEvent t) {
             endE.startFullDrag();
             endE.setMouseTransparent(true);
-            System.out.println("hey");
         }
       };
 

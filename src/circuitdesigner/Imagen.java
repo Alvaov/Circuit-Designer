@@ -53,18 +53,21 @@ class Imagen{
           imagenVista.setY(orgSceneY);
           end      = new CirculoSalida("o<"+Facade.s+">",salida);
           Facade.s++;
+          
           end.setOnDragDetected(event -> {
               end.startFullDrag();
-              end.setMouseTransparent(true);
+              //System.out.println(event.getTarget());
+              ((CirculoSalida) event.getSource()).setMouseTransparent(true);
           });
+          
           end.setOnMouseDragReleased(event->{
-              System.out.println("release salida");
               if (event.getGestureSource() instanceof CirculoEntrada){
-                  System.out.println("hola");//Conecta entrada con una salida
+                  System.out.println("release salida");//Conecta entrada con una salida
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
+                  isConected = true;
                   
               }
-              ((CirculoSalida)event.getGestureSource()).setMouseTransparent(false);
+              ((CirculoEntrada)event.getGestureSource()).setMouseTransparent(false);
           });
           
           end.setLayoutX(60);
@@ -87,7 +90,7 @@ class Imagen{
               entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
               compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
-              System.out.println("entró");
+              
               Facade.e++;
               y += 7;
           }
@@ -97,7 +100,6 @@ class Imagen{
           
           CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
-              System.out.println(imagenVista.getLayoutBounds());
               start.startFullDrag();
               startE.startFullDrag();
               compuertaCompleta.startFullDrag();
