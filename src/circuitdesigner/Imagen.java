@@ -34,19 +34,13 @@ class Imagen{
     private ImageView imagenVista;
     private Group compuertaCompleta = new Group();
       
-    private double orgSceneX, orgSceneY, newX, newY;
+    private double orgSceneX, orgSceneY;
     private Valores salida;
     private Circulo start, startE;
     private CirculoSalida end;
     private Line line;
     private ListLinked<Entrada> entradas = new ListLinked<>();
     private boolean isConected;
-    private DoubleProperty inicioY = new SimpleDoubleProperty (orgSceneY+23);
-    private DoubleProperty inicioX = new SimpleDoubleProperty (orgSceneX+45);
-    private DoubleProperty endX   = new SimpleDoubleProperty(orgSceneX+75);
-    private DoubleProperty endY   = new SimpleDoubleProperty(orgSceneY+23);
-    private DoubleProperty startx = new SimpleDoubleProperty(orgSceneX+23);
-    private DoubleProperty starty = new SimpleDoubleProperty(orgSceneY+22);
     private int y;  
     
     public Imagen(String ruta, int cantidadDeEntradas){
@@ -57,36 +51,49 @@ class Imagen{
           imagenVista.setFitHeight(40.0);
           imagenVista.setX(orgSceneX);
           imagenVista.setY(orgSceneY);
-          end      = new CirculoSalida(endX,   endY,"o<"+Facade.s+">",salida);
+          end      = new CirculoSalida("o<"+Facade.s+">",salida);
           Facade.s++;
-          end.setOnDragDetected(MouseDetected);
+          end.setOnDragDetected(event -> {
+              end.startFullDrag();
+              end.setMouseTransparent(true);
+          });
           end.setOnMouseDragReleased(event->{
+              System.out.println("release salida");
               if (event.getGestureSource() instanceof CirculoEntrada){
                   System.out.println("hola");//Conecta entrada con una salida
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   
               }
+              ((CirculoSalida)event.getGestureSource()).setMouseTransparent(false);
           });
-          start    = new Circulo( inicioX, inicioY,"",null);
-          line     = new BoundLine(inicioX,inicioY, endX, endY);
-          startE   = new Circulo( startx, starty,"",null);
-          //System.out.println(line.getStartX());
-          //System.out.println(line.getStartY());
-          //System.out.println(start.getLayoutX());
-          //System.out.println(start.getLayoutY());
+          
+          end.setLayoutX(60);
+          end.setLayoutY(23);
+          start    = new Circulo("",null);
+          start.setLayoutX(40);
+          start.setLayoutY(23);
+          line     = new Line();
+          line.startXProperty().bind(start.layoutXProperty());
+          line.startYProperty().bind(start.layoutYProperty());
+          line.endXProperty().bind(end.layoutXProperty());
+          line.endYProperty().bind(end.layoutYProperty());
+          startE   = new Circulo("",null);
+          startE.setLayoutX(25);
+          startE.setLayoutY(20);
 
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
-              Entrada entrada = new Entrada(imagenVista,startx,starty,Facade.e);
-              entrada.getEndE().setCenterY(y);
+              Entrada entrada = new Entrada(imagenVista,startE,Facade.e);
+              entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
-              compuertaCompleta.getChildren().addAll(entrada.getEndE(),entrada.getLinea(),entrada.getEndE().getEtiqueta());
+              compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
+              System.out.println("entró");
               Facade.e++;
               y += 7;
           }
           
           crearCompuerta(ruta);
-          compuertaCompleta.getChildren().addAll(end,start,startE,line,end.getEtiqueta(),imagenVista);
+          compuertaCompleta.getChildren().addAll(start,end,startE,line,end.getEtiqueta(),imagenVista);
           
           CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
@@ -96,14 +103,6 @@ class Imagen{
               compuertaCompleta.startFullDrag();
           });
       }
-      EventHandler<MouseEvent>MouseDetected = new EventHandler<MouseEvent>(){
-        @Override
-        public void handle(MouseEvent event) {
-            
-            end.startFullDrag();
-        }
-          
-      };
       
     public void colisiónS(){
         ListLinked<Imagen> circuito = Facade.getCircuito();

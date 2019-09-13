@@ -15,8 +15,8 @@ import operadores.Valores;
  */
 public class CirculoSalida extends Circulo{
     
-    public CirculoSalida(DoubleProperty x, DoubleProperty y, String etiqueta, Valores valor) {
-        super(x, y, etiqueta, valor);
+    public CirculoSalida(String etiqueta, Valores valor) {
+        super(etiqueta, valor);
     }
     
 

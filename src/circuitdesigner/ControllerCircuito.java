@@ -92,7 +92,17 @@ public class ControllerCircuito implements Initializable{
                 ((Group) event.getGestureSource()).setLayoutY(event.getY());
             }
         });
-        
+        AnchorCircuito.setOnMouseDragReleased(event ->{
+           if (event.getGestureSource() instanceof CirculoSalida){ 
+               System.out.println("salida pane");
+               ((CirculoSalida) event.getGestureSource()).setMouseTransparent(false);
+            }
+           else if(event.getGestureSource() instanceof CirculoEntrada){
+               System.out.println("entrada pane");
+               ((CirculoEntrada) event.getGestureSource()).setMouseTransparent(false);
+           }
+            
+        });
     }
     
     EventHandler<MouseEvent> crearAnd = 
@@ -101,9 +111,9 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                crearVentana("AND.png");
+                //crearVentana("AND.png");
                 
-                //CrearAnd("AND.png",2);
+                CrearAnd("AND.png",2);
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
             }
@@ -130,13 +140,6 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage segundaVentana = new Stage();
-                segundaVentana.setTitle("Crear entradas");
-                segundaVentana.setScene(scene);
-                
-                //segundaVentana.show();
                 CrearXor();
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
@@ -150,13 +153,7 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
-                Scene scene = new Scene(loader.load());
-                Stage segundaVentana = new Stage();
-                segundaVentana.setTitle("Crear entradas");
-                segundaVentana.setScene(scene);
                 
-                //segundaVentana.show();
                 CrearOr();
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");

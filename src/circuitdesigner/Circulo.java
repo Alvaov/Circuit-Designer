@@ -24,14 +24,14 @@ class Circulo extends Circle {
     private Valores valor;
     // ListLinked<Entrada> entradas = Facade.entradas;
     
-    Circulo(DoubleProperty x, DoubleProperty y, String etiqueta, Valores valor) {
-      super(x.get(), y.get(), 3);
+    Circulo(String etiqueta, Valores valor) {
+      super(3);
       this.etiqueta = new Label(etiqueta);
       this.valor = valor;
-      x.bind(centerXProperty());
-      y.bind(centerYProperty());
-      this.etiqueta.setLayoutX(x.get());
-      this.etiqueta.setLayoutY(y.get());
+      //x.bind(layoutXProperty());
+      //y.bind(layoutYProperty());
+      //this.etiqueta.setLayoutX(x.get());
+      //this.etiqueta.setLayoutY(y.get());
       //CircuitDesigner.getControlador().getRoot().getChildren().addAll(this.etiqueta);   
     }
     

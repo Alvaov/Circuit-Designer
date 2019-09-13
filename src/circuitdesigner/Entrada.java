@@ -31,21 +31,28 @@ public class Entrada extends Observable{
       private Valores valor;
       private Double newX,newY;
       private Imagen compuertaConectada;
-      public Entrada(ImageView imagenVista, DoubleProperty startx, DoubleProperty starty,int i){
+      private Circulo circulo;
+      public Entrada(ImageView imagenVista, Circulo circulo,int i){
           this.imagenVista = imagenVista;
+          this.circulo = circulo;
           valor = null;
-          DoubleProperty endy = new SimpleDoubleProperty(0);
-          DoubleProperty endx = new SimpleDoubleProperty(0);
-          endE      = new CirculoEntrada(endx,   endy,"i<"+ i +">",valor);
-          lineE     = new BoundLine(startx, starty, endx, endy);
+          endE      = new CirculoEntrada("i<"+ i +">",valor);
+          lineE     = new Line();
           lineE.setStroke(colorLinea());
-          //CircuitDesigner.getControlador().getAnchor().getChildren().addAll(endE,lineE);  
+          lineE.startXProperty().bind(this.circulo.layoutXProperty());
+          lineE.startYProperty().bind(this.circulo.layoutYProperty());
+          lineE.endXProperty().bind(endE.layoutXProperty());
+          lineE.endYProperty().bind(endE.layoutYProperty());
+          
           endE.setOnDragDetected(MouseDetected);
+          
           endE.setOnMouseDragReleased(event->{
+              System.out.println("release entrada");
               if (event.getGestureSource() instanceof CirculoSalida){
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
               }
+              ((CirculoEntrada)event.getGestureSource()).setMouseTransparent(false);
           });
           endE.setOnMouseClicked(cambiarValor);
       }
@@ -92,6 +99,7 @@ public class Entrada extends Observable{
       EventHandler<MouseEvent> MouseDetected = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
             endE.startFullDrag();
+            endE.setMouseTransparent(true);
             System.out.println("hey");
         }
       };
