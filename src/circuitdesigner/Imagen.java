@@ -57,17 +57,18 @@ class Imagen{
           end.setOnDragDetected(event -> {
               end.startFullDrag();
               //System.out.println(event.getTarget());
-              ((CirculoSalida) event.getSource()).setMouseTransparent(true);
+              ((CirculoSalida) event.getSource()).getParent().setMouseTransparent(true);
           });
           
           end.setOnMouseDragReleased(event->{
               if (event.getGestureSource() instanceof CirculoEntrada){
                   System.out.println("release salida");//Conecta entrada con una salida
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
+                  ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
                   isConected = true;
                   
               }
-              ((CirculoEntrada)event.getGestureSource()).setMouseTransparent(false);
+              ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
           });
           
           end.setLayoutX(60);

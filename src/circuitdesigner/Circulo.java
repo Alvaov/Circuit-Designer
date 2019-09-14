@@ -22,12 +22,14 @@ class Circulo extends Circle {
     private Double newX, newY;
     private Label etiqueta;
     private Valores valor;
+    private boolean isConected;
     // ListLinked<Entrada> entradas = Facade.entradas;
     
     Circulo(String etiqueta, Valores valor) {
       super(3);
       this.etiqueta = new Label(etiqueta);
       this.valor = valor;
+      this.isConected = false;
       //x.bind(layoutXProperty());
       //y.bind(layoutYProperty());
       //this.etiqueta.setLayoutX(x.get());
@@ -44,5 +46,10 @@ class Circulo extends Circle {
     public void setValor(Valores valor){
         this.valor = valor;
     }
-
+    public void setIsConected(boolean valor){
+        isConected = valor;
+    }
+    public boolean getIsConected(){
+        return isConected;
+    }
 }

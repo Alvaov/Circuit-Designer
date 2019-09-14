@@ -75,6 +75,7 @@ public class ControllerCircuito implements Initializable{
                 Point2D punto = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutX(punto.getX());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutY(punto.getY());
+                System.out.println(((CirculoEntrada) event.getGestureSource()).getValor());
             } 
             
             
@@ -95,11 +96,11 @@ public class ControllerCircuito implements Initializable{
         AnchorCircuito.setOnMouseDragReleased(event ->{
            if (event.getGestureSource() instanceof CirculoSalida){ 
                System.out.println("salida pane");
-               ((CirculoSalida) event.getGestureSource()).setMouseTransparent(false);
+               ((CirculoSalida) event.getGestureSource()).getParent().setMouseTransparent(false);
             }
            else if(event.getGestureSource() instanceof CirculoEntrada){
                System.out.println("entrada pane");
-               ((CirculoEntrada) event.getGestureSource()).setMouseTransparent(false);
+               ((CirculoEntrada) event.getGestureSource()).getParent().setMouseTransparent(false);
            }
             
         });

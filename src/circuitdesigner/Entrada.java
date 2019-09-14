@@ -5,19 +5,27 @@
  */
 package circuitdesigner;
 
+import java.io.IOException;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import operadores.Valores;
 import listlinked.ListLinked;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseDragEvent;
+import javafx.stage.Stage;
 
 /**
  *
@@ -29,7 +37,6 @@ public class Entrada extends Observable{
       private ImageView imagenVista;
       private Line lineE;
       private Valores valor;
-      private Double newX,newY;
       private Imagen compuertaConectada;
       private Circulo circulo;
       public Entrada(ImageView imagenVista, Circulo circulo,int i){
@@ -51,7 +58,7 @@ public class Entrada extends Observable{
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
               }
-              ((CirculoSalida)event.getGestureSource()).setMouseTransparent(false);
+              ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
           });
           endE.setOnMouseClicked(cambiarValor);
       }
@@ -98,7 +105,7 @@ public class Entrada extends Observable{
       EventHandler<MouseEvent> MouseDetected = new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent t) {
             endE.startFullDrag();
-            endE.setMouseTransparent(true);
+            ((CirculoEntrada) t.getSource()).getParent().setMouseTransparent(true);
         }
       };
 
@@ -106,15 +113,19 @@ public class Entrada extends Observable{
         @Override public void handle(MouseEvent t) {
 
           if (t.getClickCount() == 2){
-              if (endE.getValor() == null){
-                  System.out.println("valor a añadir");
-                  //tirar ventana con opciones
-                  //setear valor
+              if (endE.getValor() == null || endE.getIsConected() == false){
+                  try {
+                      crearVentana();
+                      System.out.println(endE.getValor());
+                  } catch (IOException ex) {
+                     
+                  }
               }else{
                   System.out.println("no se puede añadir un valor");
                   //Ya tiene un valor asignado por una salida;
               }
           }
+          System.out.println(t.isSecondaryButtonDown());
           if(t.isSecondaryButtonDown()){
               //if(endE.getValor() != null){
               System.out.println("eliminar");
@@ -138,5 +149,19 @@ public class Entrada extends Observable{
         double green = Math.random();
         double blue = Math.random();
         return Color.color(red, green, blue);
+    }
+    
+    public void crearVentana() throws IOException{
+        
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ValorEntradas.fxml"));
+        Parent root1 = (Parent) loader.load();
+        ControllerValorEntradas controlador= (ControllerValorEntradas)loader.getController();
+        controlador.ACambiar(endE);
+        Stage stage = new Stage();
+        controlador.enviarStage(stage);
+        stage.setScene(new Scene(root1));
+        
+        stage.show();
     }
 }
