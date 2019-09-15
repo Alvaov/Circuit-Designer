@@ -7,6 +7,7 @@ package circuitdesigner;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.paint.Color;
+import listlinked.ListLinked;
 import operadores.Valores;
 
 /**
@@ -15,6 +16,8 @@ import operadores.Valores;
  */
 public class CirculoSalida extends Circulo{
     
+    ListLinked<CirculoEntrada> entradasConectadas = new ListLinked<>();
+    
     public CirculoSalida(String etiqueta, Valores valor) {
         super(etiqueta, valor);
     }
@@ -22,6 +25,34 @@ public class CirculoSalida extends Circulo{
     public void setValor(Valores valor){
         this.valor = valor; 
          
+    }
+    
+    public ListLinked getEntradasConectadas(){
+        return entradasConectadas; 
+         
+    }
+    
+    public void setEntradasConectadas(CirculoEntrada nuevaEntrada){
+        entradasConectadas.añadirFinal(nuevaEntrada);
+        isConected = true;
+         
+    }
+    
+    public void eliminarEntrada(CirculoEntrada entrada){
+        for (int i = 0; i < entradasConectadas.getSize(); i++){
+            if(entradasConectadas.getValor(i).equals(entrada)){
+                entradasConectadas.eliminarEnPosición(i);
+            }
+        }
+    }
+    
+    public boolean conectada(){
+        if (entradasConectadas.getSize() < 1){
+            isConected = false;
+        }else{
+            isConected = true;
+        }
+        return isConected;
     }
 
     

@@ -40,7 +40,6 @@ class Imagen{
     private CirculoSalida end;
     private Line line;
     private ListLinked<Entrada> entradas = new ListLinked<>();
-    private boolean isConected;
     private int y;  
     
     public Imagen(String ruta, int cantidadDeEntradas){
@@ -65,7 +64,8 @@ class Imagen{
                   System.out.println("release salida");//Conecta entrada con una salida
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
-                  isConected = true;
+                  end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource())); //REVISAR //AÑADIENDO ENTRADA A LA LISTA DE ENTRADAS CONECTADAS
+                  //CONTEMPLAR CASO DONDE ENTRADA ARRASTRADA CAIGA SOBRE ENTRADA CONECTADA
                   
               }
               ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
@@ -99,7 +99,6 @@ class Imagen{
           
           crearCompuerta(ruta);
           compuertaCompleta.getChildren().addAll(start,end,startE,line,end.getEtiqueta(),imagenVista);
-          
           CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
               start.startFullDrag();
@@ -188,7 +187,7 @@ class Imagen{
     }
     
     public Valores getSalida(){
-        return salida;
+        return end.getValor();
     }
     public ImageView getImagen(){
         return imagenVista;
@@ -203,17 +202,16 @@ class Imagen{
         System.out.println(salida);
     }
     
-    public void revisarEntradas(){
+    public boolean revisarEntradas(){
         System.out.println("revisa entradas");
       for (int i = 0; i < entradas.getSize(); i++){
           if(entradas.getValor(i).getValor() != null && entradas.getValor(i).getValor() != Valores.Default){
               continue;
           }else{
-              return;
+              return false;
           }
       }
-      System.out.println("ejecuta la operación");
-      operarSalida();
+      return true;
     }
     
     public Color colorLinea(){

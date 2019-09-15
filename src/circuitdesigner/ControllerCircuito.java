@@ -38,6 +38,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.geometry.Point2D;
+import operadores.Valores;
 
 public class ControllerCircuito implements Initializable{
     
@@ -190,5 +191,53 @@ public class ControllerCircuito implements Initializable{
         
         stage.show();
     }
+    public void validarEntradas(){ //Cuando se presione botón de Simulate
+        ListLinked<Imagen> circuito = Facade.getCircuito();
+        for(int i = 0; i < circuito.getSize(); i++){
+            Imagen compuerta = circuito.getValor(i);
+            for (int j = 0; j < compuerta.getEntradas().getSize(); i++){
+                if (((Entrada)compuerta.getEntradas().getValor(i)).getValor() == null){
+                    //Error, no se han asignado todos los valores AlertDialog;
+                }
+                
+            }
+        }
+        emularCircuito();
+    }
+    private int entradasEvaluadas = 0;
     
+    public String emularCircuito(){
+        
+        ListLinked<Imagen> circuito = Facade.getCircuito();
+        
+        for(int i = 0; i < circuito.getSize(); i++){
+            
+            Imagen compuerta = circuito.getValor(i);
+            
+            if (compuerta.revisarEntradas()== true && compuerta.getSalida() == Valores.Default){
+                compuerta.operarSalida();
+                entradasEvaluadas +=1;
+                if(compuerta.getEnd().conectada()== true){
+                    
+                    ListLinked<CirculoEntrada> entradasConectadas = compuerta.getEnd().getEntradasConectadas();
+                    
+                    for(int e = 0; e < entradasConectadas.getSize(); e++){
+                        entradasConectadas.getValor(e).setValor(compuerta.getEnd().getValor());
+                    }
+                    
+                }else{
+                    //Aquí habría una salida final;
+                }
+            }
+        }
+        if(entradasEvaluadas < circuito.getSize()){
+            return emularCircuito();
+        }else{
+            return mostrarSalidas();
+        }
+    }
+    
+    public String mostrarSalidas(){
+        return null;
+    }
 }

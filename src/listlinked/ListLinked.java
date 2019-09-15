@@ -119,7 +119,7 @@ public class ListLinked<T> extends Observable{
         }
         size--;
     }
-    public void eliminarEnPosición(int i){
+    public void eliminarEnPosición(int i){ //REVISAR
         if(i == 0){
             eliminarInicio();
         }
