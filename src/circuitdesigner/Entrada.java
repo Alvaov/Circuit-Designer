@@ -57,8 +57,15 @@ public class Entrada extends Observable{
               if (event.getGestureSource() instanceof CirculoSalida){
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
+                  ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
+              }else if (event.getGestureSource() instanceof CirculoEntrada){
+                  if (event.getGestureSource() instanceof CirculoEntrada){
+                      System.out.println("Conectar multientradas");
+                      endE.setValor(((CirculoEntrada)event.getGestureSource()).getValor());
+                      ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
+                  }
+                  System.out.println("entrada conectada");
               }
-              ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
           });
           endE.setOnMouseClicked(cambiarValor);
       }
@@ -131,6 +138,7 @@ public class Entrada extends Observable{
               System.out.println("eliminar");
                   endE.setCenterY(endE.getCenterY()+15);
                   endE.setValor(null);
+                  endE.setIsConected(false);
                   compuertaConectada = null;
               //}
           }
