@@ -11,8 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -60,12 +62,26 @@ public class Entrada extends Observable{
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
                   ((CirculoSalida) event.getGestureSource()).setEntradasConectadas(endE);
                   ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
+                  
+                  endE.layoutXProperty().addListener((E)->{
+                      Line enlace = new Line();
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      System.out.println(endE.getParent().getParent());
+                      System.out.println(((CirculoSalida)event.getGestureSource()).getParent().getParent());
+                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  });
+                  
+                  
               }else if (event.getGestureSource() instanceof CirculoEntrada){
+                  
                   if (event.getGestureSource() instanceof Circulo){
                       System.out.println("Conectar multientradas");
                       endE.setValor(((CirculoEntrada)event.getGestureSource()).getValor());
                       ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
                   }
+                  
                   System.out.println("entrada conectada");
               }
               colisiónE();
