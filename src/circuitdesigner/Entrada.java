@@ -77,10 +77,7 @@ public class Entrada extends Observable{
       }
       
       public void setValor(Valores valorNuevo){
-          //revisarEntradas();
           endE.setValor(valorNuevo);
-          System.out.println("llama a padre");
-          compuertaPadre.revisarEntradas();
       }
       
       public void colisiónE(){
