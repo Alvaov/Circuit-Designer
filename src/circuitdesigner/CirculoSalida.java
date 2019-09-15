@@ -18,7 +18,11 @@ public class CirculoSalida extends Circulo{
     public CirculoSalida(String etiqueta, Valores valor) {
         super(etiqueta, valor);
     }
-    
+    @Override
+    public void setValor(Valores valor){
+        this.valor = valor; 
+         
+    }
 
     
 }

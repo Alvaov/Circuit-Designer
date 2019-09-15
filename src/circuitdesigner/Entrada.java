@@ -39,6 +39,7 @@ public class Entrada extends Observable{
       private Valores valor;
       private Imagen compuertaConectada;
       private Circulo circulo;
+      private Imagen compuertaPadre;
       public Entrada(ImageView imagenVista, Circulo circulo,int i){
           this.imagenVista = imagenVista;
           this.circulo = circulo;
@@ -54,7 +55,6 @@ public class Entrada extends Observable{
           endE.setOnDragDetected(MouseDetected);
           
           endE.setOnMouseDragReleased(event->{
-              System.out.println(((CirculoEntrada)event.getGestureSource()).getIsConected());
               if (event.getGestureSource() instanceof CirculoSalida){
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
@@ -67,6 +67,7 @@ public class Entrada extends Observable{
                   }
                   System.out.println("entrada conectada");
               }
+              colisiónE();
           });
           endE.setOnMouseClicked(cambiarValor);
       }
@@ -78,6 +79,8 @@ public class Entrada extends Observable{
       public void setValor(Valores valorNuevo){
           //revisarEntradas();
           endE.setValor(valorNuevo);
+          System.out.println("llama a padre");
+          compuertaPadre.revisarEntradas();
       }
       
       public void colisiónE(){
@@ -91,8 +94,8 @@ public class Entrada extends Observable{
                   if (entrada.endE == this.endE){                     
                       continue;
                         }
-                  if (fin.getCenterX()+2 >= this.endE.getCenterX()&& fin.getCenterX()-2 <= this.endE.getCenterX()){
-                      if(fin.getCenterY()+2 >= this.endE.getCenterY() && fin.getCenterY()-2 <= this.endE.getCenterY()){
+                  if (fin.getCenterX()+4 >= this.endE.getCenterX()&& fin.getCenterX()-4 <= this.endE.getCenterX()){
+                      if(fin.getCenterY()+4 >= this.endE.getCenterY() && fin.getCenterY()-4 <= this.endE.getCenterY()){
                           
                           this.endE.setCenterX(fin.getCenterX());
                           this.endE.setCenterY(fin.getCenterY());
@@ -153,6 +156,15 @@ public class Entrada extends Observable{
       public Line getLinea(){
           return lineE;
       }
+      
+      public Imagen getCompuertaPadre(){
+          return compuertaPadre;
+      }
+      
+      public void setCompuertaPadre(Imagen compuertaPadre){
+          this.compuertaPadre = compuertaPadre;
+      }
+      
     public Color colorLinea(){
         double red = Math.random();
         double green = Math.random();

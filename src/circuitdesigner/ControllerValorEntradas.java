@@ -49,8 +49,8 @@ Stage stage;
             public void handle(ActionEvent event) {
                 //System.out.println(grupo.selectedToggleProperty().getValue().toString());
                 if (grupo.selectedToggleProperty().getValue().equals(setTrue)){
-                    System.out.println("true");
                     circuloEntrada.setValor(Valores.True);
+                    System.out.println("Seteó true");
                     stage.close();
                     
                 }else{

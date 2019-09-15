@@ -19,10 +19,10 @@ import operadores.Valores;
  * @author allva
  */
 class Circulo extends Circle {
-    private Double newX, newY;
-    private Label etiqueta;
-    private Valores valor;
-    private boolean isConected;
+    protected Label etiqueta;
+    protected Valores valor;
+    protected boolean isConected;
+    protected Imagen compuertaPadre;
     // ListLinked<Entrada> entradas = Facade.entradas;
     
     Circulo(String etiqueta, Valores valor) {
@@ -45,11 +45,19 @@ class Circulo extends Circle {
     }
     public void setValor(Valores valor){
         this.valor = valor;
+        System.out.println("Setea valor circulo");
+        compuertaPadre.revisarEntradas();
     }
     public void setIsConected(boolean valor){
         isConected = valor;
     }
     public boolean getIsConected(){
         return isConected;
+    }
+    public void setCompuertaPadre(Imagen compuertaPadre){
+        this.compuertaPadre = compuertaPadre;
+    }
+    public Imagen getCompuertaPadre(){
+        return compuertaPadre;
     }
 }

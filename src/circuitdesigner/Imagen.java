@@ -193,12 +193,18 @@ class Imagen{
     public ImageView getImagen(){
         return imagenVista;
     }
+    
     public void operarSalida(){
+        System.out.println("Operación");
         salida = compuerta.operación(entradas);
+        System.out.println(salida);
+        System.out.println("asignar salida");
         end.setValor(salida);
+        System.out.println(salida);
     }
     
     public void revisarEntradas(){
+        System.out.println("revisa entradas");
       for (int i = 0; i < entradas.getSize(); i++){
           if(entradas.getValor(i).getValor() != null && entradas.getValor(i).getValor() != Valores.Default){
               continue;
@@ -206,6 +212,7 @@ class Imagen{
               return;
           }
       }
+      System.out.println("ejecuta la operación");
       operarSalida();
     }
     

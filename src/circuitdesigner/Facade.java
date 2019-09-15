@@ -31,7 +31,13 @@ public class Facade{
     Observador observerCircuito = new Observador();
     
     public Facade(String ruta,int cantidadDeEntradas){
+        
         Imagen imagen = new Imagen(ruta,cantidadDeEntradas);
+        for (int i = 0; i < imagen.getEntradas().getSize(); i++){
+            Entrada entrada = (Entrada) imagen.getEntradas().buscarElemento(i);
+            entrada.getEndE().setCompuertaPadre(imagen);
+        }
+        
         circuito.añadirFinal(imagen);
         circuito.addObserver(observerCircuito);
     }

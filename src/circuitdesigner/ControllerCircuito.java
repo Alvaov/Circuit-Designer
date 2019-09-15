@@ -112,9 +112,9 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                //crearVentana("AND.png");
+                crearVentana("AND.png");
                 
-                CrearAnd("AND.png",2);
+                //CrearAnd("AND.png",2);
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
             }
