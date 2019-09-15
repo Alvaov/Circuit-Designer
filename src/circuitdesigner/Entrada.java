@@ -54,12 +54,13 @@ public class Entrada extends Observable{
           endE.setOnDragDetected(MouseDetected);
           
           endE.setOnMouseDragReleased(event->{
+              System.out.println(((CirculoEntrada)event.getGestureSource()).getIsConected());
               if (event.getGestureSource() instanceof CirculoSalida){
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
                   ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
               }else if (event.getGestureSource() instanceof CirculoEntrada){
-                  if (event.getGestureSource() instanceof CirculoEntrada){
+                  if (event.getGestureSource() instanceof Circulo){
                       System.out.println("Conectar multientradas");
                       endE.setValor(((CirculoEntrada)event.getGestureSource()).getValor());
                       ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
@@ -156,7 +157,15 @@ public class Entrada extends Observable{
         double red = Math.random();
         double green = Math.random();
         double blue = Math.random();
-        return Color.color(red, green, blue);
+        
+        Color color =Color.color(red, green, blue);
+        ListLinked<Color> coloresUsados = Facade.getColores();
+        for(int i = 0; i < coloresUsados.getSize(); i++){
+            if (coloresUsados.buscarElemento(i).equals(color)){
+                return colorLinea();
+            }
+        }
+        return color;
     }
     
     public void crearVentana() throws IOException{

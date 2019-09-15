@@ -27,6 +27,7 @@ public class Facade{
     public static int e = 0;
     public static int s = 0;
     private static ListLinked<Imagen> circuito = new ListLinked();
+    private static ListLinked<Color> coloresUsados = new ListLinked();
     Observador observerCircuito = new Observador();
     
     public Facade(String ruta,int cantidadDeEntradas){
@@ -43,6 +44,9 @@ public class Facade{
     }
     public static ListLinked getCircuito(){
         return circuito;
+    }
+    public static ListLinked getColores(){
+        return coloresUsados;
     }
     
 }

@@ -81,6 +81,7 @@ class Imagen{
           line.startYProperty().bind(start.layoutYProperty());
           line.endXProperty().bind(end.layoutXProperty());
           line.endYProperty().bind(end.layoutYProperty());
+          line.setStroke(colorLinea());
           startE   = new Circulo("",null);
           startE.setLayoutX(25);
           startE.setLayoutY(20);
@@ -206,5 +207,20 @@ class Imagen{
           }
       }
       operarSalida();
+    }
+    
+    public Color colorLinea(){
+        double red = Math.random();
+        double green = Math.random();
+        double blue = Math.random();
+        
+        Color color =Color.color(red, green, blue);
+        ListLinked<Color> coloresUsados = Facade.getColores();
+        for(int i = 0; i < coloresUsados.getSize(); i++){
+            if (coloresUsados.buscarElemento(i).equals(color)){
+                return colorLinea();
+            }
+        }
+        return color;
     }
   }
