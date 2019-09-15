@@ -203,7 +203,7 @@ class Imagen{
     }
     
     public boolean revisarEntradas(){
-        System.out.println("revisa entradas");
+      System.out.println("revisa entradas");
       for (int i = 0; i < entradas.getSize(); i++){
           if(entradas.getValor(i).getValor() != null && entradas.getValor(i).getValor() != Valores.Default){
               continue;

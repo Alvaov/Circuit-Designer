@@ -58,6 +58,7 @@ public class Entrada extends Observable{
               if (event.getGestureSource() instanceof CirculoSalida){
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
+                  ((CirculoSalida) event.getGestureSource()).setEntradasConectadas(endE);
                   ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
               }else if (event.getGestureSource() instanceof CirculoEntrada){
                   if (event.getGestureSource() instanceof Circulo){

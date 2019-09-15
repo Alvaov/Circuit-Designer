@@ -46,7 +46,6 @@ class Circulo extends Circle {
     public void setValor(Valores valor){
         this.valor = valor;
         System.out.println("Setea valor circulo");
-        compuertaPadre.revisarEntradas();
     }
     public void setIsConected(boolean valor){
         isConected = valor;

@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -76,7 +77,6 @@ public class ControllerCircuito implements Initializable{
                 Point2D punto = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutX(punto.getX());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutY(punto.getY());
-                System.out.println(((CirculoEntrada) event.getGestureSource()).getValor());
             } 
             
             
@@ -105,6 +105,14 @@ public class ControllerCircuito implements Initializable{
            }
             
         });
+        
+        SimulateButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                validarEntradas();
+            }
+            
+        });
     }
     
     EventHandler<MouseEvent> crearAnd = 
@@ -113,9 +121,9 @@ public class ControllerCircuito implements Initializable{
         @Override
         public void handle(MouseEvent t){
             try {
-                crearVentana("AND.png");
+                //crearVentana("AND.png");
                 
-                //CrearAnd("AND.png",2);
+                CrearAnd("AND.png",2);
             } catch (Exception e) {
                 System.out.println("No se logró cargar la ventana");
             }
@@ -193,11 +201,17 @@ public class ControllerCircuito implements Initializable{
     }
     public void validarEntradas(){ //Cuando se presione botón de Simulate
         ListLinked<Imagen> circuito = Facade.getCircuito();
+        System.out.println("Tamaño del circuito");
+        System.out.println(circuito.getSize());
         for(int i = 0; i < circuito.getSize(); i++){
             Imagen compuerta = circuito.getValor(i);
-            for (int j = 0; j < compuerta.getEntradas().getSize(); i++){
-                if (((Entrada)compuerta.getEntradas().getValor(i)).getValor() == null){
-                    //Error, no se han asignado todos los valores AlertDialog;
+            System.out.println("Entradas por compuerta");
+            System.out.println(compuerta.getEntradas().getSize());
+            for (int j = 0; j < compuerta.getEntradas().getSize(); j++){
+                System.out.println(j);
+                if (((Entrada)compuerta.getEntradas().getValor(j)).getValor() == null){
+                    System.out.println("Error: faltan valores");
+                    return;
                 }
                 
             }
@@ -217,8 +231,12 @@ public class ControllerCircuito implements Initializable{
             if (compuerta.revisarEntradas()== true && compuerta.getSalida() == Valores.Default){
                 compuerta.operarSalida();
                 entradasEvaluadas +=1;
+                System.out.println("Entradas evaluadas");
+                System.out.println(entradasEvaluadas);
+                System.out.println("Salida de la compuerta");
+                System.out.println(compuerta.getSalida());
                 if(compuerta.getEnd().conectada()== true){
-                    
+                    System.out.println("Está conectada");
                     ListLinked<CirculoEntrada> entradasConectadas = compuerta.getEnd().getEntradasConectadas();
                     
                     for(int e = 0; e < entradasConectadas.getSize(); e++){
@@ -231,6 +249,7 @@ public class ControllerCircuito implements Initializable{
             }
         }
         if(entradasEvaluadas < circuito.getSize()){
+            System.out.println("Emula de nuevo");
             return emularCircuito();
         }else{
             return mostrarSalidas();
@@ -238,6 +257,7 @@ public class ControllerCircuito implements Initializable{
     }
     
     public String mostrarSalidas(){
+        System.out.println("Salidas");
         return null;
     }
 }
