@@ -22,6 +22,7 @@ import java.util.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseDragEvent;
@@ -66,7 +67,14 @@ class Imagen{
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
                   end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource())); //REVISAR //AÑADIENDO ENTRADA A LA LISTA DE ENTRADAS CONECTADAS
                   //CONTEMPLAR CASO DONDE ENTRADA ARRASTRADA CAIGA SOBRE ENTRADA CONECTADA
-                  
+                  end.layoutXProperty().addListener((E)->{
+                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
+                      System.out.println(end.getParent().getParent());
+                      System.out.println(((CirculoEntrada)event.getGestureSource()).getParent().getParent());
+                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  });
               }
               ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
           });
