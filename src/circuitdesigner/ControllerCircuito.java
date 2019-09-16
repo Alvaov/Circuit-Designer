@@ -64,15 +64,90 @@ public class ControllerCircuito implements Initializable{
     private ImageView NOTimage;
     @FXML
     private AnchorPane AnchorCircuito;
+    @FXML
+    private ImageView papelera;
 
+    ImageView nuevaCompuerta;
+    String stringCompuerta;
     @Override
     public void initialize(URL location, ResourceBundle resources){
         
-        ANDimage.setOnMouseClicked(crearAnd);
-        ORimage.setOnMouseClicked(crearOr);
-        XORimage.setOnMouseClicked(crearXor);
-        NANDimage.setOnMouseClicked(crearNegaciones);
+        ANDimage.setOnDragDetected(event->{
+            ANDimage.startFullDrag();
+            nuevaCompuerta = new ImageView("AND2.png");
+            stringCompuerta = "AND.png";
+        });
+        
+        NANDimage.setOnDragDetected(event->{
+            NANDimage.startFullDrag();
+            nuevaCompuerta = new ImageView("NAND2.png");
+            stringCompuerta = "NAND.png";
+        });
+        
+        ORimage.setOnDragDetected(event->{
+            ORimage.startFullDrag();
+            nuevaCompuerta = new ImageView("OR2.png");
+            stringCompuerta = "OR.png";
+        });
+        
+        NORimage.setOnDragDetected(event->{
+            NORimage.startFullDrag();
+            nuevaCompuerta = new ImageView("NOR2.png");
+            stringCompuerta = "NOR.png";
+        });
+        
+        XORimage.setOnDragDetected(event->{
+            NANDimage.startFullDrag();
+            nuevaCompuerta = new ImageView("XOR2.png");
+            stringCompuerta = "XOR.png";
+        });
+        XNORimage.setOnDragDetected(event->{
+            NANDimage.startFullDrag();
+            nuevaCompuerta = new ImageView("XNOR2.png");
+            stringCompuerta = "XNOR.png";
+        });
+        NOTimage.setOnDragDetected(event->{
+            NANDimage.startFullDrag();
+            nuevaCompuerta = new ImageView("NOT2.png");
+            stringCompuerta = "NOT.png";
+        });
+        papelera.setOnDragDetected(event ->{
+           papelera.startFullDrag(); 
+        });
+        papelera.toFront();
+        papelera.setOnMouseDragReleased(event->{
+            System.out.println("Eliminar");
+            for(int i = 0; i < Factory.getCircuito().getSize(); i++){
+                if(Factory.getCircuito().getValor(i).equals(event.getGestureSource())){
+                    Factory.getCircuito().eliminarEnPosición(i);
+                    AnchorCircuito.getChildren().remove(Factory.getCircuito().getValor(i));
+                }
+            }
+            if(event.getGestureSource() instanceof CirculoEntrada){
+                System.out.println("otro grupo");
+            
+            }
+        });
+        AnchorCircuito.setOnMouseDragEntered(event ->{
+            if(nuevaCompuerta != null){
+                nuevaCompuerta.setFitWidth(65.0);
+                nuevaCompuerta.setFitHeight(40.0);
+                nuevaCompuerta.setLayoutX(350);
+                nuevaCompuerta.setLayoutY(0);
+                AnchorCircuito.getChildren().add(nuevaCompuerta);
+                nuevaCompuerta.toFront();
+            }
+        });
+
         AnchorCircuito.setOnMouseDragOver(event ->{
+            
+            if(event.getGestureSource() instanceof ImageView && nuevaCompuerta != null){
+                double x = event.getX();
+                double y = event.getY();
+                nuevaCompuerta.relocate(x-30,y-20);
+                nuevaCompuerta.toString();
+            }
+            
             if (event.getGestureSource() instanceof CirculoEntrada){
                 Point2D punto = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutX(punto.getX());
@@ -91,10 +166,20 @@ public class ControllerCircuito implements Initializable{
                 Point2D punto = ((Group) event.getGestureSource()).parentToLocal(event.getX(), event.getY());
                 ((Group) event.getGestureSource()).setLayoutX(event.getX());
                 ((Group) event.getGestureSource()).setLayoutY(event.getY());
-                ((Group) event.getGestureSource()).setLayoutY(event.getY());
             }
         });
         AnchorCircuito.setOnMouseDragReleased(event ->{
+            if(event.getGestureSource() instanceof ImageView){
+                try {
+                    crearVentana(stringCompuerta,event.getX(),event.getY());
+                    AnchorCircuito.getChildren().remove(nuevaCompuerta);
+                    stringCompuerta = null;
+                    nuevaCompuerta = null;
+                } catch (IOException ex) {
+                    Logger.getLogger(ControllerCircuito.class.getName()).log(Level.SEVERE, null, ex);
+                };
+                
+            }
            if (event.getGestureSource() instanceof CirculoSalida){ 
                System.out.println("salida pane");
                ((CirculoSalida) event.getGestureSource()).getParent().setMouseTransparent(false);
@@ -102,6 +187,8 @@ public class ControllerCircuito implements Initializable{
            else if(event.getGestureSource() instanceof CirculoEntrada){
                System.out.println("entrada pane");
                ((CirculoEntrada) event.getGestureSource()).getParent().setMouseTransparent(false);
+           }else if(event.getGestureSource() instanceof Group){
+               System.out.println("grupo");
            }
             
         });
@@ -114,85 +201,17 @@ public class ControllerCircuito implements Initializable{
             
         });
     }
-    
-    EventHandler<MouseEvent> crearAnd = 
-        new EventHandler<MouseEvent>(){
-        
-        @Override
-        public void handle(MouseEvent t){
-            try {
-                //crearVentana("AND.png");
-                
-                CrearAnd("AND.png",2);
-            } catch (Exception e) {
-                System.out.println("No se logró cargar la ventana");
-            }
-        }
-    };
-
-    EventHandler<MouseEvent> crearOr = 
-            new EventHandler<MouseEvent>(){
-        
-        @Override
-        public void handle(MouseEvent t){
-            try {
-
-                CrearOr();
-            } catch (Exception e) {
-                System.out.println("No se logró cargar la ventana");
-            }
-        }
-    };
-    
-    EventHandler<MouseEvent> crearXor = 
-        new EventHandler<MouseEvent>(){
-        
-        @Override
-        public void handle(MouseEvent t){
-            try {
-                CrearXor();
-            } catch (Exception e) {
-                System.out.println("No se logró cargar la ventana");
-            }
-        }
-    };
-    
-    EventHandler<MouseEvent> crearNegaciones = 
-        new EventHandler<MouseEvent>(){
-        
-        @Override
-        public void handle(MouseEvent t){
-            try {
-                
-                CrearOr();
-            } catch (Exception e) {
-                System.out.println("No se logró cargar la ventana");
-            }
-        }
-    };
-
-    public void CrearAnd(String ruta, int cantidadDeEntradas) throws FileNotFoundException{
-        Facade algo = new Facade("AND.png",cantidadDeEntradas);
-    }
-    
-    public void CrearOr() throws FileNotFoundException{
-        
-    }
-    
-    public void CrearXor() throws FileNotFoundException{
-
-    }
 
     public AnchorPane getAnchor(){
         return AnchorCircuito;
     }
     
-    public void crearVentana(String ruta) throws IOException{
+    public void crearVentana(String ruta,double x, double y) throws IOException{
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
         Parent root1 = (Parent) loader.load();
         ControllerCantEntradas controladorEntradas = (ControllerCantEntradas)loader.getController();
-        controladorEntradas.rutaImagen(ruta);
+        controladorEntradas.valoresImagen(ruta,x,y);
         Stage stage = new Stage();
         controladorEntradas.enviarStage(stage);
         stage.setScene(new Scene(root1));
@@ -200,7 +219,7 @@ public class ControllerCircuito implements Initializable{
         stage.show();
     }
     public void validarEntradas(){ //Cuando se presione botón de Simulate
-        ListLinked<Imagen> circuito = Facade.getCircuito();
+        ListLinked<Imagen> circuito = Factory.getCircuito();
         System.out.println("Tamaño del circuito");
         System.out.println(circuito.getSize());
         for(int i = 0; i < circuito.getSize(); i++){
@@ -222,7 +241,7 @@ public class ControllerCircuito implements Initializable{
     
     public String emularCircuito(){
         
-        ListLinked<Imagen> circuito = Facade.getCircuito();
+        ListLinked<Imagen> circuito = Factory.getCircuito();
         
         for(int i = 0; i < circuito.getSize(); i++){
             

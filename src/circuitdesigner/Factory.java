@@ -21,25 +21,24 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
-public class Facade{
+public class Factory{
     
 
     public static int e = 0;
     public static int s = 0;
     private static ListLinked<Imagen> circuito = new ListLinked();
     private static ListLinked<Color> coloresUsados = new ListLinked();
-    Observador observerCircuito = new Observador();
     
-    public Facade(String ruta,int cantidadDeEntradas){
+    public Factory(String ruta,int cantidadDeEntradas,double x, double y){
         
-        Imagen imagen = new Imagen(ruta,cantidadDeEntradas);
+        Imagen imagen = new Imagen(ruta,cantidadDeEntradas,x,y);
+        
         for (int i = 0; i < imagen.getEntradas().getSize(); i++){
             Entrada entrada = (Entrada) imagen.getEntradas().buscarElemento(i);
             entrada.getEndE().setCompuertaPadre(imagen);
         }
         
         circuito.añadirFinal(imagen);
-        circuito.addObserver(observerCircuito);
     }
 
     public int getCantidadDeEntradas(){

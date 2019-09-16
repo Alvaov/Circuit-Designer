@@ -33,7 +33,7 @@ import javafx.scene.input.MouseDragEvent;
 class Imagen{
     private Operadores compuerta;
     private ImageView imagenVista;
-    private Group compuertaCompleta = new Group();
+    private Group compuertaCompleta;
       
     private double orgSceneX, orgSceneY;
     private Valores salida;
@@ -43,7 +43,10 @@ class Imagen{
     private ListLinked<Entrada> entradas = new ListLinked<>();
     private int y;  
     
-    public Imagen(String ruta, int cantidadDeEntradas){
+    public Imagen(String ruta, int cantidadDeEntradas,double x, double y){
+          compuertaCompleta = new Group();
+          compuertaCompleta.setLayoutX(x-20);
+          compuertaCompleta.setLayoutY(y-20);
           salida = Valores.Default;
           Image imagen = new Image(ruta);
           imagenVista = new ImageView(imagen);
@@ -51,8 +54,8 @@ class Imagen{
           imagenVista.setFitHeight(40.0);
           imagenVista.setX(orgSceneX);
           imagenVista.setY(orgSceneY);
-          end      = new CirculoSalida("o<"+Facade.s+">",salida);
-          Facade.s++;
+          end      = new CirculoSalida("o<"+Factory.s+">",salida);
+          Factory.s++;
           
           end.setOnDragDetected(event -> {
               end.startFullDrag();
@@ -67,23 +70,45 @@ class Imagen{
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
                   end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource())); //REVISAR //AÑADIENDO ENTRADA A LA LISTA DE ENTRADAS CONECTADAS
                   //CONTEMPLAR CASO DONDE ENTRADA ARRASTRADA CAIGA SOBRE ENTRADA CONECTADA
+                  compuertaCompleta.toFront();
+                  
                   end.layoutXProperty().addListener((E)->{
                       Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
-                      System.out.println(end.getParent().getParent());
-                      System.out.println(((CirculoEntrada)event.getGestureSource()).getParent().getParent());
                       Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
                       ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
                       ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
                   });
+                  end.layoutYProperty().addListener((E)->{
+                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  });
+                  compuertaCompleta.layoutXProperty().addListener((E)->{
+                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                      
+                  });
+                  compuertaCompleta.layoutYProperty().addListener((E)->{
+                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                      
+                  });
+                  ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
+              }else{
+                  System.out.println("Conexión inválida");
               }
-              ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
           });
           
           end.setLayoutX(60);
-          end.setLayoutY(23);
+          end.setLayoutY(20);
           start    = new Circulo("",null);
           start.setLayoutX(40);
-          start.setLayoutY(23);
+          start.setLayoutY(20);
           line     = new Line();
           line.startXProperty().bind(start.layoutXProperty());
           line.startYProperty().bind(start.layoutYProperty());
@@ -96,12 +121,12 @@ class Imagen{
 
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
-              Entrada entrada = new Entrada(imagenVista,startE,Facade.e);
+              Entrada entrada = new Entrada(imagenVista,startE,Factory.e);
               entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
               compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
               
-              Facade.e++;
+              Factory.e++;
               y += 7;
           }
           
@@ -114,39 +139,6 @@ class Imagen{
               compuertaCompleta.startFullDrag();
           });
       }
-      
-    public void colisiónS(){
-        ListLinked<Imagen> circuito = Facade.getCircuito();
-          
-          for (int c = 0; c < circuito.getSize(); c++){
-              Imagen imagen = circuito.getValor(c);
-
-              CirculoSalida fin = imagen.getEnd();
-              for(int i = 0; i < imagen.getEntradas().getSize(); i++){
-                  
-                  Entrada entrada = imagen.getEntrada(i);
-                  if (fin == this.end){ 
-                      continue;
-                        }
-                  if (fin.getCenterX()+4 >= this.end.getCenterX()&& fin.getCenterX()-4 <= this.end.getCenterX()){
-                      if(fin.getCenterY()+4 >= this.end.getCenterY() && fin.getCenterY()-4 <= this.end.getCenterY()){
-
-                      System.out.println("Error: no se pueden conectar dos salidas");
-                      }
-                  }
-                    else{
-                      if (entrada.getEndE().getCenterX()+4 >= this.end.getCenterX()&& entrada.getEndE().getCenterX()-4 <= this.end.getCenterX()){
-                      if(entrada.getEndE().getCenterY()+4 >= this.end.getCenterY() && entrada.getEndE().getCenterY()-4 <= this.end.getCenterY()){
-
-                         this.end.setCenterX(entrada.getEndE().getCenterX());
-                         this.end.setCenterY(entrada.getEndE().getCenterY());
-
-                      }
-                    }
-                 }
-              }
-         }
-    } 
     
     private void crearCompuerta(String ruta){
         switch (ruta) {
@@ -200,7 +192,9 @@ class Imagen{
     public ImageView getImagen(){
         return imagenVista;
     }
-    
+    public Group getCompuerta(){
+        return compuertaCompleta;
+    }
     public void operarSalida(){
         System.out.println("Operación");
         salida = compuerta.operación(entradas);
@@ -228,7 +222,7 @@ class Imagen{
         double blue = Math.random();
         
         Color color =Color.color(red, green, blue);
-        ListLinked<Color> coloresUsados = Facade.getColores();
+        ListLinked<Color> coloresUsados = Factory.getColores();
         for(int i = 0; i < coloresUsados.getSize(); i++){
             if (coloresUsados.buscarElemento(i).equals(color)){
                 return colorLinea();

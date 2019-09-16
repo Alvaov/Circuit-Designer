@@ -62,16 +62,33 @@ public class Entrada extends Observable{
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
                   ((CirculoSalida) event.getGestureSource()).setEntradasConectadas(endE);
                   ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
-                  
+                  ((CirculoSalida)event.getGestureSource()).getParent().toFront();
                   endE.layoutXProperty().addListener((E)->{
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
-                      System.out.println(endE.getParent().getParent());
-                      System.out.println(((CirculoSalida)event.getGestureSource()).getParent().getParent());
                       Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
                       ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
                       ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
                   });
-                  
+                  endE.layoutYProperty().addListener((E)->{
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  });
+                  endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener((E)->{
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                      
+                  });
+                  endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener((E)->{
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                      
+                  });
                   
               }else if (event.getGestureSource() instanceof CirculoEntrada){
                   
@@ -83,7 +100,6 @@ public class Entrada extends Observable{
                   
                   System.out.println("entrada conectada");
               }
-              colisiónE();
           });
           endE.setOnMouseClicked(cambiarValor);
       }
@@ -94,36 +110,6 @@ public class Entrada extends Observable{
       
       public void setValor(Valores valorNuevo){
           endE.setValor(valorNuevo);
-      }
-      
-      public void colisiónE(){
-          ListLinked<Imagen> circuito = Facade.getCircuito();
-          
-          for (int c = 0; c < circuito.getSize(); c++){
-              Imagen imagen = circuito.getValor(c);
-              CirculoSalida fin = imagen.getEnd();
-              for(int i = 0; i < imagen.getEntradas().getSize(); i++){
-                  Entrada entrada = imagen.getEntrada(i);
-                  if (entrada.endE == this.endE){                     
-                      continue;
-                        }
-                  if (fin.getCenterX()+4 >= this.endE.getCenterX()&& fin.getCenterX()-4 <= this.endE.getCenterX()){
-                      if(fin.getCenterY()+4 >= this.endE.getCenterY() && fin.getCenterY()-4 <= this.endE.getCenterY()){
-                          
-                          this.endE.setCenterX(fin.getCenterX());
-                          this.endE.setCenterY(fin.getCenterY());
-                          }
-                  }
-                    else{
-                      if(entrada.endE.getCenterX()+4 >= this.endE.getCenterX() && entrada.endE.getCenterX()-4 <= this.endE.getCenterX()){
-                          if(entrada.endE.getCenterY()+4 >= this.endE.getCenterY() && entrada.endE.getCenterY()-4 <= this.endE.getCenterY()){
-                              this.endE.setCenterX(entrada.endE.getCenterX());
-                              this.endE.setCenterY(entrada.endE.getCenterY());
-                          }
-                      }
-                   }
-                }
-            }
       }
 
       EventHandler<MouseEvent> MouseDetected = new EventHandler<MouseEvent>() {
@@ -184,7 +170,7 @@ public class Entrada extends Observable{
         double blue = Math.random();
         
         Color color =Color.color(red, green, blue);
-        ListLinked<Color> coloresUsados = Facade.getColores();
+        ListLinked<Color> coloresUsados = Factory.getColores();
         for(int i = 0; i < coloresUsados.getSize(); i++){
             if (coloresUsados.buscarElemento(i).equals(color)){
                 return colorLinea();

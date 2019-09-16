@@ -50,6 +50,7 @@ public class ControllerCantEntradas implements Initializable {
     
     String ruta;
     Stage stage;
+    double x,y;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
@@ -60,12 +61,8 @@ public class ControllerCantEntradas implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 int valor = (Integer) crearEntradas.getValue();
-                try {
-                    CircuitDesigner.getControlador().CrearAnd(ruta, valor);
-                    stage.close();
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(ControllerCantEntradas.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                Factory compuerta = new Factory(ruta,valor,x,y);
+                stage.close();
             }
             
         });
@@ -80,8 +77,10 @@ public class ControllerCantEntradas implements Initializable {
         crearEntradas.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,1000000000));
     }
     
-    public void rutaImagen(String ruta){
+    public void valoresImagen(String ruta,double x, double y){
         this.ruta = ruta;
+        this.x = x;
+        this.y = y;
     }
     public void enviarStage(Stage stage){
         this.stage = stage;
