@@ -153,4 +153,8 @@ public class ListLinked<T> extends Observable{
     public int getSize(){
         return size;
     }
+    
+    public void eliminarLista(){
+        cabeza = null;
+    }
 }

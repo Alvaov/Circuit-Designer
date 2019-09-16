@@ -104,6 +104,19 @@ class Imagen{
               }
           });
           
+          end.setOnMouseClicked(event ->{
+             if(event.getClickCount() == 2){
+                 System.out.println(end.getEntradasConectadas());
+                 //end.getEntradasConectadas().eliminarLista();
+                 //end.getEntradasConectadas() = null;
+                 /*end.layoutXProperty().removeListener(listener);
+                 end.layoutYProperty().removeListener(listener);
+                 compuertaCompleta.layoutXProperty().removeListener(listener);
+                 compuertaCompleta.layoutYProperty().removeListener(listener);*/
+                 System.out.println(end.getEntradasConectadas().getValor(3));
+             } 
+          });
+          
           end.setLayoutX(60);
           end.setLayoutY(20);
           start    = new Circulo("",null);

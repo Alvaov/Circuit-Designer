@@ -313,6 +313,8 @@ public class ControllerCircuito implements Initializable{
                     filas *=2;
                 }
             }
+            int valorEntrada= 1;
+            String entrada = ""+valorEntrada;
         }
         System.out.println(filas);
         VBox elementos = new VBox();

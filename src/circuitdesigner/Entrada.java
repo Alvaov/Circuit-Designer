@@ -138,6 +138,7 @@ public class Entrada extends Observable{
               }
           }
           System.out.println(t.isSecondaryButtonDown());
+          System.out.println(t.isPrimaryButtonDown());
           if(t.isSecondaryButtonDown()){
               //if(endE.getValor() != null){
               System.out.println("eliminar");
