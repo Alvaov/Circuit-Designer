@@ -39,6 +39,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.geometry.Point2D;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
 import operadores.Valores;
 
 public class ControllerCircuito implements Initializable{
@@ -66,6 +69,8 @@ public class ControllerCircuito implements Initializable{
     private AnchorPane AnchorCircuito;
     @FXML
     private ImageView papelera;
+    @FXML
+    private Button tablaDeVerdad;
 
     ImageView nuevaCompuerta;
     String stringCompuerta;
@@ -114,7 +119,6 @@ public class ControllerCircuito implements Initializable{
         papelera.setOnDragDetected(event ->{
            papelera.startFullDrag(); 
         });
-        papelera.toFront();
         papelera.setOnMouseDragReleased(event->{
             System.out.println("Eliminar");
             for(int i = 0; i < Factory.getCircuito().getSize(); i++){
@@ -200,6 +204,13 @@ public class ControllerCircuito implements Initializable{
             }
             
         });
+        tablaDeVerdad.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                tablaDeVerdad();
+            }
+            
+        });
     }
 
     public AnchorPane getAnchor(){
@@ -278,5 +289,37 @@ public class ControllerCircuito implements Initializable{
     public String mostrarSalidas(){
         System.out.println("Salidas");
         return null;
+    }
+    
+    /**
+     * @see Método llamado al tocar el botón de Tabla de Verdad en la GUI.
+     * Calcula los posibles resultados que puede tener cada circuito con todas sus posibles
+     * entradas.
+     */
+    public void tablaDeVerdad(){
+        Scene escena = new Scene(new Group());
+        Stage stage = new Stage();
+        stage.setTitle("Tabla de Verdad");
+        TableView tablaDeVerdad = new TableView();
+        tablaDeVerdad.setEditable(true);
+        int filas = 1;
+        ListLinked<Imagen> circuito = Factory.getCircuito();
+        for(int i = 0; i< circuito.getSize(); i++){
+            Imagen compuerta = circuito.getValor(i);
+            for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
+                if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
+                    TableColumn columna = new TableColumn();
+                    tablaDeVerdad.getColumns().add(columna);
+                    filas *=2;
+                }
+            }
+        }
+        System.out.println(filas);
+        VBox elementos = new VBox();
+        elementos.getChildren().addAll(tablaDeVerdad);
+        
+        ((Group) escena.getRoot()).getChildren().add(elementos);
+        stage.setScene(escena);
+        stage.show();
     }
 }

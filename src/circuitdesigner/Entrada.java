@@ -63,6 +63,8 @@ public class Entrada extends Observable{
                   ((CirculoSalida) event.getGestureSource()).setEntradasConectadas(endE);
                   ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
                   ((CirculoSalida)event.getGestureSource()).getParent().toFront();
+                  ((CirculoSalida)event.getGestureSource()).setIsConected(true);
+                  endE.setIsConected(true);
                   endE.layoutXProperty().addListener((E)->{
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
