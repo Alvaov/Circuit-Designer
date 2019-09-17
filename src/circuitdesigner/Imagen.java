@@ -19,6 +19,8 @@ import listlinked.ListLinked;
 import operadores.*;
 import java.util.Observer;
 import java.util.Observable;
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ListChangeListener;
@@ -65,6 +67,14 @@ class Imagen{
           
           end.setOnMouseDragReleased(event->{
               if (event.getGestureSource() instanceof CirculoEntrada){
+                  
+                  ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
+                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  };
+                  end.setUserData(listener);
                   System.out.println("release salida");//Conecta entrada con una salida
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
@@ -72,32 +82,11 @@ class Imagen{
                   //CONTEMPLAR CASO DONDE ENTRADA ARRASTRADA CAIGA SOBRE ENTRADA CONECTADA
                   compuertaCompleta.toFront();
                   
-                  end.layoutXProperty().addListener((E)->{
-                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                  });
-                  end.layoutYProperty().addListener((E)->{
-                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                  });
-                  compuertaCompleta.layoutXProperty().addListener((E)->{
-                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                      
-                  });
-                  compuertaCompleta.layoutYProperty().addListener((E)->{
-                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                      
-                  });
+                  end.layoutXProperty().addListener(listener);
+                  end.layoutYProperty().addListener(listener);
+                  compuertaCompleta.layoutXProperty().addListener(listener);
+                  compuertaCompleta.layoutYProperty().addListener(listener);
+             
                   ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
               }else{
                   System.out.println("Conexión inválida");
@@ -106,14 +95,14 @@ class Imagen{
           
           end.setOnMouseClicked(event ->{
              if(event.getClickCount() == 2){
-                 System.out.println(end.getEntradasConectadas());
+                 for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
+                     ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
+                 }
                  end.getEntradasConectadas().eliminarLista();
-                 //end.getEntradasConectadas() = null;
-                 /*end.layoutXProperty().removeListener(listener);
-                 end.layoutYProperty().removeListener(listener);
-                 compuertaCompleta.layoutXProperty().removeListener(listener);
-                 compuertaCompleta.layoutYProperty().removeListener(listener);*/
-                 System.out.println(end.getEntradasConectadas().getValor(3));
+                 end.layoutXProperty().removeListener((ChangeListener) end.getUserData());
+                 end.layoutYProperty().removeListener((ChangeListener) end.getUserData());
+                 compuertaCompleta.layoutXProperty().removeListener((ChangeListener) end.getUserData());
+                 compuertaCompleta.layoutYProperty().removeListener((ChangeListener) end.getUserData());
              } 
           });
           

@@ -58,6 +58,13 @@ public class Entrada extends Observable{
           
           endE.setOnMouseDragReleased(event->{
               if (event.getGestureSource() instanceof CirculoSalida){
+                  ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  };
+                  endE.setUserData(listener);
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
                   ((CirculoSalida) event.getGestureSource()).setEntradasConectadas(endE);
@@ -65,32 +72,10 @@ public class Entrada extends Observable{
                   ((CirculoSalida)event.getGestureSource()).getParent().toFront();
                   ((CirculoSalida)event.getGestureSource()).setIsConected(true);
                   endE.setIsConected(true);
-                  endE.layoutXProperty().addListener((E)->{
-                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                  });
-                  endE.layoutYProperty().addListener((E)->{
-                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                  });
-                  endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener((E)->{
-                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                      
-                  });
-                  endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener((E)->{
-                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
-                      
-                  });
+                  endE.layoutXProperty().addListener(listener);
+                  endE.layoutYProperty().addListener(listener);
+                  endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener(listener);
+                  endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener(listener);
                   
               }else if (event.getGestureSource() instanceof CirculoEntrada){
                   
