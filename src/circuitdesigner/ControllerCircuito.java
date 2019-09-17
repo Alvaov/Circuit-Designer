@@ -302,20 +302,37 @@ public class ControllerCircuito implements Initializable{
         stage.setTitle("Tabla de Verdad");
         TableView tablaDeVerdad = new TableView();
         tablaDeVerdad.setEditable(true);
-        int filas = 1;
+        int filas = 1; //posible circuito
+        int entradas = 0;
+        ListLinked<TableColumn> columnas = new ListLinked<>();
+        ListLinked<PosibleCircuito> valoresTabla = new ListLinked<>();
         ListLinked<Imagen> circuito = Factory.getCircuito();
+        
         for(int i = 0; i< circuito.getSize(); i++){
             Imagen compuerta = circuito.getValor(i);
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
                 if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
-                    TableColumn columna = new TableColumn();
-                    tablaDeVerdad.getColumns().add(columna);
+                    TableColumn columna = new TableColumn("i<"+entradas+">");
+                    columnas.añadirFinal(columna);
+                    entradas +=1;
                     filas *=2;
                 }
             }
-            int valorEntrada= 1;
-            String entrada = ""+valorEntrada;
+            for (int o = 0; o <columnas.getSize(); o++){
+                tablaDeVerdad.getColumns().add(columnas.getValor(o));
+            }
         }
+        for(int j= 0; j < filas; j++){
+                System.out.println(entradas);
+                System.out.println(filas);
+                System.out.println("crea posible circuito");
+                PosibleCircuito posibleCircuito = new PosibleCircuito(entradas,filas);
+                valoresTabla.añadirFinal(posibleCircuito);
+            }
+        
+        //ObservableList<PosibleCircuito> datos = (ObservableList) valoresTabla;
+        
+        
         System.out.println(filas);
         VBox elementos = new VBox();
         elementos.getChildren().addAll(tablaDeVerdad);

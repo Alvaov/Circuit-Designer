@@ -11,7 +11,7 @@ import java.util.Observable;
  *
  * @author allva
  */
-public class ListLinked<T> extends Observable{
+public class ListLinked<T>{
    
     public Nodo<T> cabeza;
     public Nodo<T> ultimo;
@@ -69,7 +69,7 @@ public class ListLinked<T> extends Observable{
         }
         size++;
     }
-    public T buscarElemento(int i){
+    public Nodo buscarElemento(int i){
         if(cabeza == null){
             return null;
         }
@@ -80,7 +80,7 @@ public class ListLinked<T> extends Observable{
                 puntero = puntero.getSiguiente();
                 contador++;
             }
-            return puntero.getValor();
+            return puntero;
         }
     }
     /*
@@ -157,4 +157,5 @@ public class ListLinked<T> extends Observable{
     public void eliminarLista(){
         cabeza = null;
     }
+
 }

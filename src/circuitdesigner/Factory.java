@@ -34,7 +34,7 @@ public class Factory{
         Imagen imagen = new Imagen(ruta,cantidadDeEntradas,x,y);
         
         for (int i = 0; i < imagen.getEntradas().getSize(); i++){
-            Entrada entrada = (Entrada) imagen.getEntradas().buscarElemento(i);
+            Entrada entrada = (Entrada) imagen.getEntradas().getValor(i);
             entrada.getEndE().setCompuertaPadre(imagen);
         }
         

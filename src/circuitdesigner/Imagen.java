@@ -107,7 +107,7 @@ class Imagen{
           end.setOnMouseClicked(event ->{
              if(event.getClickCount() == 2){
                  System.out.println(end.getEntradasConectadas());
-                 //end.getEntradasConectadas().eliminarLista();
+                 end.getEntradasConectadas().eliminarLista();
                  //end.getEntradasConectadas() = null;
                  /*end.layoutXProperty().removeListener(listener);
                  end.layoutYProperty().removeListener(listener);
@@ -187,7 +187,7 @@ class Imagen{
     }
     
     public Entrada getEntrada(int i){
-        Entrada entrada = entradas.buscarElemento(i);
+        Entrada entrada = entradas.getValor(i);
         return entrada;
     }
     
