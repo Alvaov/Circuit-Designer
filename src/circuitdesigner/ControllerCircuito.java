@@ -39,6 +39,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
@@ -251,7 +252,7 @@ public class ControllerCircuito implements Initializable{
     private int entradasEvaluadas = 0;
     
     public String emularCircuito(){
-        
+        ListLinked<Valores> salidas = new ListLinked<>();
         ListLinked<Imagen> circuito = Factory.getCircuito();
         
         for(int i = 0; i < circuito.getSize(); i++){
@@ -274,6 +275,7 @@ public class ControllerCircuito implements Initializable{
                     }
                     
                 }else{
+                    salidas.añadirFinal(compuerta.getEnd().getValor());
                     //Aquí habría una salida final;
                 }
             }
@@ -282,12 +284,23 @@ public class ControllerCircuito implements Initializable{
             System.out.println("Emula de nuevo");
             return emularCircuito();
         }else{
-            return mostrarSalidas();
+            return mostrarSalidas(salidas);
         }
     }
     
-    public String mostrarSalidas(){
+    public String mostrarSalidas(ListLinked<Valores> salidas){
+        VBox salidasAMostrar = new VBox();
+        Scene escena = new Scene(new Group());
+        for (int i =0; i < salidas.getSize(); i++){
+            Label label = new Label("Salidas "+i+" "+salidas.getValor(i).toString());
+            salidasAMostrar.getChildren().add(label);
+        }
+        ((Group) escena.getRoot()).getChildren().add(salidasAMostrar);
+        Stage stage = new Stage();
+        stage.setTitle("Salidas del circuito");
+        stage.setScene(escena);
         System.out.println("Salidas");
+        stage.show();
         return null;
     }
     
@@ -316,12 +329,13 @@ public class ControllerCircuito implements Initializable{
                     columnas.añadirFinal(columna);
                     entradas +=1;
                     filas *=2;
+                    
                 }
             }
-            for (int o = 0; o <columnas.getSize(); o++){
+        }
+        for (int o = 0; o <columnas.getSize(); o++){
                 tablaDeVerdad.getColumns().add(columnas.getValor(o));
             }
-        }
         for(int j= 0; j < filas; j++){
                 System.out.println(entradas);
                 System.out.println(filas);
