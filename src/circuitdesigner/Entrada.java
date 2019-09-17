@@ -26,6 +26,7 @@ import javafx.scene.shape.Line;
 import operadores.Valores;
 import listlinked.ListLinked;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import javafx.stage.Stage;
 
@@ -122,16 +123,18 @@ public class Entrada extends Observable{
                   //Ya tiene un valor asignado por una salida;
               }
           }
-          System.out.println(t.isSecondaryButtonDown());
-          System.out.println(t.isPrimaryButtonDown());
-          if(t.isSecondaryButtonDown()){
-              //if(endE.getValor() != null){
-              System.out.println("eliminar");
-                  endE.setCenterY(endE.getCenterY()+15);
+          if(t.getButton()== MouseButton.SECONDARY){
+              if(endE.getValor() != null){
+                  System.out.println("eliminar");
+                  endE.layoutXProperty().removeListener((ChangeListener)endE.getUserData());
+                  endE.layoutYProperty().removeListener((ChangeListener)endE.getUserData());
+                  endE.getCompuertaPadre().getCompuerta().layoutXProperty().removeListener((ChangeListener)endE.getUserData());
+                  endE.getCompuertaPadre().getCompuerta().layoutYProperty().removeListener((ChangeListener)endE.getUserData());
+                  endE.setLayoutY(endE.getCenterY()+3);
                   endE.setValor(null);
                   endE.setIsConected(false);
                   compuertaConectada = null;
-              //}
+              }
           }
 
         }
