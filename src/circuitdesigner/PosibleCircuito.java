@@ -26,6 +26,7 @@ public class PosibleCircuito {
         if(particiones.getSize() < entradas){
             while(this.filas > 1){
                 int partición = this.filas/2;
+                System.out.println(partición);
                 particiones.añadirFinal(partición);
                 contadores.añadirFinal(1);
                 this.filas = this.filas/2;
@@ -58,6 +59,10 @@ public class PosibleCircuito {
             }
             System.out.println(valor);
         }
+    }
+    
+    public String getValores(int i){
+        return valores.getValor(i);
     }
     
 }

@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,6 +44,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import operadores.Valores;
 
 public class ControllerCircuito implements Initializable{
@@ -72,6 +74,8 @@ public class ControllerCircuito implements Initializable{
     private ImageView papelera;
     @FXML
     private Button tablaDeVerdad;
+    @FXML
+    private VBox paleta;
 
     ImageView nuevaCompuerta;
     String stringCompuerta;
@@ -116,22 +120,6 @@ public class ControllerCircuito implements Initializable{
             NANDimage.startFullDrag();
             nuevaCompuerta = new ImageView("NOT2.png");
             stringCompuerta = "NOT.png";
-        });
-        papelera.setOnDragDetected(event ->{
-           papelera.startFullDrag(); 
-        });
-        papelera.setOnMouseDragReleased(event->{
-            System.out.println("Eliminar");
-            for(int i = 0; i < Factory.getCircuito().getSize(); i++){
-                if(Factory.getCircuito().getValor(i).equals(event.getGestureSource())){
-                    Factory.getCircuito().eliminarEnPosición(i);
-                    AnchorCircuito.getChildren().remove(Factory.getCircuito().getValor(i));
-                }
-            }
-            if(event.getGestureSource() instanceof CirculoEntrada){
-                System.out.println("otro grupo");
-            
-            }
         });
         AnchorCircuito.setOnMouseDragEntered(event ->{
             if(nuevaCompuerta != null){
@@ -212,12 +200,30 @@ public class ControllerCircuito implements Initializable{
             }
             
         });
+        EncapsularButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                encapsular();
+            }
+            
+        });
     }
 
+    /**
+     * @see Método que retorna el AnchorPane donde se colocan los distintos elementos de la GUI
+     * @return AnchorCircuito
+     */
     public AnchorPane getAnchor(){
         return AnchorCircuito;
     }
     
+    /**
+     * @see Crea la ventana que permite elegir la cantidad de entradas por compuerta
+     * @param ruta
+     * @param x
+     * @param y
+     * @throws IOException
+     */
     public void crearVentana(String ruta,double x, double y) throws IOException{
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDefinirEntradas.fxml"));
@@ -230,7 +236,12 @@ public class ControllerCircuito implements Initializable{
         
         stage.show();
     }
-    public void validarEntradas(){ //Cuando se presione botón de Simulate
+
+    /**
+     *@see revisa que todas las entradas tengan un valor para que sea posible calcular las
+     * respectivas salidas del circuito.
+     */
+    public void validarEntradas(){ 
         ListLinked<Imagen> circuito = Factory.getCircuito();
         System.out.println("Tamaño del circuito");
         System.out.println(circuito.getSize());
@@ -251,6 +262,12 @@ public class ControllerCircuito implements Initializable{
     }
     private int entradasEvaluadas = 0;
     
+    /**
+     * @see Método que se encarga de emular el funcionamiento del circuito
+     * y retorna una lista enlazada de strings en la que se almacenan las salidas del
+     * circuito ya emulado.
+     * @return ListLinked<String> 
+     */
     public String emularCircuito(){
         ListLinked<Valores> salidas = new ListLinked<>();
         ListLinked<Imagen> circuito = Factory.getCircuito();
@@ -276,7 +293,6 @@ public class ControllerCircuito implements Initializable{
                     
                 }else{
                     salidas.añadirFinal(compuerta.getEnd().getValor());
-                    //Aquí habría una salida final;
                 }
             }
         }
@@ -313,46 +329,68 @@ public class ControllerCircuito implements Initializable{
         Scene escena = new Scene(new Group());
         Stage stage = new Stage();
         stage.setTitle("Tabla de Verdad");
-        TableView tablaDeVerdad = new TableView();
+        TableView<PosibleCircuito> tablaDeVerdad = new TableView<>();
         tablaDeVerdad.setEditable(true);
-        int filas = 1; //posible circuito
+        int filas = 1;
         int entradas = 0;
+        int salidas = 0;
         ListLinked<TableColumn> columnas = new ListLinked<>();
         ListLinked<PosibleCircuito> valoresTabla = new ListLinked<>();
         ListLinked<Imagen> circuito = Factory.getCircuito();
-        
         for(int i = 0; i< circuito.getSize(); i++){
+            int q = i;
             Imagen compuerta = circuito.getValor(i);
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
+                int p = j;
                 if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
-                    TableColumn columna = new TableColumn("i<"+entradas+">");
+                    TableColumn<PosibleCircuito,String> columna = new TableColumn<>("i<"+entradas+">");
+                    columna.setCellValueFactory(E-> new SimpleStringProperty(E.getValue().getValores(p)));
                     columnas.añadirFinal(columna);
                     entradas +=1;
                     filas *=2;
-                    
                 }
+            }
+            if(compuerta.getEnd().getIsConected() == false){
+                TableColumn<ListLinked<PosibleCircuito>,String> columna = new TableColumn<>("o<"+salidas+">");
+                columnas.añadirFinal(columna);
             }
         }
         for (int o = 0; o <columnas.getSize(); o++){
                 tablaDeVerdad.getColumns().add(columnas.getValor(o));
             }
         for(int j= 0; j < filas; j++){
-                System.out.println(entradas);
-                System.out.println(filas);
-                System.out.println("crea posible circuito");
                 PosibleCircuito posibleCircuito = new PosibleCircuito(entradas,filas);
                 valoresTabla.añadirFinal(posibleCircuito);
             }
-        
-        //ObservableList<PosibleCircuito> datos = (ObservableList) valoresTabla;
-        
-        
-        System.out.println(filas);
+        for(int u = 0; u < valoresTabla.getSize(); u++){
+            tablaDeVerdad.getItems().add(valoresTabla.getValor(u));
+        }
         VBox elementos = new VBox();
         elementos.getChildren().addAll(tablaDeVerdad);
-        
         ((Group) escena.getRoot()).getChildren().add(elementos);
         stage.setScene(escena);
         stage.show();
+    }
+    
+    public void encapsular(){
+        ListLinked<Imagen> circuito = Factory.getCircuito();
+        ListLinked<Entrada> entradas = new ListLinked<>();
+        ListLinked<CirculoSalida> salidas = new ListLinked<>();
+        for(int i = 0; i< circuito.getSize(); i++){
+            Imagen compuerta = circuito.getValor(i);
+            for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
+                if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
+                    entradas.añadirFinal(compuerta.getEntrada(j));
+                }
+            }
+            if(compuerta.getEnd().getIsConected() == false){
+                salidas.añadirFinal(compuerta.getEnd());
+            }
+        }
+        Rectangle imagenCompuerta = new Rectangle();
+        imagenCompuerta.setArcHeight(4);
+        imagenCompuerta.setArcWidth(1);
+        imagenCompuerta.setStyle(entradas.getSize()+"");
+        paleta.getChildren().add(imagenCompuerta);
     }
 }
