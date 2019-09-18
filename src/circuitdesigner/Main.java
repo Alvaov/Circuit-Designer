@@ -12,10 +12,11 @@ import javafx.scene.Scene;
 
 import javafx.stage.Stage;
 /**
- *
+ * @see Clase main del programa, incluye los métodos del main, creación de la ventana principal
+ * y obtener el controlador de todo el programa.
  * @author allva
  */
-public class CircuitDesigner extends Application{
+public class Main extends Application{
     
 
     /**

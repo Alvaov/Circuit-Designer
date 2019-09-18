@@ -46,6 +46,10 @@ public class CirculoSalida extends Circulo{
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean conectada(){
         if (entradasConectadas.getSize() < 1){
             isConected = false;

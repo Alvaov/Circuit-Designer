@@ -15,48 +15,77 @@ import listlinked.ListLinked;
 import operadores.Valores;
 
 /**
- *
+ * @see clase Círculo, extiende de Círculo y es la clase con la que se crean los círculos que representan tanto
+ * entradas como salidas en las compuertas.
  * @author allva
  */
 class Circulo extends Circle {
     protected Label etiqueta;
     protected Valores valor;
     protected boolean isConected;
-    protected Imagen compuertaPadre;
-    // ListLinked<Entrada> entradas = Facade.entradas;
+    protected Compuerta compuertaPadre;
     
-    Circulo(String etiqueta, Valores valor) {
+    /**
+     *@see constructor de la clase círculo, donde asigna vamores a su etiqueta, 
+     * valor y variable booleana isConected
+     * @param etiqueta
+     * @param valor
+     */
+    public Circulo(String etiqueta, Valores valor) {
       super(3);
       this.etiqueta = new Label(etiqueta);
       this.valor = valor;
       this.isConected = false;
-      //x.bind(layoutXProperty());
-      //y.bind(layoutYProperty());
-      //this.etiqueta.setLayoutX(x.get());
-      //this.etiqueta.setLayoutY(y.get());
-      //CircuitDesigner.getControlador().getRoot().getChildren().addAll(this.etiqueta);   
     }
-    
+    /**
+     * @see Método que permite retornar la etiqueta respectiva del círculo
+     * @return etiqueta
+     */
     public Label getEtiqueta(){
         return etiqueta;
     }
+    /**
+     *@see Método que retorna el valor del círculo
+     * @return valor
+     */
     public Valores getValor(){
         return valor;
     }
+    /**
+     * @see método que permite cambiar el valor actual del círculo
+     * @param Valores valor
+     */
     public void setValor(Valores valor){
         this.valor = valor;
         System.out.println("Setea valor circulo");
     }
+    /**
+     *@see Método desde el cuál se puede modificar el atributo isConected
+     * del círculo
+     * @param boolean valor
+     */
     public void setIsConected(boolean valor){
         isConected = valor;
     }
+    /**
+     * @see Método que permite obtener el valor de isConected del círculo
+     * @return isConected
+     */
     public boolean getIsConected(){
         return isConected;
     }
-    public void setCompuertaPadre(Imagen compuertaPadre){
+    /**
+     * @see método que permite modificar la compuerta a la que pertenece el círculo
+     * @param Compuerta compuerta padre
+     */
+    public void setCompuertaPadre(Compuerta compuertaPadre){
         this.compuertaPadre = compuertaPadre;
     }
-    public Imagen getCompuertaPadre(){
+    /**
+     * @see método que permite obtener la compuerta a la cual pertenece el círculo
+     * @return compuertaPadre
+     */
+    public Compuerta getCompuertaPadre(){
         return compuertaPadre;
     }
 }

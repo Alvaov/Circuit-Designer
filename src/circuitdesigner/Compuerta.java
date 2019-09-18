@@ -30,10 +30,11 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.shape.Rectangle;
 /**
- *
+ * @see clase que crea todos los elementos que requiere una compuerta lógica
+ * incluidos tanto los elementos gráficos como los lógicos propiamente de funcionamiento
  * @author allva
  */
-class Imagen{
+class Compuerta{
     private Operadores compuerta;
     private ImageView imagenVista;
     private Group compuertaCompleta;
@@ -45,17 +46,27 @@ class Imagen{
     private Line line;
     private ListLinked<Entrada> entradas = new ListLinked<>();
     private ListLinked<CirculoSalida> salidas = new ListLinked<>();
-    private ListLinked<Imagen> circuitoCompuesto = new ListLinked<>();
+    private ListLinked<Compuerta> circuitoCompuesto = new ListLinked<>();
     private Rectangle figura;
     private int y;  
     
-    public Imagen(ListLinked<Entrada> entradas, ListLinked<Imagen> circuito, ListLinked<CirculoSalida> salidas){
+    public Compuerta(ListLinked<Entrada> entradas, ListLinked<Compuerta> circuito, ListLinked<CirculoSalida> salidas){
         this.entradas = entradas;
         this.salidas = salidas;
         this.circuitoCompuesto = circuito;
     }
-    
-    public Imagen(String ruta, int cantidadDeEntradas,double x, double y){
+    /**
+     * @see Constructor de la clase Compuerta, para cuando estas son compuertas preestablecidas,
+     * crea las entradas, la salida, compuerta lógica, y demás elementos necesarios para la implementación
+     * correcta de cada compuerta que el usuario requiera, además la posiciona el en lugar donde el usuario decidió colocar
+     * la imagen arrastrada de la paleta.
+     * @param String ruta
+     * @param int cantidadDeEntradas
+     * @param double x
+     * @param double x
+     * 
+     */
+    public Compuerta(String ruta, int cantidadDeEntradas,double x, double y){
           compuertaCompleta = new Group();
           compuertaCompleta.setLayoutX(x-20);
           compuertaCompleta.setLayoutY(y-20);
@@ -66,8 +77,8 @@ class Imagen{
           imagenVista.setFitHeight(40.0);
           imagenVista.setX(orgSceneX);
           imagenVista.setY(orgSceneY);
-          end      = new CirculoSalida("o<"+Factory.s+">",salida);
-          Factory.s++;
+          end      = new CirculoSalida("o<"+">",salida);
+
           
           end.setOnDragDetected(event -> {
               end.startFullDrag();
@@ -85,10 +96,10 @@ class Imagen{
                       ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
                   };
                   end.setUserData(listener);
-                  System.out.println("release salida");//Conecta entrada con una salida
+                  System.out.println("release salida");
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
-                  end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource())); //REVISAR //AÑADIENDO ENTRADA A LA LISTA DE ENTRADAS CONECTADAS
+                  end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource()));
                   //CONTEMPLAR CASO DONDE ENTRADA ARRASTRADA CAIGA SOBRE ENTRADA CONECTADA
                   compuertaCompleta.toFront();
                   
@@ -133,25 +144,28 @@ class Imagen{
 
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
-              Entrada entrada = new Entrada(imagenVista,startE,Factory.e);
+              Entrada entrada = new Entrada(imagenVista,startE,0);
               entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
               compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
-              
-              Factory.e++;
               y += 7;
           }
           
           crearCompuerta(ruta);
           compuertaCompleta.getChildren().addAll(start,end,startE,line,end.getEtiqueta(),imagenVista);
-          CircuitDesigner.getControlador().getAnchor().getChildren().add(compuertaCompleta);
+          Main.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
               start.startFullDrag();
               startE.startFullDrag();
               compuertaCompleta.startFullDrag();
           });
       }
-    
+    /**
+     * @see método que se utiliza para asignar una compuerta lógica 
+     * al atributo respectivo de cada objeto de la clase compuerta, a través
+     * del string ingresado al crear la instancia.
+     * @param String ruta
+     */
     private void crearCompuerta(String ruta){
         switch (ruta) {
             case "AND.png":
@@ -184,29 +198,56 @@ class Imagen{
                 break;
         }
     }
-    
+    /**
+     * @see método que retorna una entrada específica perteneciente a la compuerta desde la cual
+     * se llamó al método.
+     * @param int i
+     * @return Entrada 
+     */
     public Entrada getEntrada(int i){
         Entrada entrada = entradas.getValor(i);
         return entrada;
     }
-    
+    /**
+     * @see método que retorna el círculo de salida de cada compuerta 
+     * @return CirculoSalida end
+     */
     public CirculoSalida getEnd(){
         return end;
     }
-    
+    /**
+     * @see método que retorna en su totalidad la lista enlazada que posee la compuerta.
+     * @return ListLinked
+     */
     public ListLinked getEntradas(){
         return entradas;
     }
-    
+    /**
+     * @see método que retorna el valor actual del círculo de salida
+     * @return Valores
+     */
     public Valores getSalida(){
         return end.getValor();
     }
+    /**
+     * @see método que retorna la ImageView que se utiliza en la compuerta
+     * @return ImageView
+     */
     public ImageView getImagen(){
         return imagenVista;
     }
+    /**
+     * @see método que retorna el grupo dentro del cual están todos los elementos que componen la compuerta.
+     * @return Group
+     */
     public Group getCompuerta(){
         return compuertaCompleta;
     }
+    /**
+     * @see función que realiza la operación de cada compuerta con las entradas que posee, asigna este valor al atributo salida
+     * y al círculo salida como tal.
+     * 
+     */
     public void operarSalida(){
         System.out.println("Operación");
         salida = compuerta.operación(entradas);
@@ -215,7 +256,11 @@ class Imagen{
         end.setValor(salida);
         System.out.println(salida);
     }
-    
+    /**
+     * @see método que se utiliza para evaluar la lista de entradas que posee la compuerta. Retorna true o false
+     * dependiendo si todas las entradas poseen un valor diferente de nulo o no.
+     * @param Boolean
+     */
     public boolean revisarEntradas(){
       System.out.println("revisa entradas");
       for (int i = 0; i < entradas.getSize(); i++){
@@ -227,7 +272,11 @@ class Imagen{
       }
       return true;
     }
-    
+    /**
+     * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
+     * otra línea del circuito.
+     * @return Color
+     */
     public Color colorLinea(){
         double red = Math.random();
         double green = Math.random();
@@ -240,6 +289,7 @@ class Imagen{
                 return colorLinea();
             }
         }
+        coloresUsados.añadirFinal(color);
         return color;
     }
   }

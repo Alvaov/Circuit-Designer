@@ -10,7 +10,6 @@ package circuitdesigner;
  * @author allva
  */
 
-import static circuitdesigner.CircuitDesigner.getControlador;
 import listlinked.ListLinked;
 import operadores.Operadores;
 import javafx.fxml.Initializable;
@@ -81,6 +80,12 @@ public class ControllerCircuito implements Initializable{
     private ControllerCircuito(){
         
     }
+
+    /**
+     * @see método basado en el patrón Singleton, código base tomado de https://www.arquitecturajava.com/ejemplo-de-java-singleton-patrones-classloaders/
+     * se garantiza que solo se pueda crear una única insancia de esta clase, ya que no conviene tener más de un objeto Controller.
+     * @return controlador
+     */
     public static ControllerCircuito getControlador(){
         if(controlador == null){
             controlador = new ControllerCircuito();
@@ -88,6 +93,10 @@ public class ControllerCircuito implements Initializable{
         return controlador;
     }
     @Override
+    /**
+     * @see método que inicializa todos lo necesario para la correcta ejecución del programa, incluyendo acciones sobre botontes, imágenes, compuertas como tal
+     * y permitiendo el desarrolo viable del programa.
+     */
     public void initialize(URL location, ResourceBundle resources){
         
         ANDimage.setOnDragDetected(event->{
@@ -250,11 +259,11 @@ public class ControllerCircuito implements Initializable{
      * respectivas salidas del circuito.
      */
     public void validarEntradas(){ 
-        ListLinked<Imagen> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = Factory.getCircuito();
         System.out.println("Tamaño del circuito");
         System.out.println(circuito.getSize());
         for(int i = 0; i < circuito.getSize(); i++){
-            Imagen compuerta = circuito.getValor(i);
+            Compuerta compuerta = circuito.getValor(i);
             System.out.println("Entradas por compuerta");
             System.out.println(compuerta.getEntradas().getSize());
             for (int j = 0; j < compuerta.getEntradas().getSize(); j++){
@@ -278,11 +287,11 @@ public class ControllerCircuito implements Initializable{
      */
     public String emularCircuito(){
         ListLinked<Valores> salidas = new ListLinked<>();
-        ListLinked<Imagen> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = Factory.getCircuito();
         
         for(int i = 0; i < circuito.getSize(); i++){
             
-            Imagen compuerta = circuito.getValor(i);
+            Compuerta compuerta = circuito.getValor(i);
             
             if (compuerta.revisarEntradas()== true && compuerta.getSalida() == Valores.Default){
                 compuerta.operarSalida();
@@ -312,6 +321,11 @@ public class ControllerCircuito implements Initializable{
         }
     }
     
+    /**
+     * @see muestra las salidas finales calculadas en el circuito actual y las muestra en una nueva ventana.
+     * @param salidas
+     * @return null
+     */
     public String mostrarSalidas(ListLinked<Valores> salidas){
         VBox salidasAMostrar = new VBox();
         Scene escena = new Scene(new Group());
@@ -344,10 +358,10 @@ public class ControllerCircuito implements Initializable{
         int salidas = 0;
         ListLinked<TableColumn> columnas = new ListLinked<>();
         ListLinked<PosibleCircuito> valoresTabla = new ListLinked<>();
-        ListLinked<Imagen> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = Factory.getCircuito();
         for(int i = 0; i< circuito.getSize(); i++){
             int q = i;
-            Imagen compuerta = circuito.getValor(i);
+            Compuerta compuerta = circuito.getValor(i);
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
                 int p = j;
                 if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
@@ -383,12 +397,16 @@ public class ControllerCircuito implements Initializable{
         stage.show();
     }
     
+    /**
+     * @see método que se ejecuta con el botón encapsular, almacena en la paleta la nueva compueta, así como los diferentes componentes
+     * asociados a cada compuerta.
+     */
     public void encapsular(){
-        ListLinked<Imagen> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = Factory.getCircuito();
         ListLinked<Entrada> entradas = new ListLinked<>();
         ListLinked<CirculoSalida> salidas = new ListLinked<>();
         for(int i = 0; i< circuito.getSize(); i++){
-            Imagen compuerta = circuito.getValor(i);
+            Compuerta compuerta = circuito.getValor(i);
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
                 if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
                     entradas.añadirFinal(compuerta.getEntrada(j));
@@ -402,7 +420,7 @@ public class ControllerCircuito implements Initializable{
         imagenCompuerta.setHeight(25);
         imagenCompuerta.setWidth(10);
         imagenCompuerta.setStyle(entradas.getSize()+"");
-        Imagen nuevoCircuito = new Imagen(entradas,circuito,salidas);
+        Compuerta nuevoCircuito = new Compuerta(entradas,circuito,salidas);
         paleta.getChildren().add(imagenCompuerta);
     }
 }

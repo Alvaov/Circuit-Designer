@@ -7,7 +7,7 @@ package circuitdesigner;
 
 import listlinked.ListLinked;
 /**
- *
+ * @see es la clase que se encarga de calcular todos los datos posibles según la cantidad de entradas, las filas de la tabla de Verdad.
  * @author allva
  */
 public class PosibleCircuito {
@@ -36,6 +36,10 @@ public class PosibleCircuito {
         asignarValores();
     }
     
+    /**
+     * @see asigna los valores correspondientes a las entradas que puede tener un circuito de una cierta cantidad de entradas,
+     * se asegura que todas las posibilidadas sean calculcadas.
+     */
     public void asignarValores(){
         System.out.println("Asigna valores");
         for(int i = 0; i< valores.getSize(); i++){
@@ -61,6 +65,11 @@ public class PosibleCircuito {
         }
     }
     
+    /**
+     * @see retorna la lista enlazada en la cual se guardaron los diferentes valores de las entradas para el posible circuito a añadirse en la tabla.
+     * @param i
+     * @return ListLinked
+     */
     public String getValores(int i){
         return valores.getValor(i);
     }

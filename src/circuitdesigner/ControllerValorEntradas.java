@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import operadores.Valores;
 
 /**
- *
+ * @see clase que permite asignar un valor a cada entrada que se encuentre en la mesa de trabajo.
  * @author allva
  */
 public class ControllerValorEntradas implements Initializable{
@@ -39,6 +39,11 @@ CirculoEntrada circuloEntrada;
 Stage stage;
 
     @Override
+    /**
+     * @see método que inicializa los RadioButton y métodos necesarios para poder realizar de manera satisfactoria la 
+     * modificación del valor que se deseaba. Si no se da aceptar el valor no se modifica aunque se haya marcado una opción. Solo 
+     * se puede marcar una opción.
+     */
     public void initialize(URL location, ResourceBundle resources) {        
         System.out.println("se creó la ventana");
         ToggleGroup grupo = new ToggleGroup();
@@ -61,9 +66,19 @@ Stage stage;
             
         });
     }
+
+    /**
+     * @see cambia el valor del circulo sobre el cual se ejecutó el método.
+     * @param circulo
+     */
     public void ACambiar(CirculoEntrada circulo){
         this.circuloEntrada = circulo;
     }
+    
+    /**
+     * @see recibe el stage sobre el cual se creó la ventana correspondiente para cerrarla luego.
+     * @param stage
+     */
     public void enviarStage(Stage stage){
         this.stage = stage;
     }

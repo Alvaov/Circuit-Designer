@@ -31,7 +31,8 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.stage.Stage;
 
 /**
- *
+ * @see Clase Entrada, donde se crean y configuran todos los aspectos que involucra una entrada, tales como métodos
+ * de modificacion, arrastre, interconexión,etc.
  * @author allva
  */
 public class Entrada extends Observable{
@@ -40,10 +41,18 @@ public class Entrada extends Observable{
       private ImageView imagenVista;
       private Line lineE;
       private Valores valor;
-      private Imagen compuertaConectada;
+      private Compuerta compuertaConectada;
       private Circulo circulo;
-      private Imagen compuertaPadre;
-      public Entrada(ImageView imagenVista, Circulo circulo,int i){
+      private Compuerta compuertaPadre;
+      
+    /**
+     * @see constructor de la clase Entrada, recibe la imagen de la compuerta, un círculo 
+     * que toma como e inicial para el dibujo de las líneas respectivas.
+     * @param imagenVista
+     * @param circulo
+     * @param i
+     */
+    public Entrada(ImageView imagenVista, Circulo circulo,int i){
           this.imagenVista = imagenVista;
           this.circulo = circulo;
           valor = null;
@@ -92,11 +101,19 @@ public class Entrada extends Observable{
           endE.setOnMouseClicked(cambiarValor);
       }
 
-      public Valores getValor(){
+    /**
+     * @see da el valor actual de la entrada.
+     * @return Valores
+     */
+    public Valores getValor(){
           return endE.getValor();
       }
       
-      public void setValor(Valores valorNuevo){
+    /**
+     * @see permite modificar el valor de la entrada según el parámetro que se reciba.
+     * @param valorNuevo
+     */
+    public void setValor(Valores valorNuevo){
           endE.setValor(valorNuevo);
       }
 
@@ -120,7 +137,6 @@ public class Entrada extends Observable{
                   }
               }else{
                   System.out.println("no se puede añadir un valor");
-                  //Ya tiene un valor asignado por una salida;
               }
           }
           if(t.getButton()== MouseButton.SECONDARY){
@@ -140,21 +156,44 @@ public class Entrada extends Observable{
         }
       };
       
-      public CirculoEntrada getEndE(){
+    /**
+     * @see retorna el circulEntrada correspondiente
+     * @return CirculoEntrada
+     */
+    public CirculoEntrada getEndE(){
           return endE;
       }
-      public Line getLinea(){
+
+    /**
+     * @see permite accesar a la línea a la que está conectada cada entrada de la compuerta.
+     * @return Line
+     */
+    public Line getLinea(){
           return lineE;
       }
       
-      public Imagen getCompuertaPadre(){
+    /**
+     * @see retorna como valor la compuerta a la cual pertenece la entrada, conocida como compuerta padre.
+     * @return Compuerta
+     */
+    public Compuerta getCompuertaPadre(){
           return compuertaPadre;
       }
       
-      public void setCompuertaPadre(Imagen compuertaPadre){
+    /**
+     * @see permite la modificación del valor de la variable compuertaPadre perteneciente a cada entrada,
+     * a través de un parámetro de tipo Compuerta
+     * @param compuertaPadre
+     */
+    public void setCompuertaPadre(Compuerta compuertaPadre){
           this.compuertaPadre = compuertaPadre;
       }
       
+    /**
+     * @see método que calcula posibles colores diferentes para cada línea de la interfaz,
+     * además verifica que estos colores no se repitan en ninguna línea por más similares que sean estos colores.
+     * @return color
+     */
     public Color colorLinea(){
         double red = Math.random();
         double green = Math.random();
@@ -167,9 +206,14 @@ public class Entrada extends Observable{
                 return colorLinea();
             }
         }
+        coloresUsados.añadirFinal(color);
         return color;
     }
     
+    /**
+     * @see método desde el cual se crea la venta donde se puede asignar un valor a cada entrada según corresponda.
+     * @throws IOException
+     */
     public void crearVentana() throws IOException{
         
 

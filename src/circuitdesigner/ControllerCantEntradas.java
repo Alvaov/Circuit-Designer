@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 
 
 /**
- *
+ * @see clase controladora de la ventana desde la cual se crean la cantidad de entradas por compuerta.
  * @author allva
  */
 public class ControllerCantEntradas implements Initializable {
@@ -52,6 +52,10 @@ public class ControllerCantEntradas implements Initializable {
     Stage stage;
     double x,y;
     @Override
+    /**
+     * @see Método principal de la clase controladora, inicinializa el spinner y permite la interacción con este,
+     * podteriormente es el encargado de crear las compuertas según haya sido requerido.
+     */
     public void initialize(URL location, ResourceBundle resources) {
         
         initSpinner();
@@ -73,15 +77,33 @@ public class ControllerCantEntradas implements Initializable {
             }
         });
     }
+
+    /**
+     * @see método encargado de inicializar el spinner que se utiliza en la ventana para la creación de diferentes cantidades
+     * de entradas.
+     */
     public void initSpinner(){
         crearEntradas.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,1000000000));
     }
     
+    /**
+     * @see Método desde el cual se reciben los datos necesarios para la creación de una nueva
+     * compuerta desde el controlador principal
+     * @param ruta
+     * @param x
+     * @param y
+     */
     public void valoresImagen(String ruta,double x, double y){
         this.ruta = ruta;
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * @see método que recibe el stage de la ventana para cerrarla posteriormente que se termine su función
+     * creando las entradas que el usuario requiera.
+     * @param stage
+     */
     public void enviarStage(Stage stage){
         this.stage = stage;
     }
