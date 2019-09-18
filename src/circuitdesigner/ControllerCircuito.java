@@ -71,8 +71,6 @@ public class ControllerCircuito implements Initializable{
     @FXML
     private AnchorPane AnchorCircuito;
     @FXML
-    private ImageView papelera;
-    @FXML
     private Button tablaDeVerdad;
     @FXML
     private VBox paleta;
@@ -401,9 +399,10 @@ public class ControllerCircuito implements Initializable{
             }
         }
         Rectangle imagenCompuerta = new Rectangle();
-        imagenCompuerta.setArcHeight(4);
-        imagenCompuerta.setArcWidth(1);
+        imagenCompuerta.setHeight(25);
+        imagenCompuerta.setWidth(10);
         imagenCompuerta.setStyle(entradas.getSize()+"");
+        Imagen nuevoCircuito = new Imagen(entradas,circuito,salidas);
         paleta.getChildren().add(imagenCompuerta);
     }
 }

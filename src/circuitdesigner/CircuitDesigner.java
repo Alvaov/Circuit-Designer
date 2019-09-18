@@ -57,7 +57,6 @@ public class CircuitDesigner extends Application{
      * @return controlador
      */
     public static ControllerCircuito getControlador(){
-
         return controlador;
     }
 }
