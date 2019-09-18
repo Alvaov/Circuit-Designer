@@ -14,11 +14,12 @@ import listlinked.ListLinked;
  */
 public class NegaciónOperador extends Operadores{
     
-    Operadores operador;
+    private Operadores operador;
+    private int tipo;
 
     public NegaciónOperador(ListLinked<Entrada> entradas,int tipo) {
         super(entradas);
-        
+        this.tipo = tipo;
         switch (tipo){
             case 1:
                 operador = new AndOperator(entradas);
@@ -38,6 +39,7 @@ public class NegaciónOperador extends Operadores{
 
     @Override
     public Valores operación(ListLinked<Entrada> entradas) {
+        if (tipo != 4){
         Valores salida = operador.operación(entradas);
          if (salida == Valores.False){
                 return Valores.True;
@@ -45,6 +47,13 @@ public class NegaciónOperador extends Operadores{
             else{
                 return Valores.False;
             }
+        }else{
+            if (entradas.getValor(0).getValor() == Valores.False){
+                return Valores.True;
+            }else{
+                return Valores.False;
+            }
+        }
     }
     public Valores operacionNot(ListLinked<Entrada> entradas){
         

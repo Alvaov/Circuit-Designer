@@ -79,6 +79,10 @@ public class ControllerCircuito implements Initializable{
 
     ImageView nuevaCompuerta;
     String stringCompuerta;
+    private static int cantInstancias;
+    public ControllerCircuito(){
+        
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources){
         
@@ -343,9 +347,6 @@ public class ControllerCircuito implements Initializable{
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
                 int p = j;
                 if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
-                    TableColumn<PosibleCircuito,String> columna = new TableColumn<>("i<"+entradas+">");
-                    columna.setCellValueFactory(E-> new SimpleStringProperty(E.getValue().getValores(p)));
-                    columnas.añadirFinal(columna);
                     entradas +=1;
                     filas *=2;
                 }
@@ -355,12 +356,18 @@ public class ControllerCircuito implements Initializable{
                 columnas.añadirFinal(columna);
             }
         }
-        for (int o = 0; o <columnas.getSize(); o++){
-                tablaDeVerdad.getColumns().add(columnas.getValor(o));
-            }
         for(int j= 0; j < filas; j++){
                 PosibleCircuito posibleCircuito = new PosibleCircuito(entradas,filas);
                 valoresTabla.añadirFinal(posibleCircuito);
+            }
+        for(int e = 0; e < entradas; e++){
+            int a= e;
+            TableColumn<PosibleCircuito,String> columna = new TableColumn<>("i<"+e+">");
+            columna.setCellValueFactory(E-> new SimpleStringProperty(E.getValue().getValores(a)));
+            columnas.añadirFinal(columna);
+        }
+        for (int o = 0; o <columnas.getSize(); o++){
+                tablaDeVerdad.getColumns().add(columnas.getValor(o));
             }
         for(int u = 0; u < valoresTabla.getSize(); u++){
             tablaDeVerdad.getItems().add(valoresTabla.getValor(u));
