@@ -28,6 +28,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseDragEvent;
+import javafx.scene.shape.Rectangle;
 /**
  *
  * @author allva
@@ -43,7 +44,16 @@ class Imagen{
     private CirculoSalida end;
     private Line line;
     private ListLinked<Entrada> entradas = new ListLinked<>();
+    private ListLinked<CirculoSalida> salidas = new ListLinked<>();
+    private ListLinked<Imagen> circuitoCompuesto = new ListLinked<>();
+    private Rectangle figura;
     private int y;  
+    
+    public Imagen(ListLinked<Entrada> entradas, ListLinked<Imagen> circuito, ListLinked<CirculoSalida> salidas){
+        this.entradas = entradas;
+        this.salidas = salidas;
+        this.circuitoCompuesto = circuito;
+    }
     
     public Imagen(String ruta, int cantidadDeEntradas,double x, double y){
           compuertaCompleta = new Group();
