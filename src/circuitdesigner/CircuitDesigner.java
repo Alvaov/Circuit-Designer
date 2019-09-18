@@ -39,8 +39,9 @@ public class CircuitDesigner extends Application{
        
         getControlador();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLCircuitDesigner.fxml"));
+        ControllerCircuito controlador = ControllerCircuito.getControlador();
         loader.setController(controlador);
-        
+        this.controlador = controlador;
        Scene myScene = (new Scene(loader.load()));
        primaryStage.setScene(myScene);
        
@@ -56,10 +57,7 @@ public class CircuitDesigner extends Application{
      * @return controlador
      */
     public static ControllerCircuito getControlador(){
-        
-        if (controlador == null){
-            controlador = new ControllerCircuito();
-        }
+
         return controlador;
     }
 }

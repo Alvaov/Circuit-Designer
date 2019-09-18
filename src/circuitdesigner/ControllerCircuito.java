@@ -79,9 +79,15 @@ public class ControllerCircuito implements Initializable{
 
     ImageView nuevaCompuerta;
     String stringCompuerta;
-    private static int cantInstancias;
-    public ControllerCircuito(){
+    private static ControllerCircuito controlador;
+    private ControllerCircuito(){
         
+    }
+    public static ControllerCircuito getControlador(){
+        if(controlador == null){
+            controlador = new ControllerCircuito();
+        }
+        return controlador;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources){
