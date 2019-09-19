@@ -53,17 +53,19 @@ Stage stage;
             @Override
             public void handle(ActionEvent event) {
                 //System.out.println(grupo.selectedToggleProperty().getValue().toString());
-                if (grupo.selectedToggleProperty().getValue().equals(setTrue)){
-                    circuloEntrada.setValor(Valores.True);
-                    System.out.println("Seteó true");
-                    stage.close();
-                    
-                }else{
-                    circuloEntrada.setValor(Valores.False);
-                    stage.close();
+                if(grupo.selectedToggleProperty().getValue() !=null){
+                    if (grupo.selectedToggleProperty().getValue().equals(setTrue)){
+                        circuloEntrada.setValor(Valores.True);
+                        System.out.println("Seteó true");
+                        stage.close();
+
+                    }else{
+                        circuloEntrada.setValor(Valores.False);
+                        stage.close();
+                    }
                 }
+                stage.close();
             }
-            
         });
     }
 

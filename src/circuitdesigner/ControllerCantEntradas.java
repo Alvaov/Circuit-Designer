@@ -54,6 +54,7 @@ public class ControllerCantEntradas implements Initializable {
                 }
                 Main.getControlador().getCircuito().añadirFinal(compuerta);
                 stage.close();
+                Main.getControlador().actualizarEtiquetas();
             }
             
         });

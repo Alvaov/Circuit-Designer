@@ -78,10 +78,8 @@ public class ControllerCircuito implements Initializable{
     private ImageView nuevaCompuerta;
     private String stringCompuerta;
     private static ListLinked<Compuerta> circuito = new ListLinked<>();
-    //private static ListLinked<Color> colores = new ListLinked<>();
+    private static ListLinked<Color> coloresUsados = new ListLinked<>();
     private static ControllerCircuito controlador;
-    private static int entradas = 0;
-    private static int salidas = 0;
     private ControllerCircuito(){    
     }
 
@@ -96,11 +94,11 @@ public class ControllerCircuito implements Initializable{
         }
         return controlador;
     }
-    @Override
     /**
      * @see método que inicializa todos lo necesario para la correcta ejecución del programa, incluyendo acciones sobre botontes, imágenes, compuertas como tal
      * y permitiendo el desarrolo viable del programa.
      */
+    @Override
     public void initialize(URL location, ResourceBundle resources){
         
         ANDimage.setOnDragDetected(event->{
@@ -154,7 +152,6 @@ public class ControllerCircuito implements Initializable{
         });
 
         AnchorCircuito.setOnMouseDragOver(event ->{
-            
             if(event.getGestureSource() instanceof ImageView && nuevaCompuerta != null){
                 double x = event.getX();
                 double y = event.getY();
@@ -185,10 +182,24 @@ public class ControllerCircuito implements Initializable{
         AnchorCircuito.setOnMouseDragReleased(event ->{
             if(event.getGestureSource() instanceof ImageView){
                 try {
+                    if (stringCompuerta.equalsIgnoreCase("NOT.png")){
+                        Compuerta compuerta = new Compuerta(stringCompuerta,1,event.getX(),event.getY());
+                        Entrada entrada = (Entrada) compuerta.getEntradas().getValor(0);
+                        entrada.getEndE().setCompuertaPadre(compuerta);
+                        Main.getControlador().getCircuito().añadirFinal(compuerta);
+                        actualizarEtiquetas();
+                        System.out.println("se ejecutó");
+                        AnchorCircuito.getChildren().remove(nuevaCompuerta);
+                        stringCompuerta = null;
+                        nuevaCompuerta = null;
+                    }else{
                     crearVentana(stringCompuerta,event.getX(),event.getY());
                     AnchorCircuito.getChildren().remove(nuevaCompuerta);
                     stringCompuerta = null;
                     nuevaCompuerta = null;
+                    }
+                    System.out.println("se ejecutó");
+                    actualizarEtiquetas();
                 } catch (IOException ex) {
                     Logger.getLogger(ControllerCircuito.class.getName()).log(Level.SEVERE, null, ex);
                 };
@@ -237,9 +248,19 @@ public class ControllerCircuito implements Initializable{
     public AnchorPane getAnchor(){
         return AnchorCircuito;
     }
+    
     public ListLinked<Compuerta> getCircuito(){
         return circuito;
     }
+
+    /**
+     * @see retorna la lista enlazada en la cuál se están guardando todos lo colores utilizados para las líneas.
+     * @return ListLinked
+     */
+    public static ListLinked<Color> getColores(){
+        return coloresUsados;
+    }
+    
     /**
      * @see Crea la ventana que permite elegir la cantidad de entradas por compuerta
      * @param ruta
@@ -260,6 +281,32 @@ public class ControllerCircuito implements Initializable{
         stage.show();
     }
 
+    public void actualizarEtiquetas(){
+        int entradas =0;
+        int salidas = 0;
+        System.out.println("inicio");
+            for(int i = 0; i < circuito.getSize(); i++){
+                Compuerta compuerta = circuito.getValor(i);
+                for(int j = 0; j < compuerta.getEntradas().getSize();j++){
+                    Entrada entrada = compuerta.getEntrada(j);
+                    System.out.println("inicio2");
+                    if(entrada.getEndE().getIsConected() == false){ //Es porque es una entrada de usuario
+                        System.out.println("entró");
+                        entrada.getEndE().getEtiqueta().setText("i<"+entradas+">");
+                        entradas++;
+                    }else{
+                        entrada.getEndE().getEtiqueta().setText("");
+                    }
+                }
+                if(compuerta.getEnd().getIsConected() == false){
+                    compuerta.getEnd().getEtiqueta().setText("o<"+salidas+">");
+                    salidas++;
+                }else{
+                    compuerta.getEnd().getEtiqueta().setText("");
+                }
+            }
+    }
+    
     /**
      *@see revisa que todas las entradas tengan un valor para que sea posible calcular las
      * respectivas salidas del circuito.
@@ -333,6 +380,7 @@ public class ControllerCircuito implements Initializable{
      * @return null
      */
     public String mostrarSalidas(ListLinked<Valores> salidas){
+        System.out.println(salidas.getSize());
         VBox salidasAMostrar = new VBox();
         Scene escena = new Scene(new Group());
         for (int i =0; i < salidas.getSize(); i++){

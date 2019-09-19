@@ -28,7 +28,6 @@ class Circulo extends Circle {
     public Circulo(Valores valor) {
       super(3);
       this.etiqueta = new Label();
-      etiqueta.setText("algo1");
       this.valor = valor;
       this.isConected = false;
     }

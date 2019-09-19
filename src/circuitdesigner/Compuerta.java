@@ -107,7 +107,8 @@ class Compuerta{
                   System.out.println("release salida");
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
-                  //end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource()));
+                  end.setIsConected(true);
+                  Main.getControlador().actualizarEtiquetas();
                   compuertaCompleta.toFront();
                   
                   end.layoutXProperty().addListener(listener);
@@ -131,6 +132,8 @@ class Compuerta{
                  for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
                      System.out.println(end.entradasConectadas.getSize());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
+                     end.setIsConected(false);
+                     Main.getControlador().actualizarEtiquetas();
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                  }
@@ -165,7 +168,7 @@ class Compuerta{
               Entrada entrada = new Entrada(imagenVista,startE,0);
               entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
-              compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE());
+              compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
               y += 7;
           }
           
@@ -311,7 +314,7 @@ class Compuerta{
         double blue = Math.random();
         
         Color color =Color.color(red, green, blue);
-        ListLinked<Color> coloresUsados = Factory.getColores();
+        ListLinked<Color> coloresUsados = Main.getControlador().getColores();
         for(int i = 0; i < coloresUsados.getSize(); i++){
             if (coloresUsados.buscarElemento(i).equals(color)){
                 return colorLinea();
