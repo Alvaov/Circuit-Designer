@@ -18,8 +18,8 @@ public class CirculoSalida extends Circulo{
     
     ListLinked<CirculoEntrada> entradasConectadas = new ListLinked<>();
     
-    public CirculoSalida(String etiqueta, Valores valor) {
-        super(etiqueta, valor);
+    public CirculoSalida(Valores valor) {
+        super(valor);
     }
     @Override
     public void setValor(Valores valor){

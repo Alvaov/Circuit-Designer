@@ -46,7 +46,13 @@ public class ControllerCantEntradas implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 int valor = (Integer) crearEntradas.getValue();
-                Factory compuerta = new Factory(ruta,valor,x,y);
+                Compuerta compuerta = new Compuerta(ruta,valor,x,y);
+                
+                for (int i = 0; i < compuerta.getEntradas().getSize(); i++){
+                    Entrada entrada = (Entrada) compuerta.getEntradas().getValor(i);
+                    entrada.getEndE().setCompuertaPadre(compuerta);
+                }
+                Main.getControlador().getCircuito().añadirFinal(compuerta);
                 stage.close();
             }
             

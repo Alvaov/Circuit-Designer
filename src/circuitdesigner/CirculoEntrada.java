@@ -23,7 +23,7 @@ public class CirculoEntrada extends Circulo{
      * @param valor
      */
     public CirculoEntrada(String etiqueta, Valores valor) {
-        super(etiqueta, valor);
+        super(valor);
     }
     
 

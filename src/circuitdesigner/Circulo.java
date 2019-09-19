@@ -4,14 +4,8 @@
  * and open the template in the editor.
  */
 package circuitdesigner;
-
-import javafx.beans.property.DoubleProperty;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import listlinked.ListLinked;
 import operadores.Valores;
 
 /**
@@ -31,9 +25,10 @@ class Circulo extends Circle {
      * @param etiqueta
      * @param valor
      */
-    public Circulo(String etiqueta, Valores valor) {
+    public Circulo(Valores valor) {
       super(3);
-      this.etiqueta = new Label(etiqueta);
+      this.etiqueta = new Label();
+      etiqueta.setText("algo1");
       this.valor = valor;
       this.isConected = false;
     }

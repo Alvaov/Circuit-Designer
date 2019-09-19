@@ -43,6 +43,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import operadores.Valores;
 
@@ -76,7 +77,11 @@ public class ControllerCircuito implements Initializable{
 
     private ImageView nuevaCompuerta;
     private String stringCompuerta;
+    private static ListLinked<Compuerta> circuito = new ListLinked<>();
+    //private static ListLinked<Color> colores = new ListLinked<>();
     private static ControllerCircuito controlador;
+    private static int entradas = 0;
+    private static int salidas = 0;
     private ControllerCircuito(){    
     }
 
@@ -232,6 +237,9 @@ public class ControllerCircuito implements Initializable{
     public AnchorPane getAnchor(){
         return AnchorCircuito;
     }
+    public ListLinked<Compuerta> getCircuito(){
+        return circuito;
+    }
     /**
      * @see Crea la ventana que permite elegir la cantidad de entradas por compuerta
      * @param ruta
@@ -257,7 +265,7 @@ public class ControllerCircuito implements Initializable{
      * respectivas salidas del circuito.
      */
     public void validarEntradas(){ 
-        ListLinked<Compuerta> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = this.circuito;
         System.out.println("Tamaño del circuito");
         System.out.println(circuito.getSize());
         for(int i = 0; i < circuito.getSize(); i++){
@@ -285,7 +293,7 @@ public class ControllerCircuito implements Initializable{
      */
     public String emularCircuito(){
         ListLinked<Valores> salidas = new ListLinked<>();
-        ListLinked<Compuerta> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = this.circuito;
         
         for(int i = 0; i < circuito.getSize(); i++){
             
@@ -356,7 +364,7 @@ public class ControllerCircuito implements Initializable{
         int salidas = 0;
         ListLinked<TableColumn> columnas = new ListLinked<>();
         ListLinked<PosibleCircuito> valoresTabla = new ListLinked<>();
-        ListLinked<Compuerta> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = this.circuito;
         for(int i = 0; i< circuito.getSize(); i++){
             int q = i;
             Compuerta compuerta = circuito.getValor(i);
@@ -400,7 +408,7 @@ public class ControllerCircuito implements Initializable{
      * asociados a cada compuerta.
      */
     public void encapsular(){
-        ListLinked<Compuerta> circuito = Factory.getCircuito();
+        ListLinked<Compuerta> circuito = this.circuito;
         ListLinked<Entrada> entradas = new ListLinked<>();
         ListLinked<CirculoSalida> salidas = new ListLinked<>();
         for(int i = 0; i< circuito.getSize(); i++){

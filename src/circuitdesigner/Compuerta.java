@@ -27,6 +27,7 @@ import javafx.collections.ListChangeListener;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.shape.Rectangle;
 /**
@@ -77,7 +78,7 @@ class Compuerta{
           imagenVista.setFitHeight(40.0);
           imagenVista.setX(orgSceneX);
           imagenVista.setY(orgSceneY);
-          end      = new CirculoSalida("o<"+">",salida);
+          end      = new CirculoSalida(salida);
 
           
           end.setOnDragDetected(event -> {
@@ -88,7 +89,7 @@ class Compuerta{
           end.setOnMouseDragReleased(event->{
               
               if (event.getGestureSource() instanceof CirculoEntrada){
-                  
+                  end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource()));
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
                         Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
                         Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
@@ -102,11 +103,11 @@ class Compuerta{
                         ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
                   };
                   end.setUserData(listener);
+                  compuertaCompleta.setUserData(listenerCompuerta);
                   System.out.println("release salida");
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
-                  end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource()));
-                  //CONTEMPLAR CASO DONDE ENTRADA ARRASTRADA CAIGA SOBRE ENTRADA CONECTADA
+                  //end.setEntradasConectadas(((CirculoEntrada) event.getGestureSource()));
                   compuertaCompleta.toFront();
                   
                   end.layoutXProperty().addListener(listener);
@@ -126,10 +127,15 @@ class Compuerta{
           
           end.setOnMouseClicked(event ->{
              if(event.getClickCount() == 2){
+                 System.out.println("desconcetar salida"); 
                  for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
+                     System.out.println(end.entradasConectadas.getSize());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
+                     ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
+                     ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                  }
                  end.getEntradasConectadas().eliminarLista();
+                 
                  end.layoutXProperty().removeListener((ChangeListener) end.getUserData());
                  end.layoutYProperty().removeListener((ChangeListener) end.getUserData());
                  compuertaCompleta.layoutXProperty().removeListener((ChangeListener) end.getUserData());
@@ -139,7 +145,9 @@ class Compuerta{
           
           end.setLayoutX(60);
           end.setLayoutY(20);
-          start    = new Circulo("",null);
+          end.getEtiqueta().layoutXProperty().bind(end.layoutXProperty());
+          end.getEtiqueta().layoutYProperty().bind(end.layoutYProperty());
+          start    = new Circulo(null);
           start.setLayoutX(40);
           start.setLayoutY(20);
           line     = new Line();
@@ -148,7 +156,7 @@ class Compuerta{
           line.endXProperty().bind(end.layoutXProperty());
           line.endYProperty().bind(end.layoutYProperty());
           line.setStroke(colorLinea());
-          startE   = new Circulo("",null);
+          startE   = new Circulo(null);
           startE.setLayoutX(25);
           startE.setLayoutY(20);
 
@@ -157,12 +165,12 @@ class Compuerta{
               Entrada entrada = new Entrada(imagenVista,startE,0);
               entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
-              compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
+              compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE());
               y += 7;
           }
           
           crearCompuerta(ruta);
-          compuertaCompleta.getChildren().addAll(start,end,startE,line,end.getEtiqueta(),imagenVista);
+          compuertaCompleta.getChildren().addAll(start,end,startE,line,imagenVista,end.getEtiqueta());
           Main.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
               start.startFullDrag();
@@ -171,9 +179,9 @@ class Compuerta{
           });
           imagenVista.setOnMouseClicked(event->{
               if(event.getClickCount()==2){
-                  for(int i = 0; i < Factory.getCircuito().getSize(); i++){
-                      if(Factory.getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
-                          Factory.getCircuito().eliminarEnPosición(i);
+                  for(int i = 0; i < Main.getControlador().getCircuito().getSize(); i++){
+                      if(Main.getControlador().getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
+                          Main.getControlador().getCircuito().eliminarEnPosición(i);
                           
                       }
                   }

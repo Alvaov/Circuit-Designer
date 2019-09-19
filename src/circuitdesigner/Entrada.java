@@ -41,7 +41,7 @@ public class Entrada extends Observable{
       private ImageView imagenVista;
       private Line lineE;
       private Valores valor;
-      private Compuerta compuertaConectada;
+      private CirculoSalida salidaConectada;
       private Circulo circulo;
       private Compuerta compuertaPadre;
       
@@ -82,6 +82,7 @@ public class Entrada extends Observable{
                       ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
                   };
                   endE.setUserData(listener);
+                  endE.getCompuertaPadre().getCompuerta().setUserData(listenerCompuerta);
                   System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
                   ((CirculoSalida) event.getGestureSource()).setEntradasConectadas(endE);
@@ -95,9 +96,11 @@ public class Entrada extends Observable{
                   
                   endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener(listener);
                   endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener(listener);
+                  salidaConectada = ((CirculoSalida)event.getGestureSource());
                  
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
+                  
               }else if (event.getGestureSource() instanceof CirculoEntrada){
                   
                   if (event.getGestureSource() instanceof Circulo){
@@ -157,10 +160,12 @@ public class Entrada extends Observable{
                   endE.layoutYProperty().removeListener((ChangeListener)endE.getUserData());
                   endE.getCompuertaPadre().getCompuerta().layoutXProperty().removeListener((ChangeListener)endE.getUserData());
                   endE.getCompuertaPadre().getCompuerta().layoutYProperty().removeListener((ChangeListener)endE.getUserData());
-                  endE.setLayoutY(endE.getCenterY()+3);
+                  
+                  
+                  endE.setLayoutY(endE.getCenterY()+10);
                   endE.setValor(null);
                   endE.setIsConected(false);
-                  compuertaConectada = null;
+                  salidaConectada = null;
               }
           }
 
