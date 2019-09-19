@@ -42,7 +42,7 @@ public class Factory{
      * @see retorna la lista enlazada en la cual se está almacenando el circuito que se muestra en pantalla
      * @return ListLinked
      */
-    public static ListLinked getCircuito(){
+    public static ListLinked<Compuerta> getCircuito(){
         return circuito;
     }
 
@@ -50,7 +50,7 @@ public class Factory{
      * @see retorna la lista enlazada en la cuál se están guardando todos lo colore utilizados para las líneas.
      * @return ListLinked
      */
-    public static ListLinked getColores(){
+    public static ListLinked<Color> getColores(){
         return coloresUsados;
     }
     

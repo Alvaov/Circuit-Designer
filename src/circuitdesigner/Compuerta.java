@@ -48,7 +48,7 @@ class Compuerta{
     private ListLinked<CirculoSalida> salidas = new ListLinked<>();
     private ListLinked<Compuerta> circuitoCompuesto = new ListLinked<>();
     private Rectangle figura;
-    private int y;  
+    private int y;
     
     public Compuerta(ListLinked<Entrada> entradas, ListLinked<Compuerta> circuito, ListLinked<CirculoSalida> salidas){
         this.entradas = entradas;
@@ -85,15 +85,21 @@ class Compuerta{
               //System.out.println(event.getTarget());
               ((CirculoSalida) event.getSource()).getParent().setMouseTransparent(true);
           });
-          
           end.setOnMouseDragReleased(event->{
+              
               if (event.getGestureSource() instanceof CirculoEntrada){
                   
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
-                      Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
-                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                        Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
+                        Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  };
+                  ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
+                        Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
+                        Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
                   };
                   end.setUserData(listener);
                   System.out.println("release salida");
@@ -105,8 +111,12 @@ class Compuerta{
                   
                   end.layoutXProperty().addListener(listener);
                   end.layoutYProperty().addListener(listener);
+                  
                   compuertaCompleta.layoutXProperty().addListener(listener);
                   compuertaCompleta.layoutYProperty().addListener(listener);
+                  
+                  ((CirculoEntrada)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
+                  ((CirculoEntrada)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
              
                   ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
               }else{
@@ -158,6 +168,16 @@ class Compuerta{
               start.startFullDrag();
               startE.startFullDrag();
               compuertaCompleta.startFullDrag();
+          });
+          imagenVista.setOnMouseClicked(event->{
+              if(event.getClickCount()==2){
+                  for(int i = 0; i < Factory.getCircuito().getSize(); i++){
+                      if(Factory.getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
+                          Factory.getCircuito().eliminarEnPosición(i);
+                          
+                      }
+                  }
+              }
           });
       }
     /**

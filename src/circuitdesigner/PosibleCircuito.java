@@ -7,7 +7,8 @@ package circuitdesigner;
 
 import listlinked.ListLinked;
 /**
- * @see es la clase que se encarga de calcular todos los datos posibles según la cantidad de entradas, las filas de la tabla de Verdad.
+ * @see es la clase que se encarga de calcular todos los datos posibles según la cantidad de entradas,
+ * las filas de la tabla de Verdad.
  * @author allva
  */
 public class PosibleCircuito {

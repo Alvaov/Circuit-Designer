@@ -74,11 +74,10 @@ public class ControllerCircuito implements Initializable{
     @FXML
     private VBox paleta;
 
-    ImageView nuevaCompuerta;
-    String stringCompuerta;
+    private ImageView nuevaCompuerta;
+    private String stringCompuerta;
     private static ControllerCircuito controlador;
-    private ControllerCircuito(){
-        
+    private ControllerCircuito(){    
     }
 
     /**
@@ -233,7 +232,6 @@ public class ControllerCircuito implements Initializable{
     public AnchorPane getAnchor(){
         return AnchorCircuito;
     }
-    
     /**
      * @see Crea la ventana que permite elegir la cantidad de entradas por compuerta
      * @param ruta

@@ -5,9 +5,9 @@
         <group>
             <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/circuitdesigner/Factory.java</file>
             <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/circuitdesigner/ControllerCircuito.java</file>
-            <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/circuitdesigner/Circulo.java</file>
             <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/circuitdesigner/Entrada.java</file>
-            <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/circuitdesigner/CirculoSalida.java</file>
+            <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/circuitdesigner/Compuerta.java</file>
+            <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/circuitdesigner/PosibleCircuito.java</file>
             <file>file:/C:/Users/allva/Desktop/CircuitDesigner/src/operadores/NegaciónOperador.java</file>
         </group>
     </open-files>

@@ -68,7 +68,14 @@ public class Entrada extends Observable{
           
           endE.setOnMouseDragReleased(event->{
               if (event.getGestureSource() instanceof CirculoSalida){
+                  
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                  };
+                  ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
                       ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
@@ -82,11 +89,15 @@ public class Entrada extends Observable{
                   ((CirculoSalida)event.getGestureSource()).getParent().toFront();
                   ((CirculoSalida)event.getGestureSource()).setIsConected(true);
                   endE.setIsConected(true);
+                  
                   endE.layoutXProperty().addListener(listener);
                   endE.layoutYProperty().addListener(listener);
+                  
                   endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener(listener);
                   endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener(listener);
-                  
+                 
+                  ((CirculoSalida)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
+                  ((CirculoSalida)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
               }else if (event.getGestureSource() instanceof CirculoEntrada){
                   
                   if (event.getGestureSource() instanceof Circulo){
