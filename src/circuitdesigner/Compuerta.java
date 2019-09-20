@@ -46,16 +46,7 @@ class Compuerta{
     private CirculoSalida end;
     private Line line;
     private ListLinked<Entrada> entradas = new ListLinked<>();
-    private ListLinked<CirculoSalida> salidas = new ListLinked<>();
-    private ListLinked<Compuerta> circuitoCompuesto = new ListLinked<>();
-    private Rectangle figura;
-    private int y;
-    
-    public Compuerta(ListLinked<Entrada> entradas, ListLinked<Compuerta> circuito, ListLinked<CirculoSalida> salidas){
-        this.entradas = entradas;
-        this.salidas = salidas;
-        this.circuitoCompuesto = circuito;
-    }
+
     /**
      * @see Constructor de la clase Compuerta, para cuando estas son compuertas preestablecidas,
      * crea las entradas, la salida, compuerta lógica, y demás elementos necesarios para la implementación
@@ -78,12 +69,11 @@ class Compuerta{
           imagenVista.setFitHeight(40.0);
           imagenVista.setX(orgSceneX);
           imagenVista.setY(orgSceneY);
-          end      = new CirculoSalida(salida);
+          end = new CirculoSalida(salida);
 
           
           end.setOnDragDetected(event -> {
               end.startFullDrag();
-              //System.out.println(event.getTarget());
               ((CirculoSalida) event.getSource()).getParent().setMouseTransparent(true);
           });
           end.setOnMouseDragReleased(event->{
@@ -165,11 +155,11 @@ class Compuerta{
 
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
-              Entrada entrada = new Entrada(imagenVista,startE,0);
+              Entrada entrada = new Entrada(startE,0);
               entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
               compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
-              y += 7;
+              y += 12;
           }
           
           crearCompuerta(ruta);
@@ -185,6 +175,7 @@ class Compuerta{
                   for(int i = 0; i < Main.getControlador().getCircuito().getSize(); i++){
                       if(Main.getControlador().getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
                           Main.getControlador().getCircuito().eliminarEnPosición(i);
+                          Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
                           
                       }
                   }

@@ -52,8 +52,7 @@ public class Entrada extends Observable{
      * @param circulo
      * @param i
      */
-    public Entrada(ImageView imagenVista, Circulo circulo,int i){
-          this.imagenVista = imagenVista;
+    public Entrada(Circulo circulo,int i){
           this.circulo = circulo;
           valor = null;
           endE      = new CirculoEntrada(valor);
@@ -107,6 +106,7 @@ public class Entrada extends Observable{
                   
                   if (event.getGestureSource() instanceof Circulo){
                       System.out.println("Conectar multientradas");
+                      ((CirculoEntrada)event.getGestureSource()).setIsConected(true);
                       endE.setIsConected(true);
                       endE.setValor(((CirculoEntrada)event.getGestureSource()).getValor());
                       ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);

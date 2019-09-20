@@ -424,7 +424,7 @@ public class ControllerCircuito implements Initializable{
                 }
             }
             if(compuerta.getEnd().getIsConected() == false){
-                TableColumn<ListLinked<PosibleCircuito>,String> columna = new TableColumn<>("o<"+salidas+">");
+                TableColumn<ListLinked<PosibleCircuito>,String> columna = new TableColumn<>(compuerta.getEnd().getEtiqueta().getText());
                 columnas.añadirFinal(columna);
             }
         }
@@ -456,9 +456,11 @@ public class ControllerCircuito implements Initializable{
      * asociados a cada compuerta.
      */
     public void encapsular(){
+        
         ListLinked<Compuerta> circuito = this.circuito;
         ListLinked<Entrada> entradas = new ListLinked<>();
         ListLinked<CirculoSalida> salidas = new ListLinked<>();
+        
         for(int i = 0; i< circuito.getSize(); i++){
             Compuerta compuerta = circuito.getValor(i);
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
@@ -470,11 +472,9 @@ public class ControllerCircuito implements Initializable{
                 salidas.añadirFinal(compuerta.getEnd());
             }
         }
-        Rectangle imagenCompuerta = new Rectangle();
-        imagenCompuerta.setHeight(25);
-        imagenCompuerta.setWidth(10);
+        Rectangle imagenCompuerta = new Rectangle(10,25);
         imagenCompuerta.setStyle(entradas.getSize()+"");
-        Compuerta nuevoCircuito = new Compuerta(entradas,circuito,salidas);
+        CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
         paleta.getChildren().add(imagenCompuerta);
     }
 }
