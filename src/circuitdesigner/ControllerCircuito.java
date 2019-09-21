@@ -359,10 +359,12 @@ public class ControllerCircuito implements Initializable{
                     
                     for(int e = 0; e < entradasConectadas.getSize(); e++){
                         entradasConectadas.getValor(e).setValor(compuerta.getEnd().getValor());
+                        compuerta.getEnd().setValor(Valores.Default);
                     }
                     
                 }else{
                     salidas.añadirFinal(compuerta.getEnd().getValor());
+                    compuerta.getEnd().setValor(Valores.Default);
                 }
             }
         }
@@ -406,6 +408,8 @@ public class ControllerCircuito implements Initializable{
         Stage stage = new Stage();
         stage.setTitle("Tabla de Verdad");
         TableView<PosibleCircuito> tablaDeVerdad = new TableView<>();
+        ListLinked<Entrada> entradasLista = new ListLinked<>();
+        ListLinked<Entrada> salidasLista = new ListLinked<>();
         tablaDeVerdad.setEditable(true);
         int filas = 1;
         int entradas = 0;
@@ -419,23 +423,34 @@ public class ControllerCircuito implements Initializable{
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
                 int p = j;
                 if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
+                    entradasLista.añadirFinal(compuerta.getEntrada(j));
                     entradas +=1;
                     filas *=2;
                 }
             }
             if(compuerta.getEnd().getIsConected() == false){
-                TableColumn<ListLinked<PosibleCircuito>,String> columna = new TableColumn<>(compuerta.getEnd().getEtiqueta().getText());
-                columnas.añadirFinal(columna);
+                salidas+=1;
             }
         }
         for(int j= 0; j < filas; j++){
-                PosibleCircuito posibleCircuito = new PosibleCircuito(entradas,filas);
+                PosibleCircuito posibleCircuito = new PosibleCircuito(entradas,filas,entradasLista);
                 valoresTabla.añadirFinal(posibleCircuito);
             }
         for(int e = 0; e < entradas; e++){
             int a= e;
             TableColumn<PosibleCircuito,String> columna = new TableColumn<>("i<"+e+">");
             columna.setCellValueFactory(E-> new SimpleStringProperty(E.getValue().getValores(a)));
+            columnas.añadirFinal(columna);
+        }
+        for(int p = 0; p < salidas; p++){
+            System.out.println("Salidas de tabla");
+            System.out.println(salidas);
+            System.out.println(p);
+            int r = p;
+            int q =p+entradas;
+            System.out.println(q);
+            TableColumn<PosibleCircuito,String> columna = new TableColumn<>("o<"+r+">");
+            columna.setCellValueFactory(E-> new SimpleStringProperty(E.getValue().getValores(q)));
             columnas.añadirFinal(columna);
         }
         for (int o = 0; o <columnas.getSize(); o++){

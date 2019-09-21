@@ -99,7 +99,7 @@ public class CircuitoUsuario{
             Entrada entrada = entradas.getValor(i);//new Entrada(startE,0);
             entrada.getEndE().setLayoutY(y);
             this.entradas.añadirFinal(entrada); 
-            compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
+            //compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
             y += 12;
        }
        

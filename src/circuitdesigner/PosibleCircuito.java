@@ -6,6 +6,7 @@
 package circuitdesigner;
 
 import listlinked.ListLinked;
+import operadores.Valores;
 /**
  * @see es la clase que se encarga de calcular todos los datos posibles según la cantidad de entradas,
  * las filas de la tabla de Verdad.
@@ -17,9 +18,11 @@ public class PosibleCircuito {
     private static ListLinked<Integer> particiones = new ListLinked<>();
     private static ListLinked<Integer> contadores = new ListLinked<>();
     private int filas;
+    private ListLinked<Entrada> entradasLista;
     
-    public PosibleCircuito(int entradas,int filas){
+    public PosibleCircuito(int entradas,int filas, ListLinked<Entrada> entradasLista){
         this.filas = filas;
+        this.entradasLista = entradasLista;
         for(int i = 0; i < entradas;i++){
             String valor = new String();
             valores.añadirFinal(valor);
@@ -27,13 +30,13 @@ public class PosibleCircuito {
         if(particiones.getSize() < entradas){
             while(this.filas > 1){
                 int partición = this.filas/2;
-                System.out.println(partición);
+         //       System.out.println(partición);
                 particiones.añadirFinal(partición);
                 contadores.añadirFinal(1);
                 this.filas = this.filas/2;
             }
         }
-        System.out.println(particiones.getSize());
+        //System.out.println(particiones.getSize());
         asignarValores();
     }
     
@@ -42,7 +45,6 @@ public class PosibleCircuito {
      * se asegura que todas las posibilidadas sean calculcadas.
      */
     public void asignarValores(){
-        System.out.println("Asigna valores");
         for(int i = 0; i< valores.getSize(); i++){
             
             String valor = valores.getValor(i);
@@ -62,7 +64,79 @@ public class PosibleCircuito {
                     contadores.buscarElemento(i).setValor(contador+1);
                 }
             }
-            System.out.println(valor);
+        }
+        //System.out.println("Valores");
+        //System.out.println(valores.getSize());
+        //System.out.println(valores.getValor(0));
+        //System.out.println(valores.getValor(1));
+        asignarEntradas();
+    }
+    private static int indiceValor = 0;
+    public ListLinked<Compuerta> asignarEntradas(){
+        ListLinked<Valores> salidas = new ListLinked<>();
+        ListLinked<Compuerta> circuito = Main.getControlador().getCircuito();
+        int indiceValor = 0;
+        int indiceLista = 0;
+        
+        for(int i = 0; i < circuito.getSize(); i++){
+
+            Compuerta compuerta = circuito.getValor(i);
+                
+            for(int j = 0; j < compuerta.getEntradas().getSize(); j++){
+               //System.out.println("Reiteración"); 
+               Entrada entrada = compuerta.getEntrada(j);
+               if (indiceLista < entradasLista.getSize() && entrada == entradasLista.getValor(indiceLista)){
+                    if (valores.getValor(indiceValor).equalsIgnoreCase("1")){
+                 //       System.out.println("Asigna 1");
+                        compuerta.getEntrada(j).setValor(Valores.True);
+                        compuerta.getEntrada(j).getEndE().setIsConected(true);
+                    }else if(valores.getValor(j).equalsIgnoreCase("0")){
+                   //     System.out.println("Asigna 0");
+                        compuerta.getEntrada(j).setValor(Valores.False);
+                        compuerta.getEntrada(j).getEndE().setIsConected(true);
+                    }
+                    indiceLista++;
+                    indiceValor++;
+                }
+            }
+        }
+        return emularCircuito(circuito);
+    }
+    
+    private int entradasEvaluadas = 0;
+    
+    public ListLinked<Compuerta> emularCircuito (ListLinked<Compuerta> circuito){
+        
+        for(int i = 0; i < circuito.getSize(); i++){
+            
+            Compuerta compuerta = circuito.getValor(i);
+            
+            if (compuerta.revisarEntradas()== true){
+                compuerta.operarSalida();
+                entradasEvaluadas +=1;
+                if(compuerta.getEnd().conectada()== true){
+                    ListLinked<CirculoEntrada> entradasConectadas = compuerta.getEnd().getEntradasConectadas();
+                    
+                    for(int e = 0; e < entradasConectadas.getSize(); e++){
+                        entradasConectadas.getValor(e).setValor(compuerta.getEnd().getValor());
+                        compuerta.getEnd().setValor(Valores.Default);
+                    }
+                    
+                }else{
+                    if(compuerta.getEnd().getValor() == Valores.False){
+                        System.out.println("asigna 0");
+                        valores.añadirFinal("0");
+                    }else{
+                        System.out.println("asigna 1");
+                        valores.añadirFinal("1");
+                    }
+                }
+            }
+        }
+        if(entradasEvaluadas < circuito.getSize()){
+            return emularCircuito(circuito);
+        }else{
+            return null;
         }
     }
     
