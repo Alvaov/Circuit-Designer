@@ -71,7 +71,6 @@ public class PosibleCircuito {
         //System.out.println(valores.getValor(1));
         asignarEntradas();
     }
-    private static int indiceValor = 0;
     public ListLinked<Compuerta> asignarEntradas(){
         ListLinked<Valores> salidas = new ListLinked<>();
         ListLinked<Compuerta> circuito = Main.getControlador().getCircuito();

@@ -18,7 +18,7 @@ import operadores.Valores;
  * @author allva
  */
 public class CircuitoUsuario{
-    private ListLinked<Compuerta> compuerta;
+    private ListLinked<Compuerta> circuito;
     private ListLinked<Entrada> entradas;
     private ListLinked<CirculoSalida> salidas;
     private Group compuertaCompleta;
@@ -26,10 +26,10 @@ public class CircuitoUsuario{
     private Circulo startE, start;
     
     public CircuitoUsuario(Rectangle imagen,ListLinked<Compuerta> compuerta, ListLinked<Entrada> entradas, ListLinked<CirculoSalida> salidas){
-        this.compuerta = compuerta;
+        this.circuito = compuerta;
         this.entradas = new ListLinked<>();//entradas;
         this.salidas = salidas;
-        //this.imagen = imagen;
+      //  this.imagenCompuerta = imagen;
         this.imagenCompuerta = new Rectangle(10,25);
         
         compuertaCompleta = new Group();
@@ -99,10 +99,12 @@ public class CircuitoUsuario{
             Entrada entrada = entradas.getValor(i);//new Entrada(startE,0);
             entrada.getEndE().setLayoutY(y);
             this.entradas.añadirFinal(entrada); 
-            //compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
+            compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
             y += 12;
        }
-       
+       for(int i= 0; i < compuerta.getSize(); i++){
+           Main.getControlador().getCircuito().añadirFinal(compuerta.getValor(i));
+       }
        imagenCompuerta.setLayoutX(20);
        imagenCompuerta.setLayoutY(10);
        imagenCompuerta.setOnDragDetected(event->{
