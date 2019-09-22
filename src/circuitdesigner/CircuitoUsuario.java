@@ -19,14 +19,13 @@ import operadores.Valores;
  */
 public class CircuitoUsuario{
     private ListLinked<Compuerta> circuito = new ListLinked<Compuerta>();
-    private ListLinked<Entrada> entradas;
+    private ListLinked<Entrada> entradas ;
     private ListLinked<CirculoSalida> salidas;
     private Group compuertaCompleta;
     private Rectangle imagenCompuerta;// = new Rectangle(10,25);
     private Circulo startE, start;
     
     public CircuitoUsuario(Rectangle imagen,ListLinked<Compuerta> compuerta, ListLinked<Entrada> entradas, ListLinked<CirculoSalida> salidas){
-        //this.circuito = compuerta;
         this.entradas = new ListLinked<>();//entradas;
         this.salidas = salidas;
       //  this.imagenCompuerta = imagen;
@@ -94,27 +93,32 @@ public class CircuitoUsuario{
               }
           });
         }
-        int y = 0;
        for (int i = 0; i < entradas.getSize(); i++){
-            Entrada entrada = entradas.getValor(i);//new Entrada(startE,0);
-            entrada.getEndE().setLayoutY(y);
-            this.entradas.añadirFinal(entrada); 
-            compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
-            y += 12;
+            this.entradas.añadirFinal(entradas.getValor(i));
        }
-       int tamañoCircuito = circuito.getSize();
+       int tamañoCircuito = compuerta.getSize();
+       System.out.println(compuerta.getValor(0));
+       System.out.println(compuerta.getValor(0).getEntrada(0).getEndE().getCompuertaPadre());
        for(int i= 0; i < tamañoCircuito; i++){
            circuito.añadirFinal(compuerta.getValor(i));
-           //Main.getControlador().getCircuito().añadirFinal(compuerta.getValor(i));
        }
+       for(int i = 0; i < tamañoCircuito;i++){
+           Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
+           Main.getControlador().getCircuito().eliminarInicio();
+       }
+       System.out.println(circuito.getSize());
+       System.out.println(Main.getControlador().getCircuito().getSize());
+       System.out.println(circuito.getValor(0));
+       System.out.println(circuito.getValor(0).getEntrada(0).getEndE().getCompuertaPadre());
        imagenCompuerta.setLayoutX(20);
        imagenCompuerta.setLayoutY(10);
+       
        imagenCompuerta.setOnDragDetected(event->{
              start.startFullDrag();
              startE.startFullDrag();
              compuertaCompleta.startFullDrag();
          });
-       System.out.println();
+       
        compuertaCompleta.getChildren().addAll(startE,start,imagenCompuerta);
        compuertaCompleta.setLayoutX(20);
        Main.getControlador().getAnchor().getChildren().addAll(compuertaCompleta);

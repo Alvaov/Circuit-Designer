@@ -142,8 +142,6 @@ public class ListLinked<T>{
             puntero.setSiguiente(puntero.getSiguiente().getSiguiente());
             size--;
         }
-        //size--;
-        System.out.println(Main.getControlador().getCircuito().getSize());
     }
     public T getValor(int i){
         Nodo<T> puntero = cabeza;

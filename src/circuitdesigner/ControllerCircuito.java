@@ -475,24 +475,29 @@ public class ControllerCircuito implements Initializable{
         ListLinked<Compuerta> circuito = this.circuito;
         ListLinked<Entrada> entradas = new ListLinked<>();
         ListLinked<CirculoSalida> salidas = new ListLinked<>();
-        
-        for(int i = 0; i< circuito.getSize(); i++){
-            Compuerta compuerta = circuito.getValor(i);
-            for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
-                if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
-                    entradas.añadirFinal(compuerta.getEntrada(j));
+        if(circuito.getSize()>= 1){
+            for(int i = 0; i< circuito.getSize(); i++){
+                Compuerta compuerta = circuito.getValor(i);
+                for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
+                    if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
+                        entradas.añadirFinal(compuerta.getEntrada(j));
+                    }
+                }
+                if(compuerta.getEnd().getIsConected() == false){
+                    salidas.añadirFinal(compuerta.getEnd());
                 }
             }
-            if(compuerta.getEnd().getIsConected() == false){
-                salidas.añadirFinal(compuerta.getEnd());
-            }
-        }
-        Rectangle imagenCompuerta = new Rectangle(10,25);
-        imagenCompuerta.setStyle(entradas.getSize()+"");
-        //CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
-        imagenCompuerta.setOnMouseClicked(event->{
-            CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
-        });
-        paleta.getChildren().add(imagenCompuerta);
+            Rectangle imagenCompuerta = new Rectangle(10,25);
+            imagenCompuerta.setStyle(entradas.getSize()+"");
+
+            //imagenCompuerta.setOnMouseClicked(event->{
+                CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
+            //});
+            paleta.getChildren().add(imagenCompuerta);
+            for(int i = 0; i < circuito.getSize();i++){
+               Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
+               Main.getControlador().getCircuito().eliminarInicio();
+           }
+       }
     }
 }
