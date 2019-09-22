@@ -158,14 +158,14 @@ public class ControllerCircuito implements Initializable{
                 nuevaCompuerta.toString();
             }
             
-            if (event.getGestureSource() instanceof CirculoEntrada){
+            if (event.getGestureSource() instanceof CirculoEntrada && ((CirculoEntrada)event.getGestureSource()).getIsConected() == false){
                 Point2D punto = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutX(punto.getX());
                 ((CirculoEntrada) event.getGestureSource()).setLayoutY(punto.getY());
             } 
             
             
-            else if (event.getGestureSource() instanceof CirculoSalida){
+            else if (event.getGestureSource() instanceof CirculoSalida && ((CirculoSalida)event.getGestureSource()).getIsConected() == false){
                 Point2D punto = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(event.getX(),event.getY());
                 ((CirculoSalida) event.getGestureSource()).setLayoutX(punto.getX());
                 ((CirculoSalida) event.getGestureSource()).setLayoutY(punto.getY());
@@ -179,6 +179,7 @@ public class ControllerCircuito implements Initializable{
             }
         });
         AnchorCircuito.setOnMouseDragReleased(event ->{
+            
             if(event.getGestureSource() instanceof ImageView){
                 try {
                     if (stringCompuerta.equalsIgnoreCase("NOT.png")){
@@ -288,9 +289,7 @@ public class ControllerCircuito implements Initializable{
                 Compuerta compuerta = circuito.getValor(i);
                 for(int j = 0; j < compuerta.getEntradas().getSize();j++){
                     Entrada entrada = compuerta.getEntrada(j);
-                    System.out.println("inicio2");
                     if(entrada.getEndE().getIsConected() == false){ //Es porque es una entrada de usuario
-                        System.out.println("entró");
                         entrada.getEndE().getEtiqueta().setText("i<"+entradas+">");
                         entradas++;
                     }else{

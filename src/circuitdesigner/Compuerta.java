@@ -67,14 +67,14 @@ class Compuerta{
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
                         Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
                         Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
                   };
                   ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
                         Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
                         Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
                   };
                   end.setUserData(listener);
                   compuertaCompleta.setUserData(listenerCompuerta);
@@ -117,6 +117,7 @@ class Compuerta{
                  end.layoutYProperty().removeListener((ChangeListener) end.getUserData());
                  compuertaCompleta.layoutXProperty().removeListener((ChangeListener) end.getUserData());
                  compuertaCompleta.layoutYProperty().removeListener((ChangeListener) end.getUserData());
+                 Main.getControlador().actualizarEtiquetas();
              } 
           });
           
@@ -147,7 +148,7 @@ class Compuerta{
           }
           
           crearCompuerta(ruta);
-          compuertaCompleta.getChildren().addAll(start,end,startE,line,imagenVista,end.getEtiqueta());
+          compuertaCompleta.getChildren().addAll(start,startE,line,end,imagenVista,end.getEtiqueta());
           Main.getControlador().getAnchor().getChildren().add(compuertaCompleta);
           imagenVista.setOnDragDetected(event->{
               start.startFullDrag();
@@ -160,6 +161,7 @@ class Compuerta{
                       if(Main.getControlador().getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
                           Main.getControlador().getCircuito().eliminarEnPosición(i+1);
                           Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
+                          Main.getControlador().actualizarEtiquetas();
                           
                       }
                   }

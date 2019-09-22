@@ -89,11 +89,9 @@ public class PosibleCircuito {
                     if (valores.getValor(indiceValor).equalsIgnoreCase("1")){
                  //       System.out.println("Asigna 1");
                         compuerta.getEntrada(j).setValor(Valores.True);
-                        compuerta.getEntrada(j).getEndE().setIsConected(true);
                     }else if(valores.getValor(j).equalsIgnoreCase("0")){
                    //     System.out.println("Asigna 0");
                         compuerta.getEntrada(j).setValor(Valores.False);
-                        compuerta.getEntrada(j).getEndE().setIsConected(true);
                     }
                     indiceLista++;
                     indiceValor++;

@@ -66,14 +66,14 @@ public class Entrada{
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
                   };
                   ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX());
-                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY());
+                      ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
+                      ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
                   };
                   endE.setUserData(listener);
                   endE.getCompuertaPadre().getCompuerta().setUserData(listenerCompuerta);
