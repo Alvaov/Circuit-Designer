@@ -14,8 +14,6 @@ import circuitdesigner.Entrada;
  */
 public abstract class Operadores {
     
-
-    private int cantidadDeEntradas;
     protected ListLinked<Entrada> entradas;
 
 

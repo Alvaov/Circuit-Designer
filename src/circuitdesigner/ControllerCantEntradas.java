@@ -29,9 +29,9 @@ public class ControllerCantEntradas implements Initializable {
     @FXML
     private Button cancelarEntradas;
     
-    String ruta;
-    Stage stage;
-    double x,y;
+    private String ruta;
+    private Stage stage;
+    private double x,y;
     @Override
     /**
      * @see Método principal de la clase controladora, inicinializa el spinner y permite la interacción con este,

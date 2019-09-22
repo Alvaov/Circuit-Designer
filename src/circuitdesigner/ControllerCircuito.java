@@ -11,32 +11,23 @@ package circuitdesigner;
  */
 
 import listlinked.ListLinked;
-import operadores.Operadores;
-import javafx.fxml.Initializable;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
@@ -152,6 +143,14 @@ public class ControllerCircuito implements Initializable{
         });
 
         AnchorCircuito.setOnMouseDragOver(event ->{
+            
+            if(event.getGestureSource() instanceof Rectangle){
+                double x = event.getX();
+                double y = event.getY();
+                //nuevaCompuerta.relocate(x-30,y-20);
+                //nuevaCompuerta.toString();
+            }
+            
             if(event.getGestureSource() instanceof ImageView && nuevaCompuerta != null){
                 double x = event.getX();
                 double y = event.getY();
@@ -417,6 +416,7 @@ public class ControllerCircuito implements Initializable{
         ListLinked<TableColumn> columnas = new ListLinked<>();
         ListLinked<PosibleCircuito> valoresTabla = new ListLinked<>();
         ListLinked<Compuerta> circuito = this.circuito;
+        System.out.println(circuito.getSize());
         for(int i = 0; i< circuito.getSize(); i++){
             int q = i;
             Compuerta compuerta = circuito.getValor(i);
@@ -489,7 +489,10 @@ public class ControllerCircuito implements Initializable{
         }
         Rectangle imagenCompuerta = new Rectangle(10,25);
         imagenCompuerta.setStyle(entradas.getSize()+"");
-        CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
+        //CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
+        imagenCompuerta.setOnMouseClicked(event->{
+            CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
+        });
         paleta.getChildren().add(imagenCompuerta);
     }
 }

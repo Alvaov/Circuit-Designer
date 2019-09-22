@@ -5,6 +5,7 @@
  */
 package listlinked;
 
+import circuitdesigner.Main;
 import java.util.Observable;
 
 /**
@@ -13,8 +14,8 @@ import java.util.Observable;
  */
 public class ListLinked<T>{
    
-    public Nodo<T> cabeza;
-    public Nodo<T> ultimo;
+    private Nodo<T> cabeza;
+    private Nodo<T> ultimo;
     private int size;
     
     public ListLinked(){ 
@@ -120,13 +121,16 @@ public class ListLinked<T>{
         size--;
     }
     public void eliminarEnPosición(int i){ //REVISAR
-        if(i == 0){
+        if(i == 1){
+            System.out.println("eliminar inicio");
             eliminarInicio();
         }
-        else if (i > size){
+        else if (i >= size){
+            System.out.println("eliminar final");
             eliminarFinal();
         }
         else{
+            System.out.println("eliminar en posición "+i);
             Nodo<T> puntero = cabeza;
             int contador = 1;
             while(contador < i && puntero.getSiguiente() != null){
@@ -136,9 +140,10 @@ public class ListLinked<T>{
             }
             puntero = puntero.getAnterior();
             puntero.setSiguiente(puntero.getSiguiente().getSiguiente());
-            puntero.setSiguiente(puntero.getSiguiente());
+            size--;
         }
-        size--;
+        //size--;
+        System.out.println(Main.getControlador().getCircuito().getSize());
     }
     public T getValor(int i){
         Nodo<T> puntero = cabeza;

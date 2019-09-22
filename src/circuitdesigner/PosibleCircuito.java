@@ -19,6 +19,7 @@ public class PosibleCircuito {
     private static ListLinked<Integer> contadores = new ListLinked<>();
     private int filas;
     private ListLinked<Entrada> entradasLista;
+    private int entradasEvaluadas = 0;
     
     public PosibleCircuito(int entradas,int filas, ListLinked<Entrada> entradasLista){
         this.filas = filas;
@@ -102,7 +103,7 @@ public class PosibleCircuito {
         return emularCircuito(circuito);
     }
     
-    private int entradasEvaluadas = 0;
+   
     
     public ListLinked<Compuerta> emularCircuito (ListLinked<Compuerta> circuito){
         

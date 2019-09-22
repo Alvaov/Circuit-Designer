@@ -5,31 +5,15 @@
  */
 package circuitdesigner;
 
-import java.util.ArrayList;
-import java.util.List;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import listlinked.ListLinked;
 import operadores.*;
-import java.util.Observer;
-import java.util.Observable;
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ListChangeListener;
 import javafx.geometry.Bounds;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.shape.Rectangle;
 /**
  * @see clase que crea todos los elementos que requiere una compuerta lógica
  * incluidos tanto los elementos gráficos como los lógicos propiamente de funcionamiento
@@ -40,7 +24,7 @@ class Compuerta{
     private ImageView imagenVista;
     private Group compuertaCompleta;
       
-    private double orgSceneX, orgSceneY;
+    private double inicioX, inicioY;
     private Valores salida;
     private Circulo start, startE;
     private CirculoSalida end;
@@ -67,8 +51,8 @@ class Compuerta{
           imagenVista = new ImageView(imagen);
           imagenVista.setFitWidth(65.0);
           imagenVista.setFitHeight(40.0);
-          imagenVista.setX(orgSceneX);
-          imagenVista.setY(orgSceneY);
+          imagenVista.setX(inicioX);
+          imagenVista.setY(inicioY);
           end = new CirculoSalida(salida);
 
           
@@ -174,7 +158,7 @@ class Compuerta{
               if(event.getClickCount()==2){
                   for(int i = 0; i < Main.getControlador().getCircuito().getSize(); i++){
                       if(Main.getControlador().getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
-                          Main.getControlador().getCircuito().eliminarEnPosición(i);
+                          Main.getControlador().getCircuito().eliminarEnPosición(i+1);
                           Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
                           
                       }

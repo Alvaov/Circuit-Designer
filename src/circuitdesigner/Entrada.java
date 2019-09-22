@@ -7,15 +7,10 @@ package circuitdesigner;
 
 import java.io.IOException;
 import java.util.Observable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,9 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import operadores.Valores;
 import listlinked.ListLinked;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
 import javafx.stage.Stage;
 
 /**
@@ -35,7 +28,7 @@ import javafx.stage.Stage;
  * de modificacion, arrastre, interconexión,etc.
  * @author allva
  */
-public class Entrada extends Observable{
+public class Entrada{
       
       private CirculoEntrada endE;
       private ImageView imagenVista;
@@ -246,5 +239,6 @@ public class Entrada extends Observable{
         stage.setScene(new Scene(root1));
         
         stage.show();
+        System.out.println("se mostró");
     }
 }

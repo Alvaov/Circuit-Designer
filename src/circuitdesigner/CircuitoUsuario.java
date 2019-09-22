@@ -18,7 +18,7 @@ import operadores.Valores;
  * @author allva
  */
 public class CircuitoUsuario{
-    private ListLinked<Compuerta> circuito;
+    private ListLinked<Compuerta> circuito = new ListLinked<Compuerta>();
     private ListLinked<Entrada> entradas;
     private ListLinked<CirculoSalida> salidas;
     private Group compuertaCompleta;
@@ -26,7 +26,7 @@ public class CircuitoUsuario{
     private Circulo startE, start;
     
     public CircuitoUsuario(Rectangle imagen,ListLinked<Compuerta> compuerta, ListLinked<Entrada> entradas, ListLinked<CirculoSalida> salidas){
-        this.circuito = compuerta;
+        //this.circuito = compuerta;
         this.entradas = new ListLinked<>();//entradas;
         this.salidas = salidas;
       //  this.imagenCompuerta = imagen;
@@ -102,8 +102,10 @@ public class CircuitoUsuario{
             compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());
             y += 12;
        }
-       for(int i= 0; i < compuerta.getSize(); i++){
-           Main.getControlador().getCircuito().añadirFinal(compuerta.getValor(i));
+       int tamañoCircuito = circuito.getSize();
+       for(int i= 0; i < tamañoCircuito; i++){
+           circuito.añadirFinal(compuerta.getValor(i));
+           //Main.getControlador().getCircuito().añadirFinal(compuerta.getValor(i));
        }
        imagenCompuerta.setLayoutX(20);
        imagenCompuerta.setLayoutY(10);
