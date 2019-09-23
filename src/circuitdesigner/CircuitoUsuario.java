@@ -154,8 +154,8 @@ public class CircuitoUsuario{
                   for(int j = 0; j < circuito.getSize(); j++){
                       if(Main.getControlador().getCircuito().getValor(i).equals(circuito.getValor(0))){
                           System.out.println(Main.getControlador().getCircuito().getValor(0));
-                    //      Main.getControlador().getCircuito().eliminarEnPosición(0);
-                    //      circuito.eliminarEnPosición(0);
+                          Main.getControlador().getCircuito().eliminarEnPosición(i+1);
+                          circuito.eliminarEnPosición(j+1);
                       }
                   }
               }
