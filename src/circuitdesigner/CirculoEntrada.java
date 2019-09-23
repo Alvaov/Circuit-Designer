@@ -16,6 +16,8 @@ import operadores.Valores;
  */
 public class CirculoEntrada extends Circulo{
     
+    private CirculoEntrada valorConectado;
+    
     /**
      * @see Clase que hereda de la clase Círculo, implementada para identificar si un círculo es una salida
      * o una entrada.
@@ -26,6 +28,21 @@ public class CirculoEntrada extends Circulo{
         super(valor);
     }
     
+    /**
+     * @see método que permite cambiar el valor actual del círculo
+     * @param Valores valor
+     */
+    @Override
+    public void setValor(Valores valor){
+        this.valor = valor;
+        if(valorConectado != null){
+            valorConectado.setValor(valor);
+        }
+    }
+    
+    public void setValorConectado(CirculoEntrada conectado){
+        valorConectado = conectado;
+    }
 
     
 }

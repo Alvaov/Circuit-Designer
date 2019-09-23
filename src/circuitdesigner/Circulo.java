@@ -51,7 +51,6 @@ class Circulo extends Circle {
      */
     public void setValor(Valores valor){
         this.valor = valor;
-      //  System.out.println("Setea valor circulo");
     }
     /**
      *@see Método desde el cuál se puede modificar el atributo isConected

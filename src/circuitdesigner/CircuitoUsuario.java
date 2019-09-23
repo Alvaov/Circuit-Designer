@@ -8,6 +8,9 @@ package circuitdesigner;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import listlinked.ListLinked;
@@ -23,14 +26,28 @@ public class CircuitoUsuario{
     private ListLinked<CirculoSalida> salidas;
     private Group compuertaCompleta;
     private Rectangle imagenCompuerta;// = new Rectangle(10,25);
+    private Rectangle imagenPaleta;
     private Circulo startE, start;
     
     public CircuitoUsuario(Rectangle imagen,ListLinked<Compuerta> compuerta, ListLinked<Entrada> entradas, ListLinked<CirculoSalida> salidas){
         this.entradas = new ListLinked<>();//entradas;
-        this.salidas = salidas;
+        this.salidas = new ListLinked<>();
       //  this.imagenCompuerta = imagen;
-        this.imagenCompuerta = new Rectangle(10,25);
+       // this.imagenCompuerta = new Rectangle(10,25,imagenPaleta.getFill());
         
+        imagenPaleta = new Rectangle(10,25,imagen.getFill());
+        Label label = new Label(""+entradas.getSize());
+        //imagenPaleta.setFill(colorCompuerta());
+        this.imagenCompuerta = new Rectangle(10,25,imagenPaleta.getFill());
+        
+        imagenPaleta.setOnDragDetected(event->{
+            System.out.println("inicio drag");
+            imagenPaleta.startFullDrag();
+            Rectangle imagenAnchor = new Rectangle(10,25,imagenPaleta.getFill());
+            imagenAnchor.setUserData(imagenPaleta.getUserData());
+            Main.getControlador().setRentángulo(imagenAnchor);
+        });
+        //Main.getControlador().getPaleta().getChildren().add(imagenPaleta);
         compuertaCompleta = new Group();
         startE   = new Circulo(null);
         startE.setLayoutX(25);
@@ -38,15 +55,17 @@ public class CircuitoUsuario{
         start = new Circulo(null);
         start.setLayoutX(25);
         start.setLayoutY(25);
-       for (int i = 0; i < salidas.getSize(); i++){
+       int indiceSalidas = salidas.getSize();
+       for (int i = 0; i < indiceSalidas; i++){
+       //     this.salidas.añadirFinal(salidas.getValor(i));
             CirculoSalida end = new CirculoSalida(Valores.Default);
-            
+            end.setValorConectado(salidas.getValor(i));
             Line line     = new Line();
             line.startXProperty().bind(start.layoutXProperty());
             line.startYProperty().bind(start.layoutYProperty());
             line.endXProperty().bind(end.layoutXProperty());
             line.endYProperty().bind(end.layoutYProperty());
-            compuertaCompleta.getChildren().addAll(end,line,end.getEtiqueta());
+            compuertaCompleta.getChildren().addAll(line,end,end.getEtiqueta());
             end.setLayoutX(60);
             end.setLayoutY(25);
             end.setOnDragDetected(event -> {
@@ -92,9 +111,19 @@ public class CircuitoUsuario{
                   System.out.println("Conexión inválida");
               }
           });
+             this.salidas.añadirFinal(end);
         }
+       int y = 0;
        for (int i = 0; i < entradas.getSize(); i++){
-            this.entradas.añadirFinal(entradas.getValor(i));
+           Entrada entrada = new Entrada(startE);
+           entrada.getEndE().setValorConectado(entradas.getValor(i).getEndE());
+           entrada.getEndE().setLayoutY(y);
+           this.entradas.añadirFinal(entrada);
+           y=+7; 
+      }
+       int indiceEntradas = this.entradas.getSize();
+       for(int i =0; i < indiceEntradas;i++){
+           compuertaCompleta.getChildren().addAll(this.entradas.getValor(i).getEndE(),this.entradas.getValor(i).getLinea());
        }
        int tamañoCircuito = compuerta.getSize();
        //System.out.println(compuerta.getValor(0));
@@ -102,10 +131,10 @@ public class CircuitoUsuario{
        for(int i= 0; i < tamañoCircuito; i++){
            circuito.añadirFinal(compuerta.getValor(i));
        }
-       for(int i = 0; i < tamañoCircuito;i++){
-           Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
-           Main.getControlador().getCircuito().eliminarInicio();
-       }
+      // for(int i = 0; i < tamañoCircuito;i++){
+      //     Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
+     //      Main.getControlador().getCircuito().eliminarInicio();
+      // }
        //System.out.println(circuito.getSize());
        //System.out.println(Main.getControlador().getCircuito().getSize());
       // System.out.println(circuito.getValor(0));
@@ -118,12 +147,61 @@ public class CircuitoUsuario{
              startE.startFullDrag();
              compuertaCompleta.startFullDrag();
          });
-       
+       imagenCompuerta.setOnMouseClicked(event->{
+           if (event.getClickCount()==2){
+              int tamañoCircuitoGeneral = Main.getControlador().getCircuito().getSize();
+              for(int i = 0; i < Main.getControlador().getCircuito().getSize(); i++){
+                  for(int j = 0; j < circuito.getSize(); j++){
+                      if(Main.getControlador().getCircuito().getValor(i).equals(circuito.getValor(0))){
+                          System.out.println(Main.getControlador().getCircuito().getValor(0));
+                    //      Main.getControlador().getCircuito().eliminarEnPosición(0);
+                    //      circuito.eliminarEnPosición(0);
+                      }
+                  }
+              }
+              Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
+           }
+       });
+        
        compuertaCompleta.getChildren().addAll(startE,start,imagenCompuerta);
        compuertaCompleta.setLayoutX(20);
       // Main.getControlador().getAnchor().getChildren().addAll(compuertaCompleta);
         
     }
     
-    
+    public Rectangle getImagenPaleta(){
+        return imagenPaleta;
+    }
+    public ListLinked<Compuerta> getCircuitoUsuario(){
+        return circuito;
+    }
+    public Group getCompuertaCompleta(){
+        return compuertaCompleta;
+    }
+    public ListLinked<Entrada> getEntradas(){
+        return entradas;
+    }
+    public ListLinked<CirculoSalida> getSalidas(){
+        return salidas;
+    }
+    /**
+     * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
+     * otra línea del circuito.
+     * @return Color
+     */
+    public Color colorCompuerta(){
+        double red = Math.random();
+        double green = Math.random();
+        double blue = Math.random();
+        
+        Color color =Color.color(red, green, blue);
+        ListLinked<Color> coloresUsados = Main.getControlador().getColores();
+        for(int i = 0; i < coloresUsados.getSize(); i++){
+            if (coloresUsados.buscarElemento(i).equals(color)){
+                return colorCompuerta();
+            }
+        }
+        coloresUsados.añadirFinal(color);
+        return color;
+    }
 }

@@ -68,6 +68,7 @@ public class ControllerCircuito implements Initializable{
 
     private ImageView nuevaCompuerta;
     private String stringCompuerta;
+    private Rectangle nuevaCompuertaUsuario;
     private static ListLinked<Compuerta> circuito = new ListLinked<>();
     private static ListLinked<Color> coloresUsados = new ListLinked<>();
     private static ControllerCircuito controlador;
@@ -140,14 +141,18 @@ public class ControllerCircuito implements Initializable{
                 AnchorCircuito.getChildren().add(nuevaCompuerta);
                 nuevaCompuerta.toFront();
             }
+            else if(nuevaCompuertaUsuario != null){
+                AnchorCircuito.getChildren().add(nuevaCompuertaUsuario);
+                nuevaCompuertaUsuario.toFront();
+            }
         });
 
         AnchorCircuito.setOnMouseDragOver(event ->{
             
-            if(event.getGestureSource() instanceof Rectangle){
+            if(event.getGestureSource() instanceof Rectangle && nuevaCompuertaUsuario != null){
                 double x = event.getX();
                 double y = event.getY();
-                //nuevaCompuerta.relocate(x-30,y-20);
+                nuevaCompuertaUsuario.relocate(x-30,y-20);
                 //nuevaCompuerta.toString();
             }
             
@@ -180,6 +185,16 @@ public class ControllerCircuito implements Initializable{
         });
         AnchorCircuito.setOnMouseDragReleased(event ->{
             
+            if(event.getGestureSource() instanceof Rectangle){
+                CircuitoUsuario circuito = (CircuitoUsuario) ((Rectangle)event.getGestureSource()).getUserData();
+                CircuitoUsuario nuevoCircuito = new CircuitoUsuario(circuito.getImagenPaleta(),circuito.getCircuitoUsuario(),circuito.getEntradas(),circuito.getSalidas());
+                AnchorCircuito.getChildren().remove(nuevaCompuertaUsuario);
+                nuevaCompuertaUsuario = null;
+                AnchorCircuito.getChildren().add(nuevoCircuito.getCompuertaCompleta());
+                for (int i = 0; i < nuevoCircuito.getCircuitoUsuario().getSize(); i++){
+                    this.circuito.añadirFinal(nuevoCircuito.getCircuitoUsuario().getValor(i));
+                }
+            }
             if(event.getGestureSource() instanceof ImageView){
                 try {
                     if (stringCompuerta.equalsIgnoreCase("NOT.png")){
@@ -240,7 +255,20 @@ public class ControllerCircuito implements Initializable{
             
         });
     }
+    
+    /**
+     * @see Método que retorna el VBox donde se colocan los distintos elementos de la paleta
+     * @return paleta
+     */
+    public VBox getPaleta(){
+        return paleta;
+    }
+    
+    public void setRentángulo(Rectangle nuevoRectangulo){
+        nuevaCompuertaUsuario = nuevoRectangulo;
+    }
 
+    
     /**
      * @see Método que retorna el AnchorPane donde se colocan los distintos elementos de la GUI
      * @return AnchorCircuito
@@ -475,6 +503,7 @@ public class ControllerCircuito implements Initializable{
         ListLinked<Entrada> entradas = new ListLinked<>();
         ListLinked<CirculoSalida> salidas = new ListLinked<>();
         if(circuito.getSize()>= 1){
+            
             for(int i = 0; i< circuito.getSize(); i++){
                 Compuerta compuerta = circuito.getValor(i);
                 for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
@@ -486,17 +515,36 @@ public class ControllerCircuito implements Initializable{
                     salidas.añadirFinal(compuerta.getEnd());
                 }
             }
-            Rectangle imagenCompuerta = new Rectangle(10,25);
-            imagenCompuerta.setStyle(entradas.getSize()+"");
-
-            //imagenCompuerta.setOnMouseClicked(event->{
-                CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenCompuerta,circuito,entradas,salidas);
-            //});
-            paleta.getChildren().add(imagenCompuerta);
-            for(int i = 0; i < circuito.getSize();i++){
-               Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
-               Main.getControlador().getCircuito().eliminarInicio();
-           }
+            Rectangle imagenUsuario = new Rectangle(10,25);
+            imagenUsuario.setFill(colorCompuerta());
+            CircuitoUsuario nuevoCircuito = new CircuitoUsuario(imagenUsuario,circuito,entradas,salidas);
+            nuevoCircuito.getImagenPaleta().setUserData(nuevoCircuito);
+            paleta.getChildren().add(nuevoCircuito.getImagenPaleta());
+            int tamañoCircuito = circuito.getSize();
+            while(circuito.getSize() >0){
+                System.out.println(circuito.getSize());
+                Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
+                Main.getControlador().getCircuito().eliminarInicio();
+            }
        }
+    }
+    /**
+     * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
+     * otra línea del circuito.
+     * @return Color
+     */
+    public Color colorCompuerta(){
+        double red = Math.random();
+        double green = Math.random();
+        double blue = Math.random();
+        
+        Color color =Color.color(red, green, blue);
+        for(int i = 0; i < coloresUsados.getSize(); i++){
+            if (coloresUsados.buscarElemento(i).equals(color)){
+                return colorCompuerta();
+            }
+        }
+        coloresUsados.añadirFinal(color);
+        return color;
     }
 }

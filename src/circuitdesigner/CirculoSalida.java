@@ -16,7 +16,8 @@ import operadores.Valores;
  */
 public class CirculoSalida extends Circulo{
     
-    ListLinked<CirculoEntrada> entradasConectadas = new ListLinked<>();
+    private ListLinked<CirculoEntrada> entradasConectadas = new ListLinked<>();
+    private CirculoSalida valorConectado;
     
     public CirculoSalida(Valores valor) {
         super(valor);
@@ -35,6 +36,11 @@ public class CirculoSalida extends Circulo{
     public void setEntradasConectadas(CirculoEntrada nuevaEntrada){
         entradasConectadas.añadirFinal(nuevaEntrada);
         isConected = true;
+         
+    }
+    
+    public ListLinked<CirculoEntrada> getEntradasConectadas(CirculoEntrada nuevaEntrada){
+        return entradasConectadas;
          
     }
     
@@ -59,5 +65,7 @@ public class CirculoSalida extends Circulo{
         return isConected;
     }
 
-    
+    public void setValorConectado(CirculoSalida conectado){
+        valorConectado = conectado;
+    }
 }

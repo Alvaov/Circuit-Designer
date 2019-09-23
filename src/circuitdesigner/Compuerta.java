@@ -104,7 +104,7 @@ class Compuerta{
              if(event.getClickCount() == 2){
                  System.out.println("desconcetar salida"); 
                  for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
-                     System.out.println(end.entradasConectadas.getSize());
+                     System.out.println(end.getEntradasConectadas().getSize());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
                      end.setIsConected(false);
                      Main.getControlador().actualizarEtiquetas();
@@ -140,7 +140,7 @@ class Compuerta{
 
           y = 0;
           for (int i = 0; i < cantidadDeEntradas; i++){
-              Entrada entrada = new Entrada(startE,0);
+              Entrada entrada = new Entrada(startE);
               entrada.getEndE().setLayoutY(y);
               entradas.añadirFinal(entrada); 
               compuertaCompleta.getChildren().addAll(entrada.getLinea(),entrada.getEndE(),entrada.getEndE().getEtiqueta());

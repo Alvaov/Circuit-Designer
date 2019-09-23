@@ -41,11 +41,9 @@ public class Entrada{
     /**
      * @see constructor de la clase Entrada, recibe la imagen de la compuerta, un círculo 
      * que toma como e inicial para el dibujo de las líneas respectivas.
-     * @param imagenVista
      * @param circulo
-     * @param i
      */
-    public Entrada(Circulo circulo,int i){
+    public Entrada(Circulo circulo){
           this.circulo = circulo;
           valor = null;
           endE      = new CirculoEntrada(valor);
@@ -117,8 +115,7 @@ public class Entrada{
      */
     public Valores getValor(){
           return endE.getValor();
-      }
-      
+      } 
     /**
      * @see permite modificar el valor de la entrada según el parámetro que se reciba.
      * @param valorNuevo
