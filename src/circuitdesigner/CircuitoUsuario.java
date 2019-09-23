@@ -159,6 +159,9 @@ public class CircuitoUsuario{
                       }
                   }
               }
+              circuito = null;
+              this.entradas = null;
+              this.salidas = null;
               Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
            }
        });
