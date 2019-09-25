@@ -523,10 +523,11 @@ public class ControllerCircuito implements Initializable{
             int tamañoCircuito = circuito.getSize();
             while(circuito.getSize() >0){
                 System.out.println(circuito.getSize());
-                Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
                 Main.getControlador().getCircuito().eliminarInicio();
             }
+            Main.getControlador().getAnchor().getChildren().clear();
        }
+        System.out.println(circuito.getSize());
     }
     /**
      * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 

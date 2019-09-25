@@ -21,6 +21,7 @@ import operadores.Valores;
 import listlinked.ListLinked;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import listlinked.Nodo;
 
 /**
  * @see Clase Entrada, donde se crean y configuran todos los aspectos que involucra una entrada, tales como métodos
@@ -30,12 +31,13 @@ import javafx.stage.Stage;
 public class Entrada{
       
       private CirculoEntrada endE;
-      private ImageView imagenVista;
+      private CirculoEntrada compuertaConectada = new CirculoEntrada(Valores.Default);
       private Line lineE;
       private Valores valor;
-      private CirculoSalida salidaConectada;
+      private CirculoEntrada entradaConectada = new CirculoEntrada(Valores.Default);
       private Circulo circulo;
       private Compuerta compuertaPadre;
+      
       
     /**
      * @see constructor de la clase Entrada, recibe la imagen de la compuerta, un círculo 
@@ -87,7 +89,7 @@ public class Entrada{
                   
                   endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener(listener);
                   endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener(listener);
-                  salidaConectada = ((CirculoSalida)event.getGestureSource());
+                  //salidaConectada = ((CirculoSalida)event.getGestureSource());
                  
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
@@ -108,6 +110,8 @@ public class Entrada{
                       ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
                       ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
                   };
+                  compuertaConectada.setUserData(listenerCompuerta);
+                  entradaConectada.setUserData(listener);
                   endE.layoutXProperty().addListener(listener);
                   endE.layoutYProperty().addListener(listener);
                   endE.getCompuertaPadre().getCompuerta().toFront();
@@ -169,19 +173,25 @@ public class Entrada{
               }
           }
           if(t.getButton()== MouseButton.SECONDARY){
-              if(endE.getValor() != null){
+              if(endE.getIsConected() == true){
                   System.out.println("eliminar");
-                  endE.layoutXProperty().removeListener((ChangeListener)endE.getUserData());
-                  endE.layoutYProperty().removeListener((ChangeListener)endE.getUserData());
-                  endE.getCompuertaPadre().getCompuerta().layoutXProperty().removeListener((ChangeListener)endE.getUserData());
-                  endE.getCompuertaPadre().getCompuerta().layoutYProperty().removeListener((ChangeListener)endE.getUserData());
-                  
-                  
+                  endE.layoutXProperty().removeListener((ChangeListener)entradaConectada.getUserData());
+                  endE.layoutYProperty().removeListener((ChangeListener)entradaConectada.getUserData());
+                  endE.getCompuertaPadre().getCompuerta().layoutXProperty().removeListener((ChangeListener)entradaConectada.getUserData());
+                  endE.getCompuertaPadre().getCompuerta().layoutYProperty().removeListener((ChangeListener)entradaConectada.getUserData());
+                  while(endE.getEntradasConectadas().getSize() >0){
+                      
+                      endE.getEntradasConectadas().getValor(0).getParent().layoutXProperty().removeListener((ChangeListener)compuertaConectada.getUserData());
+                      endE.getEntradasConectadas().getValor(0).getParent().layoutYProperty().removeListener((ChangeListener)compuertaConectada.getUserData());
+                      endE.getEntradasConectadas().getValor(0).setIsConected(false);
+                      endE.getEntradasConectadas().eliminarInicio();
+                      Main.getControlador().actualizarEtiquetas();
+                  }
                   endE.setLayoutY(endE.getCenterY()+10);
                   endE.setValor(null);
                   endE.setIsConected(false);
                   Main.getControlador().actualizarEtiquetas();
-                  salidaConectada = null;
+                  //salidaConectada = null;
               }
           }
 

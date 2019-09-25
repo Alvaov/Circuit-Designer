@@ -125,19 +125,9 @@ public class CircuitoUsuario{
            compuertaCompleta.getChildren().addAll(this.entradas.getValor(i).getEndE(),this.entradas.getValor(i).getLinea());
        }
        int tamañoCircuito = compuerta.getSize();
-       //System.out.println(compuerta.getValor(0));
-       //System.out.println(compuerta.getValor(0).getEntrada(0).getEndE().getCompuertaPadre());
        for(int i= 0; i < tamañoCircuito; i++){
            circuito.añadirFinal(compuerta.getValor(i));
        }
-      // for(int i = 0; i < tamañoCircuito;i++){
-      //     Main.getControlador().getAnchor().getChildren().remove(Main.getControlador().getCircuito().getValor(0).getCompuerta());
-     //      Main.getControlador().getCircuito().eliminarInicio();
-      // }
-       //System.out.println(circuito.getSize());
-       //System.out.println(Main.getControlador().getCircuito().getSize());
-      // System.out.println(circuito.getValor(0));
-      // System.out.println(circuito.getValor(0).getEntrada(0).getEndE().getCompuertaPadre());
        imagenCompuerta.setLayoutX(20);
        imagenCompuerta.setLayoutY(10);
        
@@ -149,15 +139,15 @@ public class CircuitoUsuario{
        imagenCompuerta.setOnMouseClicked(event->{
            if (event.getClickCount()==2){
               int tamañoCircuitoGeneral = Main.getControlador().getCircuito().getSize();
-              for(int i = 0; i < Main.getControlador().getCircuito().getSize(); i++){
-                  for(int j = 0; j < circuito.getSize(); j++){
-                      if(Main.getControlador().getCircuito().getValor(i).equals(circuito.getValor(0))){
-                          System.out.println(Main.getControlador().getCircuito().getValor(0));
-                          Main.getControlador().getCircuito().eliminarEnPosición(i+1);
-                          circuito.eliminarEnPosición(j+1);
+              int tamañoCircuitoLocal = circuito.getSize();
+              for(int i = 0; i < circuito.getSize();i++){
+                  for(int j=0; j< Main.getControlador().getCircuito().getSize();j++){
+                      if(Main.getControlador().getCircuito().getValor(j).equals(circuito.getValor(i))){
+                          Main.getControlador().getCircuito().eliminarEnPosición(j+1);
                       }
                   }
               }
+              System.out.println(Main.getControlador().getCircuito().getSize());
               circuito = null;
               this.entradas = null;
               this.salidas = null;
@@ -168,7 +158,6 @@ public class CircuitoUsuario{
         
        compuertaCompleta.getChildren().addAll(startE,start,imagenCompuerta);
        compuertaCompleta.setLayoutX(20);
-      // Main.getControlador().getAnchor().getChildren().addAll(compuertaCompleta);
         
     }
     

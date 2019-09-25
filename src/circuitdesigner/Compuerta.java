@@ -90,7 +90,12 @@ class Compuerta{
                   
                   compuertaCompleta.layoutXProperty().addListener(listener);
                   compuertaCompleta.layoutYProperty().addListener(listener);
-                  
+                  if(((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getSize()>0){
+                      for(int i = 0; i < ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getSize();i++){
+                          ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).getParent().layoutXProperty().addListener(listenerCompuerta);
+                          ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).getParent().layoutYProperty().addListener(listenerCompuerta);
+                      }
+                  }
                   ((CirculoEntrada)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
                   ((CirculoEntrada)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
              
@@ -102,15 +107,18 @@ class Compuerta{
           
           end.setOnMouseClicked(event ->{
              if(event.getClickCount() == 2){
-                 System.out.println("desconcetar salida"); 
+                 System.out.println("desconectar salida"); 
+                 System.out.println(end.getEntradasConectadas().getSize());
                  for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
                      System.out.println(i);
                      System.out.println(end.getEntradasConectadas().getSize());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
                      //end.setIsConected(false);
-                     Main.getControlador().actualizarEtiquetas();
+                     System.out.println(((CirculoEntrada) end.getEntradasConectadas().getValor(i)));
+                     
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
+                     Main.getControlador().actualizarEtiquetas();
                  }
                  end.getEntradasConectadas().eliminarLista();
                  end.setIsConected(false);

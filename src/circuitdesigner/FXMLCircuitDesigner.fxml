@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -36,62 +35,63 @@
       </MenuBar>
       <AnchorPane prefHeight="588.0" prefWidth="900.0">
          <children>
-            <SplitPane dividerPositions="0.8406827880512091" prefHeight="477.0" prefWidth="705.0">
+            <SplitPane dividerPositions="0.8421052631578947" prefHeight="477.0" prefWidth="705.0">
               <items>
                 <AnchorPane fx:id="AnchorCircuito" minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="706.0">
                      <children>
-                        <Button fx:id="EncapsularButton" layoutX="505.0" layoutY="430.0" mnemonicParsing="false" text="Encapsular" />
                         <Group fx:id="root" layoutX="276.0" layoutY="99.0" />
-                        <ScrollBar orientation="VERTICAL" prefHeight="477.0" prefWidth="1.0" />
-                        <ScrollBar layoutX="15.0" layoutY="461.0" prefHeight="14.0" prefWidth="579.0" />
-                        <Button fx:id="SimulateButton" layoutX="433.0" layoutY="430.0" mnemonicParsing="false" text="Simulate" />
-                        <Button fx:id="tablaDeVerdad" layoutX="318.0" layoutY="430.0" mnemonicParsing="false" text="Tabla de Verdad" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                      <children>
-                        <VBox fx:id="paleta" layoutX="13.0" prefHeight="475.0" prefWidth="80.0">
-                           <children>
-                              <ImageView fx:id="ANDimage" fitHeight="48.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../AND2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="NANDimage" fitHeight="44.0" fitWidth="73.0">
-                                 <image>
-                                    <Image url="@../NAND2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="ORimage" fitHeight="44.0" fitWidth="73.0">
-                                 <image>
-                                    <Image url="@../OR2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="NOTimage" fitHeight="44.0" fitWidth="73.0">
-                                 <image>
-                                    <Image url="@../NOT2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="XORimage" fitHeight="44.0" fitWidth="73.0">
-                                 <image>
-                                    <Image url="@../XOR2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="XNORimage" fitHeight="44.0" fitWidth="73.0">
-                                 <image>
-                                    <Image url="@../XNOR2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="NORimage" fitHeight="44.0" fitWidth="73.0">
-                                 <image>
-                                    <Image url="@../NOR2.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </VBox>
-                        <ScrollBar layoutX="95.0" orientation="VERTICAL" prefHeight="477.0" prefWidth="14.0" />
+                        <ScrollPane prefHeight="384.0" prefWidth="107.0">
+                           <content>
+                              <VBox fx:id="paleta" prefHeight="475.0" prefWidth="80.0" spacing="5.0">
+                                 <children>
+                                    <ImageView fx:id="ANDimage" fitHeight="48.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../AND2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="NANDimage" fitHeight="44.0" fitWidth="73.0">
+                                       <image>
+                                          <Image url="@../NAND2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="ORimage" fitHeight="44.0" fitWidth="73.0">
+                                       <image>
+                                          <Image url="@../OR2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="NOTimage" fitHeight="44.0" fitWidth="73.0">
+                                       <image>
+                                          <Image url="@../NOT2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="XORimage" fitHeight="44.0" fitWidth="73.0">
+                                       <image>
+                                          <Image url="@../XOR2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="XNORimage" fitHeight="44.0" fitWidth="73.0">
+                                       <image>
+                                          <Image url="@../XNOR2.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="NORimage" fitHeight="44.0" fitWidth="73.0">
+                                       <image>
+                                          <Image url="@../NOR2.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                        <Button fx:id="EncapsularButton" mnemonicParsing="false" text="Encapsular" />
+                        <Button fx:id="tablaDeVerdad" mnemonicParsing="false" text="Tabla de Verdad" />
+                        <Button fx:id="SimulateButton" mnemonicParsing="false" text="Simulate" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
               </items>
             </SplitPane>
          </children>
