@@ -6,7 +6,6 @@
 package circuitdesigner;
 
 import java.io.IOException;
-import java.util.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;

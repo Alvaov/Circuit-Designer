@@ -104,15 +104,20 @@ class Compuerta{
              if(event.getClickCount() == 2){
                  System.out.println("desconcetar salida"); 
                  for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
+                     System.out.println(i);
                      System.out.println(end.getEntradasConectadas().getSize());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
-                     end.setIsConected(false);
+                     //end.setIsConected(false);
                      Main.getControlador().actualizarEtiquetas();
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
+                     end.layoutXProperty().removeListener((ChangeListener) end.getUserData());
+                 end.layoutYProperty().removeListener((ChangeListener) end.getUserData());
+                 compuertaCompleta.layoutXProperty().removeListener((ChangeListener) end.getUserData());
+                 compuertaCompleta.layoutYProperty().removeListener((ChangeListener) end.getUserData());
                  }
                  end.getEntradasConectadas().eliminarLista();
-                 
+                 end.setIsConected(false);
                  end.layoutXProperty().removeListener((ChangeListener) end.getUserData());
                  end.layoutYProperty().removeListener((ChangeListener) end.getUserData());
                  compuertaCompleta.layoutXProperty().removeListener((ChangeListener) end.getUserData());

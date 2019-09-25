@@ -9,7 +9,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -164,6 +163,7 @@ public class CircuitoUsuario{
               this.salidas = null;
               Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
            }
+           System.out.println(Main.getControlador().getCircuito().getSize());
        });
         
        compuertaCompleta.getChildren().addAll(startE,start,imagenCompuerta);

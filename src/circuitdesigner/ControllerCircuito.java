@@ -221,14 +221,14 @@ public class ControllerCircuito implements Initializable{
                 
             }
            if (event.getGestureSource() instanceof CirculoSalida){ 
-               System.out.println("salida pane");
+              // System.out.println("salida pane");
                ((CirculoSalida) event.getGestureSource()).getParent().setMouseTransparent(false);
             }
            else if(event.getGestureSource() instanceof CirculoEntrada){
-               System.out.println("entrada pane");
+             //  System.out.println("entrada pane");
                ((CirculoEntrada) event.getGestureSource()).getParent().setMouseTransparent(false);
            }else if(event.getGestureSource() instanceof Group){
-               System.out.println("grupo");
+            //   System.out.println("grupo");
            }
             
         });

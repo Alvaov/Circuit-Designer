@@ -104,7 +104,7 @@ public class PosibleCircuito {
    
     
     public ListLinked<Compuerta> emularCircuito (ListLinked<Compuerta> circuito){
-        
+        System.out.println("Emulación circuito posible");
         for(int i = 0; i < circuito.getSize(); i++){
             
             Compuerta compuerta = circuito.getValor(i);
@@ -117,8 +117,8 @@ public class PosibleCircuito {
                     
                     for(int e = 0; e < entradasConectadas.getSize(); e++){
                         entradasConectadas.getValor(e).setValor(compuerta.getEnd().getValor());
-                        compuerta.getEnd().setValor(Valores.Default);
                     }
+                    compuerta.getEnd().setValor(Valores.Default);
                     
                 }else{
                     if(compuerta.getEnd().getValor() == Valores.False){
