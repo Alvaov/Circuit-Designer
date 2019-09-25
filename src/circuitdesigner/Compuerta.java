@@ -111,10 +111,6 @@ class Compuerta{
                      Main.getControlador().actualizarEtiquetas();
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
-                     end.layoutXProperty().removeListener((ChangeListener) end.getUserData());
-                 end.layoutYProperty().removeListener((ChangeListener) end.getUserData());
-                 compuertaCompleta.layoutXProperty().removeListener((ChangeListener) end.getUserData());
-                 compuertaCompleta.layoutYProperty().removeListener((ChangeListener) end.getUserData());
                  }
                  end.getEntradasConectadas().eliminarLista();
                  end.setIsConected(false);

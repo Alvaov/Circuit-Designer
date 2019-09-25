@@ -93,14 +93,37 @@ public class Entrada{
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
                   
               }else if (event.getGestureSource() instanceof CirculoEntrada){
+                  System.out.println("Conectar multientradas");
+                  endE.getEntradasConectadas().añadirFinal(((CirculoEntrada)event.getGestureSource()));
                   
-                  if (event.getGestureSource() instanceof Circulo){
-                      System.out.println("Conectar multientradas");
-                      ((CirculoEntrada)event.getGestureSource()).setIsConected(true);
-                      endE.setIsConected(true);
-                      endE.setValor(((CirculoEntrada)event.getGestureSource()).getValor());
-                      ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
-                  }
+                  ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
+                  };
+                  ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
+                      Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
+                      Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
+                  };
+                  endE.layoutXProperty().addListener(listener);
+                  endE.layoutYProperty().addListener(listener);
+                  endE.getCompuertaPadre().getCompuerta().toFront();
+                  endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener(listener);
+                  endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener(listener);
+                  
+                  ((CirculoEntrada)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
+                  ((CirculoEntrada)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
+                  
+                  ((CirculoEntrada)event.getGestureSource()).setIsConected(true);
+                  endE.setIsConected(true);
+                  
+                  endE.setValor(((CirculoEntrada)event.getGestureSource()).getValor());
+                  Main.getControlador().actualizarEtiquetas();
+                  ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
+                  
                   
                   System.out.println("entrada conectada");
               }
