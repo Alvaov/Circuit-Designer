@@ -58,7 +58,6 @@ class Circulo extends Circle {
      * @param boolean valor
      */
     public void setIsConected(boolean valor){
-        System.out.println("salida conectada");
         isConected = valor;
     }
     /**

@@ -23,7 +23,6 @@ class Compuerta{
     private Operadores compuerta;
     private ImageView imagenVista;
     private Group compuertaCompleta;
-      
     private double inicioX, inicioY;
     private Valores salida;
     private Circulo start, startE;
@@ -67,20 +66,20 @@ class Compuerta{
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
                         Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
                         Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+((CirculoEntrada)event.getGestureSource()).getRadius());
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+((CirculoEntrada)event.getGestureSource()).getRadius());
                   };
                   ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
                         Bounds coordenadas = end.getParent().localToParent(end.getBoundsInParent());
                         Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
-                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+((CirculoEntrada)event.getGestureSource()).getRadius());
+                        ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+((CirculoEntrada)event.getGestureSource()).getRadius());
                   };
                   end.setUserData(listener);
                   compuertaCompleta.setUserData(listenerCompuerta);
-                  System.out.println("release salida");
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
+                  ((CirculoEntrada) event.getGestureSource()).setSalidaConectada(end);
                   end.setIsConected(true);
                   Main.getControlador().actualizarEtiquetas();
                   compuertaCompleta.toFront();
@@ -94,12 +93,14 @@ class Compuerta{
                       for(int i = 0; i < ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getSize();i++){
                           ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).getParent().layoutXProperty().addListener(listenerCompuerta);
                           ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).getParent().layoutYProperty().addListener(listenerCompuerta);
+                          ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).setIsConected(true);
                       }
                   }
                   ((CirculoEntrada)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
                   ((CirculoEntrada)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
              
                   ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
+                  compuertaCompleta.toFront();
               }else{
                   System.out.println("Conexión inválida");
               }
@@ -109,7 +110,8 @@ class Compuerta{
              if(event.getClickCount() == 2){
                  System.out.println("desconectar salida"); 
                  System.out.println(end.getEntradasConectadas().getSize());
-                 for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
+                 
+                for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
                      System.out.println(i);
                      System.out.println(end.getEntradasConectadas().getSize());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
@@ -120,6 +122,14 @@ class Compuerta{
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                      Main.getControlador().actualizarEtiquetas();
                  }
+                 /*while(end.getEntradasConectadas().getSize() > 0){
+                     System.out.println("while");
+                     ((CirculoEntrada) end.getEntradasConectadas().getValor(0)).setIsConected(false);
+                     ((CirculoEntrada) end.getEntradasConectadas().getValor(0)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
+                     ((CirculoEntrada) end.getEntradasConectadas().getValor(0)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
+                     end.getEntradasConectadas().eliminarInicio();
+                     Main.getControlador().actualizarEtiquetas();
+                 }*/
                  end.getEntradasConectadas().eliminarLista();
                  end.setIsConected(false);
                  end.layoutXProperty().removeListener((ChangeListener) end.getUserData());
@@ -169,9 +179,21 @@ class Compuerta{
                   for(int i = 0; i < Main.getControlador().getCircuito().getSize(); i++){
                       if(Main.getControlador().getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
                           Main.getControlador().getCircuito().eliminarEnPosición(i+1);
-                          Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
+                          //Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
                           Main.getControlador().actualizarEtiquetas();
                           
+                      }
+                  }
+                  Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
+                  for(int i = 0; i < entradas.getSize(); i++){
+                      CirculoEntrada entrada = entradas.getValor(i).getEndE();
+                      if(entrada.getSalidaConectada() != null){
+                          for(int j = 0; j < entrada.getSalidaConectada().getEntradasConectadas().getSize();j++){
+                              if(entrada.getSalidaConectada().getEntradasConectadas().getValor(j) == entrada){
+                                  entrada.getSalidaConectada().getEntradasConectadas().eliminarEnPosición(j+1);
+                                  break;
+                            }
+                          }
                       }
                   }
               }
@@ -260,18 +282,15 @@ class Compuerta{
     public Group getCompuerta(){
         return compuertaCompleta;
     }
+    
     /**
      * @see función que realiza la operación de cada compuerta con las entradas que posee, asigna este valor al atributo salida
      * y al círculo salida como tal.
      * 
      */
     public void operarSalida(){
-        System.out.println("Operación");
         salida = compuerta.operación(entradas);
-        System.out.println(salida);
-        System.out.println("asignar salida");
         end.setValor(salida);
-        System.out.println(salida);
     }
     /**
      * @see método que se utiliza para evaluar la lista de entradas que posee la compuerta. Retorna true o false
@@ -279,7 +298,6 @@ class Compuerta{
      * @param Boolean
      */
     public boolean revisarEntradas(){
-      System.out.println("revisa entradas");
       for (int i = 0; i < entradas.getSize(); i++){
           if(entradas.getValor(i).getValor() != null && entradas.getValor(i).getValor() != Valores.Default){
               continue;

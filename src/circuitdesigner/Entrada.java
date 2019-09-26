@@ -95,20 +95,19 @@ public class Entrada{
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
                   
               }else if (event.getGestureSource() instanceof CirculoEntrada){
-                  System.out.println("Conectar multientradas");
                   endE.getEntradasConectadas().añadirFinal(((CirculoEntrada)event.getGestureSource()));
                   
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+((CirculoEntrada)event.getGestureSource()).getRadius());
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+((CirculoEntrada)event.getGestureSource()).getRadius());
                   };
                   ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
-                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+((CirculoEntrada)event.getGestureSource()).getRadius());
+                      ((CirculoEntrada)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+((CirculoEntrada)event.getGestureSource()).getRadius());
                   };
                   compuertaConectada.setUserData(listenerCompuerta);
                   entradaConectada.setUserData(listener);
@@ -123,13 +122,10 @@ public class Entrada{
                   
                   ((CirculoEntrada)event.getGestureSource()).setIsConected(true);
                   endE.setIsConected(true);
-                  
+                  endE.setValorEntradaConectado(true);
                   endE.setValor(((CirculoEntrada)event.getGestureSource()).getValor());
                   Main.getControlador().actualizarEtiquetas();
                   ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
-                  
-                  
-                  System.out.println("entrada conectada");
               }
           });
           endE.setOnMouseClicked(cambiarValor);
@@ -184,12 +180,14 @@ public class Entrada{
                       endE.getEntradasConectadas().getValor(0).getParent().layoutXProperty().removeListener((ChangeListener)compuertaConectada.getUserData());
                       endE.getEntradasConectadas().getValor(0).getParent().layoutYProperty().removeListener((ChangeListener)compuertaConectada.getUserData());
                       endE.getEntradasConectadas().getValor(0).setIsConected(false);
+                      endE.getEntradasConectadas().getValor(0).setValorEntradaConectado(false);
                       endE.getEntradasConectadas().eliminarInicio();
                       Main.getControlador().actualizarEtiquetas();
                   }
                   endE.setLayoutY(endE.getCenterY()+10);
                   endE.setValor(null);
                   endE.setIsConected(false);
+                  endE.setValorEntradaConectado(false);
                   Main.getControlador().actualizarEtiquetas();
                   //salidaConectada = null;
               }

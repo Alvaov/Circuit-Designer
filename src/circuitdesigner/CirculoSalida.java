@@ -39,11 +39,6 @@ public class CirculoSalida extends Circulo{
          
     }
     
-    public ListLinked<CirculoEntrada> getEntradasConectadas(CirculoEntrada nuevaEntrada){
-        return entradasConectadas;
-         
-    }
-    
     public void eliminarEntrada(CirculoEntrada entrada){
         for (int i = 0; i < entradasConectadas.getSize(); i++){
             if(entradasConectadas.getValor(i).equals(entrada)){

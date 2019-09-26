@@ -203,7 +203,6 @@ public class ControllerCircuito implements Initializable{
                         entrada.getEndE().setCompuertaPadre(compuerta);
                         Main.getControlador().getCircuito().añadirFinal(compuerta);
                         actualizarEtiquetas();
-                        System.out.println("se ejecutó");
                         AnchorCircuito.getChildren().remove(nuevaCompuerta);
                         stringCompuerta = null;
                         nuevaCompuerta = null;
@@ -213,7 +212,6 @@ public class ControllerCircuito implements Initializable{
                     stringCompuerta = null;
                     nuevaCompuerta = null;
                     }
-                    System.out.println("se ejecutó");
                     actualizarEtiquetas();
                 } catch (IOException ex) {
                     Logger.getLogger(ControllerCircuito.class.getName()).log(Level.SEVERE, null, ex);
@@ -221,14 +219,11 @@ public class ControllerCircuito implements Initializable{
                 
             }
            if (event.getGestureSource() instanceof CirculoSalida){ 
-              // System.out.println("salida pane");
                ((CirculoSalida) event.getGestureSource()).getParent().setMouseTransparent(false);
             }
            else if(event.getGestureSource() instanceof CirculoEntrada){
-             //  System.out.println("entrada pane");
                ((CirculoEntrada) event.getGestureSource()).getParent().setMouseTransparent(false);
            }else if(event.getGestureSource() instanceof Group){
-            //   System.out.println("grupo");
            }
             
         });
@@ -312,7 +307,6 @@ public class ControllerCircuito implements Initializable{
     public void actualizarEtiquetas(){
         int entradas =0;
         int salidas = 0;
-        System.out.println("inicio");
             for(int i = 0; i < circuito.getSize(); i++){
                 Compuerta compuerta = circuito.getValor(i);
                 for(int j = 0; j < compuerta.getEntradas().getSize();j++){
@@ -339,14 +333,10 @@ public class ControllerCircuito implements Initializable{
      */
     public void validarEntradas(){ 
         ListLinked<Compuerta> circuito = this.circuito;
-        System.out.println("Tamaño del circuito");
-        System.out.println(circuito.getSize());
+        
         for(int i = 0; i < circuito.getSize(); i++){
             Compuerta compuerta = circuito.getValor(i);
-            System.out.println("Entradas por compuerta");
-            System.out.println(compuerta.getEntradas().getSize());
             for (int j = 0; j < compuerta.getEntradas().getSize(); j++){
-                System.out.println(j);
                 if (((Entrada)compuerta.getEntradas().getValor(j)).getValor() == null){
                     System.out.println("Error: faltan valores");
                     return;
@@ -375,12 +365,7 @@ public class ControllerCircuito implements Initializable{
             if (compuerta.revisarEntradas()== true && compuerta.getSalida() == Valores.Default){
                 compuerta.operarSalida();
                 entradasEvaluadas +=1;
-                System.out.println("Entradas evaluadas");
-                System.out.println(entradasEvaluadas);
-                System.out.println("Salida de la compuerta");
-                System.out.println(compuerta.getSalida());
                 if(compuerta.getEnd().conectada()== true){
-                    System.out.println("Está conectada");
                     ListLinked<CirculoEntrada> entradasConectadas = compuerta.getEnd().getEntradasConectadas();
                     
                     for(int e = 0; e < entradasConectadas.getSize(); e++){
@@ -395,7 +380,6 @@ public class ControllerCircuito implements Initializable{
             }
         }
         if(entradasEvaluadas < circuito.getSize()){
-            System.out.println("Emula de nuevo");
             return emularCircuito();
         }else{
             return mostrarSalidas(salidas);
@@ -408,7 +392,6 @@ public class ControllerCircuito implements Initializable{
      * @return null
      */
     public String mostrarSalidas(ListLinked<Valores> salidas){
-        System.out.println(salidas.getSize());
         VBox salidasAMostrar = new VBox();
         Scene escena = new Scene(new Group());
         for (int i =0; i < salidas.getSize(); i++){
@@ -419,7 +402,6 @@ public class ControllerCircuito implements Initializable{
         Stage stage = new Stage();
         stage.setTitle("Salidas del circuito");
         stage.setScene(escena);
-        System.out.println("Salidas");
         stage.show();
         return null;
     }
@@ -443,7 +425,6 @@ public class ControllerCircuito implements Initializable{
         ListLinked<TableColumn> columnas = new ListLinked<>();
         ListLinked<PosibleCircuito> valoresTabla = new ListLinked<>();
         ListLinked<Compuerta> circuito = this.circuito;
-        System.out.println(circuito.getSize());
         for(int i = 0; i< circuito.getSize(); i++){
             int q = i;
             Compuerta compuerta = circuito.getValor(i);
@@ -470,12 +451,8 @@ public class ControllerCircuito implements Initializable{
             columnas.añadirFinal(columna);
         }
         for(int p = 0; p < salidas; p++){
-            System.out.println("Salidas de tabla");
-            System.out.println(salidas);
-            System.out.println(p);
             int r = p;
             int q =p+entradas;
-            System.out.println(q);
             TableColumn<PosibleCircuito,String> columna = new TableColumn<>("o<"+r+">");
             columna.setCellValueFactory(E-> new SimpleStringProperty(E.getValue().getValores(q)));
             columnas.añadirFinal(columna);
@@ -507,7 +484,8 @@ public class ControllerCircuito implements Initializable{
             for(int i = 0; i< circuito.getSize(); i++){
                 Compuerta compuerta = circuito.getValor(i);
                 for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
-                    if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
+                    CirculoEntrada entrada = compuerta.getEntrada(j).getEndE();
+                    if((entrada.getValorEntradaConectado() == true) || entrada.getIsConected() == false){
                         entradas.añadirFinal(compuerta.getEntrada(j));
                     }
                 }
@@ -522,12 +500,10 @@ public class ControllerCircuito implements Initializable{
             paleta.getChildren().add(nuevoCircuito.getImagenPaleta());
             int tamañoCircuito = circuito.getSize();
             while(circuito.getSize() >0){
-                System.out.println(circuito.getSize());
                 Main.getControlador().getCircuito().eliminarInicio();
             }
             Main.getControlador().getAnchor().getChildren().clear();
        }
-        System.out.println(circuito.getSize());
     }
     /**
      * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 

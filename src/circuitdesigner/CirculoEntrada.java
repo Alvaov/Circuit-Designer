@@ -5,8 +5,6 @@
  */
 package circuitdesigner;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.scene.paint.Color;
 import listlinked.ListLinked;
 import operadores.Valores;
 
@@ -19,6 +17,8 @@ public class CirculoEntrada extends Circulo{
     
     private CirculoEntrada valorConectado;
     private ListLinked<CirculoEntrada> listaEntradas = new ListLinked<>();
+    private Boolean conexiónEntreEntradas = false;
+    private CirculoSalida salidaConectada;
     /**
      * @see Clase que hereda de la clase Círculo, implementada para identificar si un círculo es una salida
      * o una entrada.
@@ -51,11 +51,27 @@ public class CirculoEntrada extends Circulo{
         valorConectado = conectado;
     }
     
+    public void setValorEntradaConectado(Boolean valor){
+        conexiónEntreEntradas = valor;
+    }
+    
+    public Boolean getValorEntradaConectado(){
+        return conexiónEntreEntradas;
+    }
+    
     public void añadirEntradas(CirculoEntrada entrada){
         listaEntradas.añadirFinal(entrada);
     }
 
     public ListLinked<CirculoEntrada> getEntradasConectadas(){
         return listaEntradas;
+    }
+    
+    public CirculoSalida getSalidaConectada(){
+        return salidaConectada;
+    }
+    
+    public void setSalidaConectada(CirculoSalida salida){
+        salidaConectada = salida;
     }
 }
