@@ -38,6 +38,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import operadores.Valores;
 
+/**
+ * lase que funciona como el controller principal de la aplicación, y principal puente entre las diferentes funcionalidades de la aplicación
+ * @author allva
+ */
 public class ControllerCircuito implements Initializable{
     
 
@@ -76,7 +80,7 @@ public class ControllerCircuito implements Initializable{
     }
 
     /**
-     * @see método basado en el patrón Singleton, código base tomado de https://www.arquitecturajava.com/ejemplo-de-java-singleton-patrones-classloaders/
+     * Método basado en el patrón Singleton, código base tomado de https://www.arquitecturajava.com/ejemplo-de-java-singleton-patrones-classloaders/
      * se garantiza que solo se pueda crear una única insancia de esta clase, ya que no conviene tener más de un objeto Controller.
      * @return controlador
      */
@@ -87,8 +91,11 @@ public class ControllerCircuito implements Initializable{
         return controlador;
     }
     /**
-     * @see método que inicializa todos lo necesario para la correcta ejecución del programa, incluyendo acciones sobre botontes, imágenes, compuertas como tal
-     * y permitiendo el desarrolo viable del programa.
+     * Método que inicializa todos lo necesario para la correcta ejecución del programa, incluyendo acciones sobre botontes, imágenes, compuertas como tal
+     * y permitiendo el desarrolo viable del programa. Sintaxis lambda obtenida de 
+     * https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html.
+     * Eventos de mouse https://docs.oracle.com/javase/8/javafx/api/javafx/scene/input/MouseDragEvent.html
+     * Código base definición de evento de boton http://www.java2s.com/Code/Java/JavaFX/ButtonOnAction.htm
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -153,7 +160,6 @@ public class ControllerCircuito implements Initializable{
                 double x = event.getX();
                 double y = event.getY();
                 nuevaCompuertaUsuario.relocate(x-30,y-20);
-                //nuevaCompuerta.toString();
             }
             
             if(event.getGestureSource() instanceof ImageView && nuevaCompuerta != null){
@@ -252,44 +258,54 @@ public class ControllerCircuito implements Initializable{
     }
     
     /**
-     * @see Método que retorna el VBox donde se colocan los distintos elementos de la paleta
-     * @return paleta
+     * Método que retorna el VBox donde se colocan los distintos elementos de la paleta
+     * @return paleta, retorna la paleta de compuertas
      */
     public VBox getPaleta(){
         return paleta;
     }
     
+    /**
+     * Método para asignar el rectángulo respectivo a la variable nuevaCompuertaUsuario que permite mantener 
+     * el mismo tamaño y color del rectángulo de la paleta que va a ser cargado en la pantalla de trabajo
+     * @param nuevoRectangulo, asigna el valor del nuevo rectángulo a colocar en pantalla
+     */
     public void setRentángulo(Rectangle nuevoRectangulo){
         nuevaCompuertaUsuario = nuevoRectangulo;
     }
 
     
     /**
-     * @see Método que retorna el AnchorPane donde se colocan los distintos elementos de la GUI
-     * @return AnchorCircuito
+     * Método que retorna el AnchorPane donde se colocan los distintos elementos de la GUI
+     * @return AnchorCircuito, retorna el AnchorPane donde se colocan las compuertas
      */
     public AnchorPane getAnchor(){
         return AnchorCircuito;
     }
     
+    /**
+     * Método que retorna la lista enlazada que contiene todas las compuertas que se estén utilizando en pantalla
+     * @return circuito, retorna la lista de compuertas que forman el circuito
+     */
     public ListLinked<Compuerta> getCircuito(){
         return circuito;
     }
 
     /**
-     * @see retorna la lista enlazada en la cuál se están guardando todos lo colores utilizados para las líneas.
-     * @return ListLinked
+     * Método que retorna la lista enlazada en la cuál se están guardando todos lo colores utilizados para las líneas.
+     * @return coloresUsados, retorna la lista con los colores ya usados
      */
     public static ListLinked<Color> getColores(){
         return coloresUsados;
     }
     
     /**
-     * @see Crea la ventana que permite elegir la cantidad de entradas por compuerta
-     * @param ruta
-     * @param x
-     * @param y
-     * @throws IOException
+     * Método que crea la ventana que permite elegir la cantidad de entradas por compuerta
+     * Código base tomado de https://youtu.be/3G8nTLujI5U.
+     * @param ruta, ruta de la imagen
+     * @param x, coordenada en x donde se debe colocar
+     * @param y, coordenada en y donde se debe colocar
+     * @throws IOException error
      */
     public void crearVentana(String ruta,double x, double y) throws IOException{
         
@@ -304,6 +320,10 @@ public class ControllerCircuito implements Initializable{
         stage.show();
     }
 
+    /**
+     * Método que se encarga de actualizar las etiquetas de las diferentes entradas y salidas según se modifique la cantidad de
+     * entradas que el usuario puede modificar y las salidas generales del circuito
+     */
     public void actualizarEtiquetas(){
         int entradas =0;
         int salidas = 0;
@@ -311,7 +331,7 @@ public class ControllerCircuito implements Initializable{
                 Compuerta compuerta = circuito.getValor(i);
                 for(int j = 0; j < compuerta.getEntradas().getSize();j++){
                     Entrada entrada = compuerta.getEntrada(j);
-                    if(entrada.getEndE().getIsConected() == false){ //Es porque es una entrada de usuario
+                    if(entrada.getEndE().getIsConected() == false || entrada.getEndE().getValorEntradaConectado() == true){ //Es porque es una entrada de usuario
                         entrada.getEndE().getEtiqueta().setText("i<"+entradas+">");
                         entradas++;
                     }else{
@@ -328,7 +348,7 @@ public class ControllerCircuito implements Initializable{
     }
     
     /**
-     *@see revisa que todas las entradas tengan un valor para que sea posible calcular las
+     * Método que revisa que todas las entradas tengan un valor para que sea posible calcular las
      * respectivas salidas del circuito.
      */
     public void validarEntradas(){ 
@@ -338,7 +358,6 @@ public class ControllerCircuito implements Initializable{
             Compuerta compuerta = circuito.getValor(i);
             for (int j = 0; j < compuerta.getEntradas().getSize(); j++){
                 if (((Entrada)compuerta.getEntradas().getValor(j)).getValor() == null){
-                    System.out.println("Error: faltan valores");
                     return;
                 }
                 
@@ -349,10 +368,10 @@ public class ControllerCircuito implements Initializable{
     private int entradasEvaluadas = 0;
     
     /**
-     * @see Método que se encarga de emular el funcionamiento del circuito
+     * Método que se encarga de emular el funcionamiento del circuito
      * y retorna una lista enlazada de strings en la que se almacenan las salidas del
      * circuito ya emulado.
-     * @return ListLinked<String> 
+     * @return salidas, retorna la lista que contiene la salidas que se deben mostrar al usuario
      */
     public String emularCircuito(){
         ListLinked<Valores> salidas = new ListLinked<>();
@@ -388,8 +407,8 @@ public class ControllerCircuito implements Initializable{
         return null;
     }
     /**
-     * @see muestra las salidas finales calculadas en el circuito actual y las muestra en una nueva ventana.
-     * @param salidas
+     * Método que muestra las salidas finales calculadas en el circuito actual y las muestra en una nueva ventana.
+     * @param salidas, recibe las salidas que debe mostrar
      * @return null
      */
     public String mostrarSalidas(ListLinked<Valores> salidas){
@@ -408,9 +427,11 @@ public class ControllerCircuito implements Initializable{
     }
     
     /**
-     * @see Método llamado al tocar el botón de Tabla de Verdad en la GUI.
+     * Método llamado al tocar el botón de Tabla de Verdad en la GUI.
      * Calcula los posibles resultados que puede tener cada circuito con todas sus posibles
      * entradas.
+     * Referencia para la implementación de TableColumn y TableView https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TableColumn.html
+     * https://docs.oracle.com/javafx/2/ui_controls/table-view.htm
      */
     public void tablaDeVerdad(){
         Scene escena = new Scene(new Group());
@@ -431,7 +452,7 @@ public class ControllerCircuito implements Initializable{
             Compuerta compuerta = circuito.getValor(i);
             for (int j = 0; j< compuerta.getEntradas().getSize(); j++){
                 int p = j;
-                if(compuerta.getEntrada(j).getEndE().getIsConected() == false){
+                if(compuerta.getEntrada(j).getEndE().getIsConected() == false || compuerta.getEntrada(j).getEndE().getValorEntradaConectado() == true){
                     entradasLista.añadirFinal(compuerta.getEntrada(j));
                     entradas +=1;
                     filas *=2;
@@ -472,7 +493,7 @@ public class ControllerCircuito implements Initializable{
     }
     
     /**
-     * @see método que se ejecuta con el botón encapsular, almacena en la paleta la nueva compueta, así como los diferentes componentes
+     * Método que se ejecuta con el botón encapsular, almacena en la paleta la nueva compueta, así como los diferentes componentes
      * asociados a cada compuerta.
      */
     public void encapsular(){
@@ -507,9 +528,10 @@ public class ControllerCircuito implements Initializable{
        }
     }
     /**
-     * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
+     * Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
      * otra línea del circuito.
-     * @return Color
+     * Código base tomado de https://www.quora.com/How-can-I-randomize-colors-in-Java
+     * @return Color, color a asignar
      */
     public Color colorCompuerta(){
         double red = Math.random();

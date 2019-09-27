@@ -12,8 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -21,11 +19,10 @@ import operadores.Valores;
 import listlinked.ListLinked;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import listlinked.Nodo;
 
 /**
- * @see Clase Entrada, donde se crean y configuran todos los aspectos que involucra una entrada, tales como métodos
- * de modificacion, arrastre, interconexión,etc.
+ * Mase Entrada, donde se crean y configuran todos los aspectos que involucra una entrada, tales como métodos
+ * de modificacion de valor, arrastre e interconexión.
  * @author allva
  */
 public class Entrada{
@@ -40,9 +37,12 @@ public class Entrada{
       
       
     /**
-     * @see constructor de la clase Entrada, recibe la imagen de la compuerta, un círculo 
-     * que toma como e inicial para el dibujo de las líneas respectivas.
-     * @param circulo
+     * Mtor constructor de la clase Entrada, recibe la imagen de la compuerta, un círculo 
+     * que toma como e inicial para el dibujo de las líneas respectivas. Sintaxis lambda obtenida de 
+     * https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html.
+     * ChangeListener https://docs.oracle.com/javafx/2/api/javafx/beans/value/ChangeListener.html
+     * Eventos de mouse https://docs.oracle.com/javase/8/javafx/api/javafx/scene/input/MouseDragEvent.html
+     * @param circulo, el circulo de inicio de la linea que conecta el circulo entrada con la compuerta
      */
     public Entrada(Circulo circulo){
           this.circulo = circulo;
@@ -62,13 +62,13 @@ public class Entrada{
           endE.setOnMouseDragReleased(event->{
               if (event.getGestureSource() instanceof CirculoSalida){
                   
-                  ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
+                  ChangeListener<Number> listener = (observedado, valorAnterior, valorNuevo) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
                       ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
                       ((CirculoSalida)event.getGestureSource()).setLayoutY(nuevasCoordenadas.getMinY()+2);
                   };
-                  ChangeListener<Number> listenerCompuerta = (observed, oldValue, newValue) -> {
+                  ChangeListener<Number> listenerCompuerta = (observado, valorAnterior, valorNuevo) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoSalida)event.getGestureSource()).getParent().parentToLocal(coordenadas);
                       ((CirculoSalida)event.getGestureSource()).setLayoutX(nuevasCoordenadas.getMinX()+2);
@@ -76,7 +76,6 @@ public class Entrada{
                   };
                   endE.setUserData(listener);
                   endE.getCompuertaPadre().getCompuerta().setUserData(listenerCompuerta);
-                  System.out.println("Conectar");
                   endE.setValor(((CirculoSalida) event.getGestureSource()).getValor());
                   ((CirculoSalida) event.getGestureSource()).setEntradasConectadas(endE);
                   ((CirculoSalida)event.getGestureSource()).getParent().setMouseTransparent(false);
@@ -89,7 +88,6 @@ public class Entrada{
                   
                   endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener(listener);
                   endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener(listener);
-                  //salidaConectada = ((CirculoSalida)event.getGestureSource());
                  
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
@@ -133,15 +131,15 @@ public class Entrada{
       }
 
     /**
-     * @see da el valor actual de la entrada.
-     * @return Valores
+     * M valor actual de la entrada.
+     * @return Valores, el valor actual de la entrada
      */
     public Valores getValor(){
           return endE.getValor();
       } 
     /**
-     * @see permite modificar el valor de la entrada según el parámetro que se reciba.
-     * @param valorNuevo
+     * Mpermite modificar el valor de la entrada según el parámetro que se reciba.
+     * @param valorNuevo, el nuevo valor de la entrada
      */
     public void setValor(Valores valorNuevo){
           endE.setValor(valorNuevo);
@@ -161,17 +159,14 @@ public class Entrada{
               if (endE.getValor() == null || (endE.getIsConected() == false && endE.getValorEntradaConectado()== true || endE.getValorEntradaConectado()== false)){
                   try {
                       crearVentana();
-                      System.out.println(endE.getValor());
                   } catch (IOException ex) {
                      
                   }
               }else{
-                  System.out.println("no se puede añadir un valor");
               }
           }
           if(t.getButton()== MouseButton.SECONDARY){
               if(endE.getIsConected() == true){
-                  System.out.println("eliminar");
                   endE.layoutXProperty().removeListener((ChangeListener)entradaConectada.getUserData());
                   endE.layoutYProperty().removeListener((ChangeListener)entradaConectada.getUserData());
                   endE.getCompuertaPadre().getCompuerta().layoutXProperty().removeListener((ChangeListener)entradaConectada.getUserData());
@@ -190,7 +185,6 @@ public class Entrada{
                   endE.setIsConected(false);
                   endE.setValorEntradaConectado(false);
                   Main.getControlador().actualizarEtiquetas();
-                  //salidaConectada = null;
               }
           }
 
@@ -198,42 +192,43 @@ public class Entrada{
       };
       
     /**
-     * @see retorna el circulEntrada correspondiente
-     * @return CirculoEntrada
+     * Método que retorna el circulEntrada correspondiente
+     * @return endE, el circuloEntrada
      */
     public CirculoEntrada getEndE(){
           return endE;
       }
 
     /**
-     * @see permite accesar a la línea a la que está conectada cada entrada de la compuerta.
-     * @return Line
+     * Método que permite accesar a la línea a la que está conectada cada entrada de la compuerta.
+     * @return Line, retorna la linea
      */
     public Line getLinea(){
           return lineE;
       }
       
     /**
-     * @see retorna como valor la compuerta a la cual pertenece la entrada, conocida como compuerta padre.
-     * @return Compuerta
+     * Método que retorna como valor la compuerta a la cual pertenece la entrada, conocida como compuerta padre.
+     * @return Compuerta, la compuerta a la que pertenece
      */
     public Compuerta getCompuertaPadre(){
           return compuertaPadre;
       }
       
     /**
-     * @see permite la modificación del valor de la variable compuertaPadre perteneciente a cada entrada,
+     * Método que permite la modificación del valor de la variable compuertaPadre perteneciente a cada entrada,
      * a través de un parámetro de tipo Compuerta
-     * @param compuertaPadre
+     * @param compuertaPadre, la compuerta a la que pertenece
      */
     public void setCompuertaPadre(Compuerta compuertaPadre){
           this.compuertaPadre = compuertaPadre;
       }
       
     /**
-     * @see método que calcula posibles colores diferentes para cada línea de la interfaz,
+     * Método que calcula posibles colores diferentes para cada línea de la interfaz,
      * además verifica que estos colores no se repitan en ninguna línea por más similares que sean estos colores.
-     * @return color
+     * Código base tomado de https://www.quora.com/How-can-I-randomize-colors-in-Java
+     * @return color, el color a asignar
      */
     public Color colorLinea(){
         double red = Math.random();
@@ -252,21 +247,21 @@ public class Entrada{
     }
     
     /**
-     * @see método desde el cual se crea la venta donde se puede asignar un valor a cada entrada según corresponda.
-     * @throws IOException
+     * Método desde el cual se crea la venta donde se puede asignar un valor a cada entrada según corresponda.
+     * Código base tomado de https://youtu.be/3G8nTLujI5U.
+     * @throws IOException error
      */
     public void crearVentana() throws IOException{
         
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ValorEntradas.fxml"));
-        Parent root1 = (Parent) loader.load();
+        Parent ventana = (Parent) loader.load();
         ControllerValorEntradas controlador= (ControllerValorEntradas)loader.getController();
         controlador.ACambiar(endE);
         Stage stage = new Stage();
         controlador.enviarStage(stage);
-        stage.setScene(new Scene(root1));
+        stage.setScene(new Scene(ventana));
         
         stage.show();
-        System.out.println("se mostró");
     }
 }

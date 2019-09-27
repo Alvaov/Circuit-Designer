@@ -9,7 +9,7 @@ import listlinked.ListLinked;
 import circuitdesigner.Entrada;
 
 /**
- *
+ * Clase padre de la cual heredan sus atributos y método abstracto los diferentes tipos de compuertas
  * @author allva
  */
 public abstract class Operadores {
@@ -18,26 +18,25 @@ public abstract class Operadores {
 
 
     /**
-     *@see Corresponde al constructor de la clase abstracta Operadores
+     * Corresponde al constructor de la clase abstracta Operadores
      * es el encargado de crear las entradas de cada compuerta según las 
      * solicitadas por el usuario. Recibe la cantidad de entradas como
      * parámetro.
-     * @param cantidadDeEntradas
+     * @param entradas, entradas a evaluar
      */
     public Operadores(ListLinked<Entrada> entradas){
         this.entradas = entradas;
-       // crearEntradas(cantidadDeEntradas);
  
         
 
     }
 
     /**
-     * @see Método mediante el cual se operan las entradas para obtener una salida
+     * Método Método mediante el cual se operan las entradas para obtener una salida
      * según corresponda al tipo de compuerta. Método abstracto que se define en cada
      * operador concreto.
-     * @param entradas
-     * @return valor de la operación.
+     * @param entradas, entradas a evaluar
+     * @return salida, la salida evaluada
      */
     public abstract Valores operación(ListLinked<Entrada> entradas);
     

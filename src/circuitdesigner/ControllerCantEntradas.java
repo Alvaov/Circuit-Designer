@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 
 /**
- * @see clase controladora de la ventana desde la cual se crean la cantidad de entradas por compuerta.
+ * Clase controladora de la ventana desde la cual se crean la cantidad de entradas por compuerta.
  * @author allva
  */
 public class ControllerCantEntradas implements Initializable {
@@ -34,8 +34,10 @@ public class ControllerCantEntradas implements Initializable {
     private double x,y;
     @Override
     /**
-     * @see Método principal de la clase controladora, inicinializa el spinner y permite la interacción con este,
+     * Método principal de la clase controladora, inicinializa el spinner y permite la interacción con este,
      * podteriormente es el encargado de crear las compuertas según haya sido requerido.
+     * Código base definición de evento de boton http://www.java2s.com/Code/Java/JavaFX/ButtonOnAction.htm
+     * 
      */
     public void initialize(URL location, ResourceBundle resources) {
         
@@ -67,19 +69,19 @@ public class ControllerCantEntradas implements Initializable {
     }
 
     /**
-     * @see método encargado de inicializar el spinner que se utiliza en la ventana para la creación de diferentes cantidades
-     * de entradas.
+     * Método encargado de inicializar el spinner que se utiliza en la ventana para la creación de diferentes cantidades
+     * de entradas. Código base tomado de https://medium.com/@joshwickham/creating-an-integer-spinner-in-javafx-f8fda8d12ae5
      */
     public void initSpinner(){
         crearEntradas.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(2,20));
     }
     
     /**
-     * @see Método desde el cual se reciben los datos necesarios para la creación de una nueva
+     * Método desde el cual se reciben los datos necesarios para la creación de una nueva
      * compuerta desde el controlador principal
-     * @param ruta
-     * @param x
-     * @param y
+     * @param ruta, la ruta de la imagen a crear
+     * @param x, la posición donde se debe crear la compuerta en x
+     * @param y, la posición donde se debe crear la compuerta en y
      */
     public void valoresImagen(String ruta,double x, double y){
         this.ruta = ruta;
@@ -88,9 +90,9 @@ public class ControllerCantEntradas implements Initializable {
     }
 
     /**
-     * @see método que recibe el stage de la ventana para cerrarla posteriormente que se termine su función
+     * Método que recibe el stage de la ventana para cerrarla posteriormente que se termine su función
      * creando las entradas que el usuario requiera.
-     * @param stage
+     * @param stage, el stage que se recibe
      */
     public void enviarStage(Stage stage){
         this.stage = stage;

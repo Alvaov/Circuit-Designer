@@ -15,7 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 /**
- * @see clase que crea todos los elementos que requiere una compuerta lógica
+ * Mlase Clase que crea todos los elementos que requiere una compuerta lógica
  * incluidos tanto los elementos gráficos como los lógicos propiamente de funcionamiento
  * @author allva
  */
@@ -31,10 +31,13 @@ class Compuerta{
     private ListLinked<Entrada> entradas = new ListLinked<>();
 
     /**
-     * @see Constructor de la clase Compuerta, para cuando estas son compuertas preestablecidas,
+     * Monstructor Constructor de la clase Compuerta, para cuando estas son compuertas preestablecidas,
      * crea las entradas, la salida, compuerta lógica, y demás elementos necesarios para la implementación
      * correcta de cada compuerta que el usuario requiera, además la posiciona el en lugar donde el usuario decidió colocar
      * la imagen arrastrada de la paleta.
+     * Sintaxis de lambda obtenida de https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html.
+     * ChangeListener https://docs.oracle.com/javafx/2/api/javafx/beans/value/ChangeListener.html
+     * Eventos de mouse https://docs.oracle.com/javase/8/javafx/api/javafx/scene/input/MouseDragEvent.html
      * @param String ruta
      * @param int cantidadDeEntradas
      * @param double x
@@ -79,6 +82,7 @@ class Compuerta{
                   compuertaCompleta.setUserData(listenerCompuerta);
                   ((CirculoEntrada) event.getGestureSource()).setValor(salida);
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
+                  ((CirculoEntrada) event.getGestureSource()).setValorEntradaConectado(false);
                   ((CirculoEntrada) event.getGestureSource()).setSalidaConectada(end);
                   end.setIsConected(true);
                   Main.getControlador().actualizarEtiquetas();
@@ -94,6 +98,7 @@ class Compuerta{
                           ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).getParent().layoutXProperty().addListener(listenerCompuerta);
                           ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).getParent().layoutYProperty().addListener(listenerCompuerta);
                           ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).setIsConected(true);
+                          ((CirculoEntrada)event.getGestureSource()).getEntradasConectadas().getValor(i).setValorEntradaConectado(false);
                       }
                   }
                   ((CirculoEntrada)event.getGestureSource()).getParent().layoutXProperty().addListener(listenerCompuerta);
@@ -102,34 +107,18 @@ class Compuerta{
                   ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
                   compuertaCompleta.toFront();
               }else{
-                  System.out.println("Conexión inválida");
               }
           });
           
           end.setOnMouseClicked(event ->{
              if(event.getClickCount() == 2){
-                 System.out.println("desconectar salida"); 
-                 System.out.println(end.getEntradasConectadas().getSize());
-                 
                 for(int i =0; i < end.getEntradasConectadas().getSize(); i++){
-                     System.out.println(i);
-                     System.out.println(end.getEntradasConectadas().getSize());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).setIsConected(false);
-                     //end.setIsConected(false);
-                     System.out.println(((CirculoEntrada) end.getEntradasConectadas().getValor(i)));
                      
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                      ((CirculoEntrada) end.getEntradasConectadas().getValor(i)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
                      Main.getControlador().actualizarEtiquetas();
                  }
-                 /*while(end.getEntradasConectadas().getSize() > 0){
-                     System.out.println("while");
-                     ((CirculoEntrada) end.getEntradasConectadas().getValor(0)).setIsConected(false);
-                     ((CirculoEntrada) end.getEntradasConectadas().getValor(0)).getParent().layoutXProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
-                     ((CirculoEntrada) end.getEntradasConectadas().getValor(0)).getParent().layoutYProperty().removeListener((ChangeListener)compuertaCompleta.getUserData());
-                     end.getEntradasConectadas().eliminarInicio();
-                     Main.getControlador().actualizarEtiquetas();
-                 }*/
                  end.getEntradasConectadas().eliminarLista();
                  end.setIsConected(false);
                  end.layoutXProperty().removeListener((ChangeListener) end.getUserData());
@@ -179,7 +168,6 @@ class Compuerta{
                   for(int i = 0; i < Main.getControlador().getCircuito().getSize(); i++){
                       if(Main.getControlador().getCircuito().getValor(i).getImagen().equals(this.imagenVista)){
                           Main.getControlador().getCircuito().eliminarEnPosición(i+1);
-                          //Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
                           Main.getControlador().actualizarEtiquetas();
                           
                       }
@@ -200,10 +188,11 @@ class Compuerta{
           });
       }
     /**
-     * @see método que se utiliza para asignar una compuerta lógica 
+     * Método que se utiliza para asignar una compuerta lógica 
      * al atributo respectivo de cada objeto de la clase compuerta, a través
      * del string ingresado al crear la instancia.
-     * @param String ruta
+     * Código base para implementación de switch-case https://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html
+     * @param ruta, el string que delimina la ruta de la imagen
      */
     private void crearCompuerta(String ruta){
         switch (ruta) {
@@ -238,53 +227,53 @@ class Compuerta{
         }
     }
     /**
-     * @see método que retorna una entrada específica perteneciente a la compuerta desde la cual
+     * Método que retorna una entrada específica perteneciente a la compuerta desde la cual
      * se llamó al método.
      * @param int i
-     * @return Entrada 
+     * @return entrada, la entrada que se seleccione según el argumento recibido
      */
     public Entrada getEntrada(int i){
         Entrada entrada = entradas.getValor(i);
         return entrada;
     }
     /**
-     * @see método que retorna el círculo de salida de cada compuerta 
-     * @return CirculoSalida end
+     * Método que retorna el círculo de salida de cada compuerta 
+     * @return end, el circulo de la salida
      */
     public CirculoSalida getEnd(){
         return end;
     }
     /**
-     * @see método que retorna en su totalidad la lista enlazada que posee la compuerta.
-     * @return ListLinked
+     * Método que retorna en su totalidad la lista enlazada que posee la compuerta.
+     * @return ListLinked, la lista de entrads de la compuerta
      */
     public ListLinked getEntradas(){
         return entradas;
     }
     /**
-     * @see método que retorna el valor actual del círculo de salida
-     * @return Valores
+     * Método que retorna el valor actual del círculo de salida
+     * @return Valores, valor de la salida
      */
     public Valores getSalida(){
         return end.getValor();
     }
     /**
-     * @see método que retorna la ImageView que se utiliza en la compuerta
-     * @return ImageView
+     * Método que retorna la ImageView que se utiliza en la compuerta
+     * @return ImageView, la imagen que se muestra en la GUI
      */
     public ImageView getImagen(){
         return imagenVista;
     }
     /**
-     * @see método que retorna el grupo dentro del cual están todos los elementos que componen la compuerta.
-     * @return Group
+     * Método que retorna el grupo dentro del cual están todos los elementos que componen la compuerta.
+     * @return Group, el group en el cual están definidos los elementos de la compuerta
      */
     public Group getCompuerta(){
         return compuertaCompleta;
     }
     
     /**
-     * @see función que realiza la operación de cada compuerta con las entradas que posee, asigna este valor al atributo salida
+     * Método que realiza la operación de cada compuerta con las entradas que posee, asigna este valor al atributo salida
      * y al círculo salida como tal.
      * 
      */
@@ -293,9 +282,9 @@ class Compuerta{
         end.setValor(salida);
     }
     /**
-     * @see método que se utiliza para evaluar la lista de entradas que posee la compuerta. Retorna true o false
+     * Método que se utiliza para evaluar la lista de entradas que posee la compuerta. Retorna true o false
      * dependiendo si todas las entradas poseen un valor diferente de nulo o no.
-     * @param Boolean
+     * @param Boolean, valor que indica si tocas las entradas poseen un valor
      */
     public boolean revisarEntradas(){
       for (int i = 0; i < entradas.getSize(); i++){
@@ -308,9 +297,9 @@ class Compuerta{
       return true;
     }
     /**
-     * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
-     * otra línea del circuito.
-     * @return Color
+     * Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
+     * otra línea del circuito. Código base tomado de https://www.quora.com/How-can-I-randomize-colors-in-Java
+     * @return Color, el color que se va a asignar
      */
     public Color colorLinea(){
         double red = Math.random();

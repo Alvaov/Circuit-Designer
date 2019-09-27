@@ -10,18 +10,24 @@ import listlinked.ListLinked;
  */
 
 /**
- *
+ * Clase encargada de la creación de compuertas lógicas de tipo and
  * @author allva
  */
 public class AndOperator extends Operadores{
     
-    
-
+    /**
+     * Constructor de la compuerta lógica de tipo and, recibe las entradas que se deben operar como argumento
+     * @param entradas, entradas a evaluar
+     */
     public AndOperator(ListLinked<Entrada> entradas) {
         super(entradas);
         
     }
-    
+    /**
+     * Realiza la operación correspondiente a una compuerta and, donde al encontrar un Valores.False, retornara un Valores.False
+     * @param entradas, entradas a evaluar
+     * @return Valores
+     */
     @Override
     public Valores operación(ListLinked<Entrada> entradas) {
         int contador = 0;

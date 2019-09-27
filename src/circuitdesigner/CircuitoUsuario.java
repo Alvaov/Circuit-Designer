@@ -8,7 +8,6 @@ package circuitdesigner;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -16,37 +15,44 @@ import listlinked.ListLinked;
 import operadores.Valores;
 
 /**
- *
+ * Clase que crea todos los componentes necesarios para los diferentes circuitos de usuario así como sus funciones para que estos sean
+ * manejables.
  * @author allva
  */
 public class CircuitoUsuario{
-    private ListLinked<Compuerta> circuito = new ListLinked<Compuerta>();
+    private ListLinked<Compuerta> circuito = new ListLinked<>();
     private ListLinked<Entrada> entradas ;
     private ListLinked<CirculoSalida> salidas;
     private Group compuertaCompleta;
-    private Rectangle imagenCompuerta;// = new Rectangle(10,25);
+    private Rectangle imagenCompuerta;
     private Rectangle imagenPaleta;
     private Circulo startE, start;
     
+    /**
+     * Constructor, recibe un rectángulo, una lista de compuertas, lista de las entradas de usuario, y de salidas generales del circuito,
+     * se encarga de crear tantos componentes como sean necesarios y relacionarlos con su respectivo par en el circuito interno de cada circuito encapsulado
+     * para que cumpla con normalidad las funciones que se soliciten.
+     * Sintaxis de lambda obtenida de https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html.
+     * ChangeListener https://docs.oracle.com/javafx/2/api/javafx/beans/value/ChangeListener.html
+     * Eventos de mouse https://docs.oracle.com/javase/8/javafx/api/javafx/scene/input/MouseDragEvent.html
+     * @param imagen, imagen de la compuerta
+     * @param compuerta, lista de compuertas encapsuladas
+     * @param entradas, entradas del usuario
+     * @param salidas, salidas generales del circuito
+     */
     public CircuitoUsuario(Rectangle imagen,ListLinked<Compuerta> compuerta, ListLinked<Entrada> entradas, ListLinked<CirculoSalida> salidas){
-        this.entradas = new ListLinked<>();//entradas;
+        this.entradas = new ListLinked<>();
         this.salidas = new ListLinked<>();
-      //  this.imagenCompuerta = imagen;
-       // this.imagenCompuerta = new Rectangle(10,25,imagenPaleta.getFill());
         
         imagenPaleta = new Rectangle(10,25,imagen.getFill());
-        Label label = new Label(""+entradas.getSize());
-        //imagenPaleta.setFill(colorCompuerta());
         this.imagenCompuerta = new Rectangle(10,25,imagenPaleta.getFill());
         
         imagenPaleta.setOnDragDetected(event->{
-            System.out.println("inicio drag");
             imagenPaleta.startFullDrag();
             Rectangle imagenAnchor = new Rectangle(10,25,imagenPaleta.getFill());
             imagenAnchor.setUserData(imagenPaleta.getUserData());
             Main.getControlador().setRentángulo(imagenAnchor);
         });
-        //Main.getControlador().getPaleta().getChildren().add(imagenPaleta);
         compuertaCompleta = new Group();
         startE   = new Circulo(null);
         startE.setLayoutX(25);
@@ -56,7 +62,6 @@ public class CircuitoUsuario{
         start.setLayoutY(25);
        int indiceSalidas = salidas.getSize();
        for (int i = 0; i < indiceSalidas; i++){
-       //     this.salidas.añadirFinal(salidas.getValor(i));
             CirculoSalida end = new CirculoSalida(Valores.Default);
             end.setValorConectado(salidas.getValor(i));
             Line line     = new Line();
@@ -90,7 +95,6 @@ public class CircuitoUsuario{
                   };
                   end.setUserData(listener);
                   compuertaCompleta.setUserData(listenerCompuerta);
-                  System.out.println("release salida");
                   ((CirculoEntrada) event.getGestureSource()).setValor(end.getValor());
                   ((CirculoEntrada) event.getGestureSource()).setIsConected(true);
                   end.setIsConected(true);
@@ -108,7 +112,6 @@ public class CircuitoUsuario{
              
                   ((CirculoEntrada)event.getGestureSource()).getParent().setMouseTransparent(false);
               }else{
-                  System.out.println("Conexión inválida");
               }
           });
              this.salidas.añadirFinal(end);
@@ -148,13 +151,11 @@ public class CircuitoUsuario{
                       }
                   }
               }
-              System.out.println(Main.getControlador().getCircuito().getSize());
               circuito = null;
               this.entradas = null;
               this.salidas = null;
               Main.getControlador().getAnchor().getChildren().remove(compuertaCompleta);
            }
-           System.out.println(Main.getControlador().getCircuito().getSize());
        });
         
        compuertaCompleta.getChildren().addAll(startE,start,imagenCompuerta);
@@ -162,24 +163,48 @@ public class CircuitoUsuario{
         
     }
     
+    /**
+     * Método que permite obtener la imagen de la paleta.
+     * @return imagenPaleta
+     */
     public Rectangle getImagenPaleta(){
         return imagenPaleta;
     }
+
+    /**
+     * Retorna la lista enlazada que contiene todas las compuertas pertenecientes al circuito encapsulado en cuestión
+     * @return circuito
+     */
     public ListLinked<Compuerta> getCircuitoUsuario(){
         return circuito;
     }
+
+    /**
+     * Retorna el group que contiene todos los elementos pertenecientes al circuito encapsulado en cuestión
+     * @return compuertaCompleta
+     */
     public Group getCompuertaCompleta(){
         return compuertaCompleta;
     }
+
+    /**
+     * Retorna el lista enlazada de entradas del circuito encapsulado en cuestión
+     * @return entradas
+     */
     public ListLinked<Entrada> getEntradas(){
         return entradas;
     }
+
+    /**
+     * Retorna la lista enlazada que contiene cada salida respectiva contenida en el circuito encapsulado
+     * @return salidas
+     */
     public ListLinked<CirculoSalida> getSalidas(){
         return salidas;
     }
     /**
-     * @see Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
-     * otra línea del circuito.
+     * Método que calcula un nuevo color para cada línea, y verifica que este color no esté ya asignado a ninguna 
+     * otra línea del circuito. Código base tomado de https://www.quora.com/How-can-I-randomize-colors-in-Java
      * @return Color
      */
     public Color colorCompuerta(){

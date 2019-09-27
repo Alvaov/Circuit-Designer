@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 
-<VBox prefHeight="502.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="502.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"> 
     <stylesheets>
 		<URL value="@Flatred.css"/>
     </stylesheets>

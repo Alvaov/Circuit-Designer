@@ -9,16 +9,25 @@ import circuitdesigner.Entrada;
 import listlinked.ListLinked;
 
 /**
- *
+ * Clase encargada de la creación de compuertas lógicas de tipo or
  * @author allva
  */
 public class OrOperator extends Operadores{
 
+    /**
+     * Constructor de la compuerta lógica de tipo or, recibe las entradas que se deben operar como argumento
+     * @param entradas, entrada a evaluar
+     */
     public OrOperator(ListLinked<Entrada> entradas) {
         super(entradas);
 
     }
-
+    /**
+     * Método que realiza la operación respectiva para una entrada de tipo or, donde si encuentra un valor que corresponda a Valores.True
+     * devuelve Valores.True
+     * @param entradas, entradas a evaluar
+     * @return salida, la salica evaluada
+     */
     @Override
     public Valores operación(ListLinked<Entrada> entradas) {
         int contador = 0;

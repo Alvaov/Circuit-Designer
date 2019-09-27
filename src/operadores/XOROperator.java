@@ -9,30 +9,40 @@ import circuitdesigner.Entrada;
 import listlinked.ListLinked;
 
 /**
- *
+ * Clase de la compuerta xor
  * @author allva
  */
 public class XOROperator extends Operadores{
 
+    /**
+     * Constructor de la compuerta lógica de tipo xor, recibe las entradas que se deben operar como argumento
+     * @param entradas, las entradas a evaluar
+     */
     public XOROperator(ListLinked<Entrada> entradas) {
         super(entradas);
 
     }
-
+    /**
+     * Método que calcula la operación realizada por una compuerta de tipo xor según la lista de entradas que se le envíen.
+     * Operación obtenida de https://www.mecatronicalatam.com/es/compuertas-logicas/compuerta-xor.
+     * @param entradas, las entrada a evaluar
+     * @return salida, la salica evaluada
+     */
     @Override
     public Valores operación(ListLinked<Entrada> entradas) {
-        int contador = 0;
         int contUnos = 0;
-        while (contador < entradas.getSize()){
-            if (entradas.getValor(contador).getValor() == Valores.True && contUnos <=1){
-                contador++;
+        for(int i = 0; i < entradas.getSize(); i++){
+            System.out.println("while");
+            if (entradas.getValor(i).getValor() == Valores.True){
                 contUnos++;
-            } 
-            else{
-                return Valores.False;
             }
         }
-        return Valores.True;
+        if(contUnos > 1){
+            return Valores.False;
+        }else{
+            System.out.println("True");
+            return Valores.True;
+        }
     }
 
 }
