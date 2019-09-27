@@ -95,8 +95,10 @@ public class Entrada{
                   ((CirculoSalida)event.getGestureSource()).getParent().layoutYProperty().addListener(listenerCompuerta);
                   
               }else if (event.getGestureSource() instanceof CirculoEntrada){
-                  endE.getEntradasConectadas().añadirFinal(((CirculoEntrada)event.getGestureSource()));
                   
+                  endE.añadirEntradas(((CirculoEntrada)event.getGestureSource()));
+                  endE.getCompuertaPadre().getCompuerta().toFront();
+                  endE.toFront();
                   ChangeListener<Number> listener = (observed, oldValue, newValue) -> {
                       Bounds coordenadas = endE.getParent().localToParent(endE.getBoundsInParent());
                       Bounds nuevasCoordenadas = ((CirculoEntrada)event.getGestureSource()).getParent().parentToLocal(coordenadas);
@@ -113,7 +115,6 @@ public class Entrada{
                   entradaConectada.setUserData(listener);
                   endE.layoutXProperty().addListener(listener);
                   endE.layoutYProperty().addListener(listener);
-                  endE.getCompuertaPadre().getCompuerta().toFront();
                   endE.getCompuertaPadre().getCompuerta().layoutXProperty().addListener(listener);
                   endE.getCompuertaPadre().getCompuerta().layoutYProperty().addListener(listener);
                   
@@ -157,7 +158,7 @@ public class Entrada{
         @Override public void handle(MouseEvent t) {
 
           if (t.getClickCount() == 2){
-              if (endE.getValor() == null || endE.getIsConected() == false){
+              if (endE.getValor() == null || (endE.getIsConected() == false && endE.getValorEntradaConectado()== true || endE.getValorEntradaConectado()== false)){
                   try {
                       crearVentana();
                       System.out.println(endE.getValor());

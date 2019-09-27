@@ -42,6 +42,7 @@ public class CirculoEntrada extends Circulo{
         }if(listaEntradas.getSize() > 0){
             System.out.println("entradas conectadas cambiadas");
             for(int i = 0; i < listaEntradas.getSize();i++){
+                System.out.println("conectar más entradas");
                 listaEntradas.getValor(i).setValor(valor);
             }
         }

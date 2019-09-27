@@ -60,6 +60,7 @@ public class CircuitoUsuario{
             CirculoSalida end = new CirculoSalida(Valores.Default);
             end.setValorConectado(salidas.getValor(i));
             Line line     = new Line();
+            line.setStroke(colorCompuerta());
             line.startXProperty().bind(start.layoutXProperty());
             line.startYProperty().bind(start.layoutYProperty());
             line.endXProperty().bind(end.layoutXProperty());

@@ -111,7 +111,9 @@ public class PosibleCircuito {
             
             if (compuerta.revisarEntradas()== true){
                 compuerta.operarSalida();
+                System.out.println(entradasEvaluadas);
                 entradasEvaluadas +=1;
+                System.out.println(entradasEvaluadas);
                 if(compuerta.getEnd().conectada()== true){
                     ListLinked<CirculoEntrada> entradasConectadas = compuerta.getEnd().getEntradasConectadas();
                     
@@ -132,6 +134,7 @@ public class PosibleCircuito {
             }
         }
         if(entradasEvaluadas < circuito.getSize()){
+            System.out.println(circuito.getSize()+"me pegué");
             return emularCircuito(circuito);
         }else{
             return null;

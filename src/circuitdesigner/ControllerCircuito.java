@@ -357,35 +357,36 @@ public class ControllerCircuito implements Initializable{
     public String emularCircuito(){
         ListLinked<Valores> salidas = new ListLinked<>();
         ListLinked<Compuerta> circuito = this.circuito;
-        
-        for(int i = 0; i < circuito.getSize(); i++){
-            
-            Compuerta compuerta = circuito.getValor(i);
-            
-            if (compuerta.revisarEntradas()== true && compuerta.getSalida() == Valores.Default){
-                compuerta.operarSalida();
-                entradasEvaluadas +=1;
-                if(compuerta.getEnd().conectada()== true){
-                    ListLinked<CirculoEntrada> entradasConectadas = compuerta.getEnd().getEntradasConectadas();
-                    
-                    for(int e = 0; e < entradasConectadas.getSize(); e++){
-                        entradasConectadas.getValor(e).setValor(compuerta.getEnd().getValor());
+        if(circuito.getSize()>0){
+            for(int i = 0; i < circuito.getSize(); i++){
+
+                Compuerta compuerta = circuito.getValor(i);
+
+                if (compuerta.revisarEntradas()== true && compuerta.getSalida() == Valores.Default){
+                    compuerta.operarSalida();
+                    entradasEvaluadas +=1;
+                    if(compuerta.getEnd().conectada()== true){
+                        ListLinked<CirculoEntrada> entradasConectadas = compuerta.getEnd().getEntradasConectadas();
+
+                        for(int e = 0; e < entradasConectadas.getSize(); e++){
+                            entradasConectadas.getValor(e).setValor(compuerta.getEnd().getValor());
+                            compuerta.getEnd().setValor(Valores.Default);
+                        }
+
+                    }else{
+                        salidas.añadirFinal(compuerta.getEnd().getValor());
                         compuerta.getEnd().setValor(Valores.Default);
                     }
-                    
-                }else{
-                    salidas.añadirFinal(compuerta.getEnd().getValor());
-                    compuerta.getEnd().setValor(Valores.Default);
                 }
             }
+            if(entradasEvaluadas < circuito.getSize()){
+                return emularCircuito();
+            }else{
+                return mostrarSalidas(salidas);
+            }
         }
-        if(entradasEvaluadas < circuito.getSize()){
-            return emularCircuito();
-        }else{
-            return mostrarSalidas(salidas);
-        }
+        return null;
     }
-    
     /**
      * @see muestra las salidas finales calculadas en el circuito actual y las muestra en una nueva ventana.
      * @param salidas
